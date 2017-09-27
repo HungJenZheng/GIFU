@@ -5,7 +5,6 @@ namespace GIFU.Models
     public class GoodsMessage
     {
         public int? GoodId { get; set; }
-        [Required(ErrorMessage = "此欄位必填")]
         public int? CommentNo { get; set; }
         [Required(ErrorMessage = "此欄位必填")]
         public string Type { get; set; }

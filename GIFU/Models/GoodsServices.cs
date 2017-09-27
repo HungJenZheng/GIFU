@@ -107,11 +107,18 @@ namespace GIFU.Models
         /// <returns></returns>
         public int AddGoodsMessage(GoodsMessage message)
         {
-            string sql = @"INSERT INTO [GIFU].[dbo].[GOOD_MESSAGE]
-                           VALUES(@GoodId, @CommentNo, @Type, @UserId, @Message, GETDATE())";
+            //取得目前最大的CommentNo
+            string sql = @"SELECT MAX(COMMENT_NO) FROM GOOD_MESSAGE WHERE GOOD_ID = @GoodId";
             IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
             parameters.Add(new KeyValuePair<string, object>("@GoodId", message.GoodId.NullToDBNullValue()));
-            parameters.Add(new KeyValuePair<string, object>("@CommentNo", message.CommentNo.NullToDBNullValue()));
+            object obj = dataAccessTool.ExecuteScalar(Variable.GetConnectionString, sql, parameters);
+            int maxNo = (obj != DBNull.Value) ? Convert.ToInt32(obj) : 0;
+
+            sql = @"INSERT INTO [GIFU].[dbo].[GOOD_MESSAGE]
+                    VALUES(@GoodId, @CommentNo, @Type, @UserId, @Message, GETDATE())";
+            parameters.Clear();
+            parameters.Add(new KeyValuePair<string, object>("@GoodId", message.GoodId.NullToDBNullValue()));
+            parameters.Add(new KeyValuePair<string, object>("@CommentNo", maxNo + 1));
             parameters.Add(new KeyValuePair<string, object>("@Type", message.Type.NullToDBNullValue()));
             parameters.Add(new KeyValuePair<string, object>("@UserId", message.UserId.NullToDBNullValue()));
             parameters.Add(new KeyValuePair<string, object>("@Message", message.Message.NullToDBNullValue()));

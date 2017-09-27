@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/style.css" rel="stylesheet" type="text/css" />
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    @*<script src="~/Scripts/modernizr-2.6.2.js"></script>
+        <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+        <script src="~/Scripts/bootstrap.min.js"></script>*@
+    <script src="~/Scripts/simpleCart.min.js"> </script>
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap-3.1.1.min.js"></script>
+</head>
+<body>
+    <!--header-->
+    <div class="header">
+        <div class="header-top">
+            <div class="container">
+                <div class="top-right">
+                    <ul>
+                        <li class="text"><a href="../Store/GoodsSearch">查看商品<span class="glyphicon glyphicon-zoom-in"></span><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                        <li class="text"><a href="login.html">login</a></li>
+                        <li class="text" style="width:auto;">
+                            <a href="index.html"><img src="../images/accountphoto.png" class="accountphoto">劉顥旻</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="header-bottom">
+            <div class="container">
+                <!--/.content-->
+                <div class="content white">
+                    <nav class="navbar navbar-default" role="navigation" style="z-index:0;">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <h1 class="navbar-brand"><a href="index.html">GIFU</a></h1>
+                        </div>
+                        <!--/.navbar-header-->
+
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">3C用品</a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">生活雜貨</a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">男女服飾</a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">文具書籍</a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">電玩相關</a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">其他</a>
+                                </li>
+                                <!-- <li><a href="products.html">Top</a></li>
+                                <li><a href="products.html">Bikini</a></li> -->
+                            </ul>
+                        </div>
+                        <!--/.navbar-collapse-->
+                    </nav>
+                    <!--/.navbar-->
+                </div>
+                <div class="search-box">
+                    <div id="sb-search" class="sb-search">
+                        <form>
+                            <input class="sb-search-input" placeholder="搜尋..." type="search" name="search" id="search">
+                            <input class="sb-search-submit" type="submit" value="">
+                            <span class="sb-icon-search"> </span>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- search-scripts -->
+                <script src="~/Scripts/classie.js"></script>
+                <script src="~/Scripts/uisearch.js"></script>
+                <script>
+							new UISearch( document.getElementById( 'sb-search' ) );
+                </script>
+                <!-- //search-scripts -->
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <!--header-->
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <!--footer-->
+        <div class="footer-section">
+            <div class="container">
+                <div class="footer-grids">
+                    <div class="col-md-2 footer-grid">
+                        <h4>商品分類</h4>
+                        <ul>
+                            <li><a href="products.html">3C用品</a></li>
+                            <li><a href="#">生活雜貨</a></li>
+                            <li><a href="#">男女服飾</a></li>
+                            <li><a href="#">文具書籍</a></li>
+                            <li><a href="#">電玩相關</a></li>
+                            <li><a href="#">其他商品</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-2 footer-grid">
+                        <h4>會員中心</h4>
+                        <ul>
+                            <li><a href="#">基本資料</a></li>
+                            <li><a href="#">商品管理</a></li>
+                            <li><a href="#">訂單管理</a></li>
+                            <li><a href="contact.html">Contact Us</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-2 footer-grid">
+                        <h4>關於我們</h4>
+                        <ul>
+                            <li><a href="#">主要理念</a></li>
+                            <li><a href="#">未來展望</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-2 footer-grid">
+                        <h4>加入我們</h4>
+                        <ul>
+                            <li><a href="#">前端設計</a></li>
+                            <li><a href="#">後端管理</a></li>
+                            <li><a href="#">活動企劃</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4 footer-grid1">
+                        <div class="social-icons">
+                            <a href="#"><i class="icon"></i></a>
+                            <a href="#"><i class="icon1"></i></a>
+                            <a href="#"><i class="icon2"></i></a>
+                            <a href="#"><i class="icon3"></i></a>
+                            <a href="#"><i class="icon4"></i></a>
+                        </div>
+                        <p>Copyright &copy; 2015 Swim Wear. All rights reserved | Design by <a href="http://w3layouts.com">W3layouts</a></p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <!--footer-->
+    </div>
+
+
+</body>
+</html>

@@ -17,6 +17,39 @@ namespace GIFU.Controllers
         }
 
         /// <summary>
+        /// 註冊頁面
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Register()
+        {
+            return View(new Models.Account());
+        }
+
+        /// <summary>
+        /// 註冊頁面處理
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Register(Models.Account account)
+        {
+            if (ModelState.IsValid)
+            {
+                int result = accountServices.AddAccount(account);
+                if (result > 0)
+                {
+                    RedirectToAction("Login");
+                    TempData["result"] = 1;
+                    TempData["message"] = "註冊成功!!";
+                    return View(account);
+                }
+            }
+            TempData["result"] = -1;
+            TempData["message"] = "輸入錯誤，請重新輸入一次。";
+            return View(account);
+        }
+
+        /// <summary>
         /// 登入
         /// </summary>
         /// <returns></returns>
@@ -64,6 +97,8 @@ namespace GIFU.Controllers
             string encTicket = FormsAuthentication.Encrypt(ticket);
 
             Response.Cookies.Add(new HttpCookie(FormsAuthentication.FormsCookieName, encTicket));
+            Session["username"] = account.Name;
+            Session["userId"] = account.UserId;
 
             //以下只會執行一個
             FormsAuthentication.RedirectFromLoginPage(loginVM.Email, false);
@@ -94,22 +129,6 @@ namespace GIFU.Controllers
             int id = Convert.ToInt32(accountId);
             var account = accountServices.GetAccountDetailById(id);
             return this.Json(account);
-        }
-
-        /// <summary>
-        /// 新增帳戶
-        /// </summary>
-        /// <param name="account"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public JsonResult AddAccount(Models.Account account)
-        {
-            if (ModelState.IsValid)
-            {
-                int result = accountServices.AddAccount(account);
-                return this.Json(result);
-            }
-            return this.Json(-1);
         }
 
         /// <summary>

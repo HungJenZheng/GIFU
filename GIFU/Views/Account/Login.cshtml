@@ -1,31 +1,37 @@
-﻿@model GIFU.Models.LoginVM
-
+﻿
 @{
     ViewBag.Title = "Login";
 }
-<p>@TempData["Error"]</p>
-<h2>Login</h2>
 
-<form id="loginForm" action="/Account/Login" method="post">
-    <div class="form-horizontal">
-        <div class="form-group">
-            <label class="control-label col-md-2" for="email">帳號</label>
-            <div class="col-md-10">
-                <input type="email" id="email" class="k-textbox textbox" name="email" placeholder="帳號" value="@Model.Email"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-md-2" for="passwd">密碼</label>
-            <div class="col-md-10">
-                <input type="password" id="passwd" class="k-textbox textbox" name="passwd" placeholder="密碼" value="@Model.Passwd"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-2">
-            </div>
-            <div class="col-md-10">
-                <button type="submit" id="login">登入</button>
+<div class="content">
+    <div class="main-1">
+        <div class="container">
+            <div class="login-page">
+                <div class="account_grid">
+                    <div class="col-md-6 login-left">
+                        <h3>NEW CUSTOMERS</h3>
+                        <p>By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.</p>
+                        <a class="acount-btn" href="/Account/Register">Create an Account</a>
+                    </div>
+                    <div class="col-md-6 login-right">
+                        <h3>REGISTERED CUSTOMERS</h3>
+                        <p>If you have an account with us, please log in.</p>
+                        <form action="/Account/Login" method="post">
+                            <div>
+                                <span>Email Address<label>*</label></span>
+                                <input type="email" name="email">
+                            </div>
+                            <div>
+                                <span>Password<label>*</label></span>
+                                <input type="password" name="passwd">
+                            </div>
+                            <a class="forgot" href="#">Forgot Your Password?</a>
+                            <input type="submit" value="Login">
+                        </form>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
             </div>
         </div>
     </div>
-</form>
+</div>

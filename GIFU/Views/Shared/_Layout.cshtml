@@ -13,6 +13,7 @@
     <script src="~/Scripts/simpleCart.min.js"> </script>
     <script src="~/Scripts/jquery.min.js"></script>
     <script type="text/javascript" src="~/Scripts/bootstrap-3.1.1.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap-notify.js"></script>
 </head>
 <body>
     <!--header-->
@@ -20,12 +21,27 @@
         <div class="header-top">
             <div class="container">
                 <div class="top-right">
-                    <ul>
-                        <li class="text"><a href="../Store/GoodsSearch">查看商品<span class="glyphicon glyphicon-zoom-in"></span><span class="glyphicon glyphicon-chevron-right"></span></a></li>
-                        <li class="text"><a href="login.html">login</a></li>
-                        <li class="text" style="width:auto;">
-                            <a href="index.html"><img src="../images/accountphoto.png" class="accountphoto">劉顥旻</a>
-                        </li>
+                    <ul style="position:relative;">
+                        <li class="text"><a href="/Store/GoodsSearch">查看商品<span class="glyphicon glyphicon-zoom-in"></span><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                        @{
+                            if (Session["username"] == null)
+                            {
+                                <li class="text"><a href="/Account/Login">login</a></li>
+                            }
+                            else
+                            {
+                                <li class="text" id="accountimginfo" onclick="SlideDownFunction()">
+                                    <a href="#"><img src="/images/accountphoto.png" class="accountphoto">@Session["username"]</a>
+                                    <p id="userid" style="display:none;">@Session["userId"]</p>
+                                </li>
+                                <ul id="accountfunction" style="display:none;">
+                                    <li>管理個人</li>
+                                    <li>管理商品</li>
+                                    <li>管理訂單</li>
+                                    <li>登出</li>
+                                </ul>
+                            }
+                        }
                     </ul>
                 </div>
                 <div class="clearfix"></div>
@@ -43,7 +59,7 @@
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <h1 class="navbar-brand"><a href="index.html">GIFU</a></h1>
+                            <h1 class="navbar-brand"><a href="/Store/Index">GIFU</a></h1>
                         </div>
                         <!--/.navbar-header-->
 
@@ -80,7 +96,7 @@
                         <form>
                             <input class="sb-search-input" placeholder="搜尋..." type="search" name="search" id="search">
                             <input class="sb-search-submit" type="submit" value="">
-                            <span class="sb-icon-search"> </span>
+                            <a href="../Store/GoodsSearch"><span class="sb-icon-search"></span></a>
                         </form>
                     </div>
                 </div>
@@ -155,7 +171,11 @@
         </div>
         <!--footer-->
     </div>
-
-
 </body>
 </html>
+<script type="text/javascript">
+    $('#accountfunction').width($('#accountimginfo').outerWidth());
+    function SlideDownFunction(){
+	    $('#accountfunction').slideToggle(300);
+    }
+</script>

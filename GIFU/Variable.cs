@@ -31,7 +31,7 @@ namespace GIFU
         /// <returns></returns>
         public static Models.ResultVM GetResult(int result, string messange)
         {
-            return new Models.ResultVM() { result = result, messange = messange };
+            return new Models.ResultVM() { result = result, message = messange };
         }
     }
 }

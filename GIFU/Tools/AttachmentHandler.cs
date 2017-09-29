@@ -30,10 +30,10 @@ namespace GIFU.Tools
                     var path = GetFolderPath(AbsolutePath, id);
                     path = Path.Combine(path, fileName);
                     file.SaveAs(path);
-                    return new Models.ResultVM() { result = 1, messange = "上傳完成" };
+                    return new Models.ResultVM() { result = 1, message = "上傳完成" };
                 }
             }
-            return new Models.ResultVM() { result = -1, messange = "上傳失敗" };
+            return new Models.ResultVM() { result = -1, message = "上傳失敗" };
         }
 
         /// <summary>

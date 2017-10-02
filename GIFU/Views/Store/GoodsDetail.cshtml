@@ -1,8 +1,9 @@
-﻿
+﻿@model GIFU.Models.Goods
 @{
     ViewBag.Title = "GoodsDetail";
 }
-
+@*<input type="hidden" id="goodId" value="@Model.GoodId">*@
+<p id="goodId" style="display:none">@Model.GoodId</p>
 <div class="content">
     <div class="single">
         <div class="container">
@@ -16,49 +17,53 @@
                 </div>
                 <div class="col-md-6 single-grid">
                     <div class="slider" id="slider">
-                        <img id="sliderimage1" src="../images/m1.jpg" style="z-index: 1;">
-                        <img id="sliderimage2" src="../images/m1-2.jpg" style="z-index: 2;">
-                        <img id="sliderimage3" src="../images/m1-3.jpg" style="z-index: 3;">
+                        @foreach (var item in (List<GIFU.Models.GoodsPicture>)ViewBag.Pictures)
+                        {
+                            <img @("id=sliderimage" + item.PicNo) src="@item.Path" style="z-index: @item.PicNo;">
+                        }
                     </div>
                     <ul class="slidernumberbutton" id="slidernumberbutton">
-                        <li onclick="SliderImageTo(1);"><a href=""></a></li>
-                        <li onclick="SliderImageTo(2);"><a href=""></a></li>
-                        <li onclick="SliderImageTo(3);"><a href=""></a></li>
+                        @foreach (var item in (List<GIFU.Models.GoodsPicture>)ViewBag.Pictures)
+                        {
+                            <li onclick="SliderImageTo(@item.PicNo);"><a href=""></a></li>
+                        }
                     </ul>
-
                     <script type="text/javascript">
-							$('.slider').height($('.slider').width());
-							$('.slider img').height($('.slider').width());
-							$('.slider img').width($('.slider').width());
-							function SliderImageTo (number){
-								$('.slider img').fadeOut(300);
-								$('.slider #sliderimage' + number).fadeIn(300);
-							};
-							window.addEventListener("resize", sliderimagecalcimgheight);
-							function sliderimagecalcimgheight() {
-							   	$('.slider').height($('.slider').width());
-								$('.slider img').height($('.slider').width());
-								$('.slider img').width($('.slider').width());
-							};
+                        var currentImg = 1, totalImg = 0 || @Enumerable.Count(ViewBag.Pictures);
+                        const interval = 10000;
+                        $('.slider').height($('.slider').width());
+                        $('.slider img').height($('.slider').width());
+                        $('.slider img').width($('.slider').width());
+                        function SliderImageTo (number){
+                            $('.slider img').fadeOut(500);
+                            $('.slider #sliderimage' + number).fadeIn(500);
+                        };
+                        window.addEventListener("resize", sliderimagecalcimgheight);
+                        function sliderimagecalcimgheight() {
+                            $('.slider').height($('.slider').width());
+                            $('.slider img').height($('.slider').width());
+                            $('.slider img').width($('.slider').width());
+                        };
+                        function RotateImages(){
+                            SliderImageTo(currentImg);
+                            currentImg = (currentImg + 1) % totalImg + 1;
+                            setTimeout(RotateImages, interval);
+                        }
                     </script>
                 </div>
                 <div class="col-md-6 single-grid simpleCart_shelfItem">
-                    <h3 class="goodsname" id="goodstitle">SEIKO 潛水手錶</h3>
+                    <h3 class="goodsname" id="goodstitle">@Model.Title</h3>
                     <div class="galry">
-                        <p class="goodsnumber" id="goodsamount">數量 : <span>1</span></p>
-                        <p class="goodsnew-degree" id="goodsnew-degree">新舊程度: <span>五</span>成新</p>
+                        <p class="goodsnumber" id="goodsamount">數量 : <span>@Model.Amount</span></p>
+                        <p class="goodsnew-degree" id="goodsnew-degree">新舊程度: <span>@Model.NewDegree</span>成新</p>
                         <div class="clearfix"></div>
                     </div>
                     <p class="goodsdetail" id="goodsintroduction">
-                        夜光指針時標設計，日期視窗<br>
-                        人動電能自動充電，環保概念<br>
-                        最近要換新的手錶，只有正常使用的痕跡<br>
-                        希望有人能繼續使用愛護這隻手錶<br>
-                        GIFU GiveYou 幸福
+                        @Model.Introduction
                     </p>
                     <div class="btn_form">
                         <a href="#" class="add-cart item_add" id="want-goods" data-toggle="modal" data-target="#applyforgoods">申請索取</a>
-                        <p class="goodspost-time" id="goodsupdate-date">2017-9-19  <a href="#"><span class="glyphicon glyphicon-exclamation-sign"></span></a></p>
+                        <p class="goodspost-time" id="goodsupdate-date">@Model.UpdateDate<a href="#"><span class="glyphicon glyphicon-exclamation-sign"></span></a></p>
                     </div>
                 </div>
                 <div class="clearfix"> </div>
@@ -67,96 +72,48 @@
     </div>
     <!--Q&Amessage-->
     <div class="container">
-        <div class="row">
-            <div class="col-md-12 questionarea">
-                <div class="question" id="question1">
-                    <div class="questionimage" id="questionimage1">
-                        <h4>Q</h4>
-                        <img src="../images/accountphoto.png" />
-                    </div>
-                    <div class="questioncontent">
-                        <p class="content">你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好</p>
-                    </div>
-                    <p class="questiondate">2017-9-19  <a href="#"><span class="glyphicon glyphicon-exclamation-sign"></span></a></p>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="answer" id="answer1">
-                            <div class="answerimage" id="answerimage1">
-                                <h4>A</h4>
-                                <img src="../images/accountphoto.png" />
-                            </div>
-                            <div class="answercontent">
-                                <p class="content">你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好</p>
-                            </div>
-                            <p class="answerdate">2017-9-20  <a href="#"><span class="glyphicon glyphicon-exclamation-sign"></span></a></p>
+        @foreach (var item in (List<GIFU.Models.GoodsMessage>)ViewBag.Messages)
+        {
+            <div class="row">
+                @if (item.Type == "Q")
+                {
+                    <div class="question" @("id=question" + @item.CommentNo)>
+                        <div class="questionimage" @("id=questionimage" + @item.CommentNo)>
+                            <h4>Q</h4>
+                            <img src="/images/accountphoto.png" />
                         </div>
+                        <div class="questioncontent">
+                            <p class="content">@item.Message</p>
+                        </div>
+                        <p class="questiondate">@item.Time<a href="#"><span class="glyphicon glyphicon-exclamation-sign"></span></a></p>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12 questionarea">
-                <div class="question" id="question2">
-                    <div class="questionimage" id="questionimage2">
-                        <h4>Q</h4>
-                        <img src="../images/accountphoto.png" />
-                    </div>
-                    <div class="questioncontent">
-                        <p class="content">
-                        我想請問這件商品是幾年出廠的??
-                        </p>
-                    </div>
-                    <p class="questiondate">2017-9-19  <a href="#"><span class="glyphicon glyphicon-exclamation-sign"></span></a></p>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12 questionarea">
-                <div class="question" id="question3">
-                    <div class="questionimage" id="questionimage3">
-                        <h4>Q</h4>
-                        <img src="../images/accountphoto.png" />
-                    </div>
-                    <div class="questioncontent">
-                        <p class="content">
-                            我想請問這件商品是幾年出廠的??<br />你好
-                            <br />你好
-                            <br />你好
-                        </p>
-                    </div>
-                    <p class="questiondate">2017-9-19  <a href="#"><span class="glyphicon glyphicon-exclamation-sign"></span></a></p>
-                </div>
-            </div>
-        </div>
-        <script type="text/javascript">
-            $(document).ready(function () {
-                answerimagecalcimgheight();
-                window.addEventListener("resize", answerimagecalcimgheight);
-                function answerimagecalcimgheight() {
-                    for (i = 1; i <= 3; i++)
-                    {
-                        $('#answerimage' + i).css('margin-top', ($('#answer' + i).height() - $('#answerimage' + i).height()) / 2);
-                        $('#questionimage' + i).css('margin-top', ($('#question' + i).height() - $('#questionimage' + i).height()) / 2);
-                    }
                 }
-            });
-        </script>
+                else if (item.Type == "A")
+                {
+                    <div class="answer" @("id=answer" + item.CommentNo)>
+                        <div class="answerimage" @("id=answerimage" + @item.CommentNo)>
+                            <h4>A</h4>
+                            <img src="/images/accountphoto.png" />
+                        </div>
+                        <div class="answercontent">
+                            <p class="content">@item.Message</p>
+                        </div>
+                        <p class="answerdate">@item.Time<a href="#"><span class="glyphicon glyphicon-exclamation-sign"></span></a></p>
+                    </div>
+                }
+            </div>
+        }
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-8 ">
                 <div class="askquestion row">
                     <div class="askquestionphotoarea">
-                        <img src="../images/accountphoto.png" class="accountphoto" />
+                        <img src="/images/accountphoto.png" class="accountphoto" />
                     </div>
                     <div class="askquestiontextarea">
-                        <textarea name="askquestion" maxlength="50" placeholder="為保障會員交易安全，留言請勿填寫個人資料、外部連結或任何導私下交易之內容，否則您送出的內容可能無法正常顯示。(限制輸入50個字)"></textarea>
+                        <textarea id="askQuestion" maxlength="50" placeholder="為保障會員交易安全，留言請勿填寫個人資料、外部連結或任何導私下交易之內容，否則您送出的內容可能無法正常顯示。(限制輸入50個字)"></textarea>
                     </div>
-                    <div class="askquestioninputarea">
-                        <img src="images/verificationcode.jpg" class="verificationcode" />
-                        <input type="text" name="verificationcode" value="">
-                        <button class="askquestionbutton" type="submit" formmethod="post">提問</button>
-                    </div>
+                    <button id="ask-btn" class="btn ask-btn btn-info" type="submit" formmethod="post">提問</button>
                 </div>
             </div>
             <div class="col-md-2"></div>
@@ -168,34 +125,41 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="applyforgoodsLabel">I Want to Apply For This Goods</h5>
+                    <h5 class="modal-title" id="applyforgoodsLabel">申請表單</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <a aria-hidden="true">&times;</a>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="imagearea">
-                        <img src="images/m1.jpg" />
+                        @{
+                            List<GIFU.Models.GoodsPicture> items = ViewBag.Pictures;
+                            if (items.Count > 0)
+                            {
+                                <img src=@ViewBag.Pictures[0].Path>
+                            }
+                        }
                     </div>
                     <div class="formarea">
-                        <h3>SEIKO 潛水手錶</h3>
+                        <h3>@Model.Title</h3>
                         <form>
                             <p>理由:</p>
-                            <textarea name="applyforgoodsreason" maxlength="50" placeholder="如果贈與方無要求可以不填寫(最多輸入10個字)"></textarea>
+                            <textarea id="applyforgoodsreason" maxlength="50" placeholder="如果贈與方無要求可以不填寫(最多輸入50個字)"></textarea>
                             <p class="formnumber">數量:</p>
-                            <select name="applyforgoodsnumber">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                            <select id="applyforgoodsnumber">
+                                @for (int i = 1; i <= Model.Amount; i++)
+                                {
+                                    <option value="@i">@i</option>
+                                }
                             </select>
                             <p>地址:</p>
-                            <input type="text" name="applyforgoodsaddress" value="請輸入地址"></input>
+                            <input type="text" id="applyforgoodsaddress" placeholder="請輸入地址">
                         </form>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">ApplyFor</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+                    <button type="button" id="applyforsubmit" class="btn btn-primary">送出</button>
                 </div>
             </div>
         </div>
@@ -206,10 +170,11 @@
         <div class="container">
             <h3>Related Products</h3>
             <div class="product-model-sec single-product-grids">
+
                 <div class="product-grid">
-                    <a href="../Store/GoodsDetail">
+                    <a href="/Store/GoodsDetail">
                         <div class="product-img b-link-stripe b-animate-go  thickbox">
-                            <img src="../images/1/1.jpg" class="img-responsive" alt="">
+                            <img src="/images/1/1.jpg" class="img-responsive" alt="">
                             <div class="b-wrapper">
                                 <h4 class="b-animate b-from-left  b-delay03">
                                     <button><span class="glyphicon glyphicon-zoom-in"></span></button>
@@ -230,9 +195,9 @@
                     </div>
                 </div>
                 <div class="product-grid">
-                    <a href="../Store/GoodsDetail">
+                    <a href="/Store/GoodsDetail">
                         <div class="product-img b-link-stripe b-animate-go  thickbox">
-                            <img src="../images/1/1.jpg" class="img-responsive" alt="">
+                            <img src="/images/1/1.jpg" class="img-responsive" alt="">
                             <div class="b-wrapper">
                                 <h4 class="b-animate b-from-left  b-delay03">
                                     <button><span class="glyphicon glyphicon-zoom-in"></span></button>
@@ -253,9 +218,9 @@
                     </div>
                 </div>
                 <div class="product-grid">
-                    <a href="../Store/GoodsDetail">
+                    <a href="/Store/GoodsDetail">
                         <div class="product-img b-link-stripe b-animate-go  thickbox">
-                            <img src="../images/1/1.jpg" class="img-responsive" alt="">
+                            <img src="/images/1/1.jpg" class="img-responsive" alt="">
                             <div class="b-wrapper">
                                 <h4 class="b-animate b-from-left  b-delay03">
                                     <button><span class="glyphicon glyphicon-zoom-in"></span></button>
@@ -279,57 +244,147 @@
         </div>
     </div>
 </div>
-<button onclick="GetGoodsDetailByGoodsID(1)">index1</button>
-<script type="text/javascript">
-    function GetGoodsDetailByGoodsID(goodsid) {
-        console.log("good");
-        goodsID.GoodId = goodsid;
-        GoodsContentByGoodsID(goodsID);
-        $('#slider').empty();
-        $('#slidernumberbutton').empty();
-        GoodsImagesByGoodsID(goodsID);
+@*<button onclick="GetGoodsDetailByGoodsID(1)">index1</button>*@
+<script>
+    var url = '/Account/Login?ReturnUrl='+encodeURIComponent(window.location.pathname);
+    $(document).ready(function () {
+        //調整留言板
+        ResizeQAMargin();
+        //相簿輪播
+        setTimeout(RotateImages, interval);
+        //檢查是否登入
+        if (!IsUserLogin()){
+            //下訂單
+            $('#want-goods').removeAttr('data-toggle').removeAttr('data-target');
+            $('#want-goods').click(function (e) {
+                e.preventDefault();
+                ShowNotify(0, "請先登入! Redirect");
+                setTimeout(function(){window.location.replace(url)}, 2000);
+            });
+
+            //留言按鈕
+            $('#ask-btn').addClass('disabled');
+            $('#askQuestion').attr('disabled', 'disabled');
+            $('#askQuestion').attr('placeholder', '請先登入，才可留言。');
+        }
+
+        //是否需要理由
+        if ('@Model.IsReason' == 'Y'){
+            $('#applyforsubmit').addClass('disabled');
+            $('#applyforgoodsreason').change(function() {
+                if (this.value === ''){
+                    $('#applyforsubmit').addClass('disabled');
+                } else {
+                    $('#applyforsubmit').removeClass('disabled');
+                }
+            });
+        }
+    });
+
+    window.addEventListener("resize", ResizeQAMargin);
+
+    function ResizeQAMargin() {//TODO 修改留言數量
+        for (i = 1; i <= 3; i++)
+        {
+            $('#answerimage' + i).css('margin-top', ($('#answer' + i).height() - $('#answerimage' + i).height()) / 2);
+            $('#questionimage' + i).css('margin-top', ($('#question' + i).height() - $('#questionimage' + i).height()) / 2);
+        }
     }
-
-    var goodsID = {
-        GoodId:""
-    };
-
-    function GoodsContentByGoodsID(goodsID)
-    {
-        console.log(goodsID);
+    //送出訂單
+    $('#applyforsubmit').click(function (e) {
+        e.preventDefault();
         $.ajax({
             type: "POST",
-            url: "/Store/GetGoodDetailById",
-            data: goodsID,
+            url: "/Store/AddAnOrder",
+            data: {GoodId:$('#goodId').text(),
+                UserId:$('#userId').text(),
+                Amount: $('#applyforgoodsnumber').val(),
+                Comment: $('#applyforgoodsreason').val(),
+                Address: $('#applyforgoodsaddress').val()},
             dataType: "json",
             success: function (result) {
-                $('#goodstitle').text(result.Title);
-                $('#goodsnumber').text(result.Amount);
-                $('#goodsnew-degree').text(result.NewDegree);
-                $('#goodsintroduction').text(result.Introduction);
-                $('#goodsupdate-date').text(result.UpdateDate);
+                ShowNotify(result.result, result.message);
             },
             fail: function (error) {
                 console.log(error);
             }
         });
-    }
-    function GoodsImagesByGoodsID(goodsID) {
+        //關閉Modal
+        $('#applyforgoods').modal('toggle');
+    });
+
+    //當Modal關閉時清空內容
+    $('#applyforgoods').on('hidden.bs.modal', function () {
+        $(this).find("input,textarea,select").val('').end();
+    });
+
+    $('#ask-btn').click(function (e) {
+        e.preventDefault();
         $.ajax({
             type: "POST",
-            url: "/Store/GetGoodPicturePathById",
-            data: goodsID,
+            url: "/Store/PlaceAMessage",
+            data: {GoodId: $('#goodId').text(),
+                Type: 'Q',
+                UserId: $('#userId').text(),
+                Message: $('#askQuestion').val()},
             dataType: "json",
             success: function (result) {
-                $.each(result, function (index, object) {
-                    $('#slider').append('<img id="sliderimage'+ index + '" src="'+ object.Path +'" style="z-index: '+ index +';">');
-                    $('#slidernumberbutton').append('<li onclick="SliderImageTo('+ index +');"><a href=""></a></li>');
-                    sliderimagecalcimgheight();
-                });
+                ShowNotify(result.result, result.message);
             },
             fail: function (error) {
                 console.log(error);
             }
         });
-    }
+    });
+    //function GetGoodsDetailByGoodsID(goodsid) {
+    //    console.log("good");
+    //    goodsID.GoodId = goodsid;
+    //    GoodsContentByGoodsID(goodsID);
+    //    $('#slider').empty();
+    //    $('#slidernumberbutton').empty();
+    //    GoodsImagesByGoodsID(goodsID);
+    //}
+
+    //var goodsID = {
+    //    GoodId:""
+    //};
+
+    //function GoodsContentByGoodsID(goodsID)
+    //{
+    //    console.log(goodsID);
+    //    $.ajax({
+    //        type: "POST",
+    //        url: "/Store/GetGoodDetailById",
+    //        data: goodsID,
+    //        dataType: "json",
+    //        success: function (result) {
+    //            $('#goodstitle').text(result.Title);
+    //            $('#goodsnumber').text(result.Amount);
+    //            $('#goodsnew-degree').text(result.NewDegree);
+    //            $('#goodsintroduction').text(result.Introduction);
+    //            $('#goodsupdate-date').text(result.UpdateDate);
+    //        },
+    //        fail: function (error) {
+    //            console.log(error);
+    //        }
+    //    });
+    //}
+    //function GoodsImagesByGoodsID(goodsID) {
+    //    $.ajax({
+    //        type: "POST",
+    //        url: "/Store/GetGoodPicturePathById",
+    //        data: goodsID,
+    //        dataType: "json",
+    //        success: function (result) {
+    //            $.each(result, function (index, object) {
+    //                $('#slider').append('<img id="sliderimage'+ index + '" src="'+ object.Path +'" style="z-index: '+ index +';">');
+    //                $('#slidernumberbutton').append('<li onclick="SliderImageTo('+ index +');"><a href=""></a></li>');
+    //                sliderimagecalcimgheight();
+    //            });
+    //        },
+    //        fail: function (error) {
+    //            console.log(error);
+    //        }
+    //    });
+    //}
 </script>

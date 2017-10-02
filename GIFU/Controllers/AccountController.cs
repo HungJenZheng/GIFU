@@ -56,7 +56,7 @@ namespace GIFU.Controllers
         public ActionResult Login()
         {
             if (User.Identity.IsAuthenticated)
-                RedirectToAction("Index", "Store");
+                return RedirectToAction("Index", "Store");
             return View(new Models.LoginVM());
         }
 
@@ -112,10 +112,15 @@ namespace GIFU.Controllers
         [Authorize]
         public void SignOut()
         {
-            //清除Session中的資料
-            Session.Abandon();
-            FormsAuthentication.SignOut();
-            FormsAuthentication.RedirectToLoginPage();
+            if (User.Identity.IsAuthenticated)
+            {
+                //清除Session中的資料
+                Session.Abandon();
+                Response.Cookies[FormsAuthentication.FormsCookieName].Expires = DateTime.Now.AddYears(-1);
+                FormsAuthentication.SignOut();
+            }
+            //FormsAuthentication.RedirectToLoginPage();
+            Response.Redirect(FormsAuthentication.LoginUrl);
         }
 
         /// <summary>

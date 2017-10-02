@@ -103,8 +103,8 @@ namespace GIFU.Models
         {
             DataTable dataTable;
             string sql = @"SELECT [USER_ID] AS UserId,
-                                EMAIL AS Email,
-                                NAME AS Name
+								EMAIL AS Email,
+								NAME AS Name
 						FROM dbo.ACCOUNT
 						WHERE EMAIL = @Email AND PASSWD = @Passwd";
             IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();

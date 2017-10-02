@@ -6,78 +6,24 @@
 <div class="content">
     <div class="product-model">
         <div class="container">
+            <div class="innerPageSearch">
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <select name="innerPageSearchTag" class="btn btn-info innerPageSearchTag" id="innerPageSearchTag">
+                            <option selected value="3C">3C用品</option>
+                            <option value="GC">生活雜貨</option>
+                            <option value="CL">男女服飾</option>
+                            <option value="SN">文具書籍</option>
+                            <option value="GM">電玩相關</option>
+                            <option value="OT">其他</option>
+                        </select>
+                    </div>
+                    <input type="text" class="form-control" aria-label="Text input with dropdown button" id="innerSearchText">
+                    <input type="button" class="btn btn-light innerSearchButton" onclick="SearchGoodsInnerPage()" value="Search">
+                </div>
+            </div>
             <h2>Our Products</h2>
             <div class="col-md-9 product-model-sec" id="container">
-                <img src="../images/magnify.gif" id="loading_img">
-                <div class="product-grid">
-                    <a href="../Store/GoodsDetail">
-                        <div class="product-img b-link-stripe b-animate-go  thickbox">
-                            <img src="../images/1/1.jpg" class="img-responsive" alt="">
-                            <div class="b-wrapper">
-                                <h4 class="b-animate b-from-left  b-delay03">
-                                    <button><span class="glyphicon glyphicon-zoom-in"></span></button>
-                                </h4>
-                            </div>
-                        </div>
-                    </a>
-                    <div class="product-info simpleCart_shelfItem">
-                        <div class="product-info-cust prt_name">
-                            <span class="item_tag">3C</span>
-                            <span class="item_price">SEIKO 潛水手錶</span>
-                            <div class="ofr">
-                                <p class="pric1">五成新</p>
-                                <p class="disc">2017-9-19</p>
-                            </div>
-                            <div class="clearfix"> </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-grid">
-                    <a href="single.html">
-                        <div class="product-img b-link-stripe b-animate-go  thickbox">
-                            <img src="../images/m1.jpg" class="img-responsive" alt="">
-                            <div class="b-wrapper">
-                                <h4 class="b-animate b-from-left  b-delay03">
-                                    <button><span class="glyphicon glyphicon-zoom-in"></span></button>
-                                </h4>
-                            </div>
-                        </div>
-                    </a>
-                    <div class="product-info simpleCart_shelfItem">
-                        <div class="product-info-cust prt_name">
-                            <span class="item_tag">3C</span>
-                            <span class="item_price">SEIKO 潛水手錶</span>
-                            <div class="ofr">
-                                <p class="pric1">五成新</p>
-                                <p class="disc">2017-9-19</p>
-                            </div>
-                            <div class="clearfix"> </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-grid">
-                    <a href="single.html">
-                        <div class="product-img b-link-stripe b-animate-go  thickbox">
-                            <img src="../images/m1.jpg" class="img-responsive" alt="">
-                            <div class="b-wrapper">
-                                <h4 class="b-animate b-from-left  b-delay03">
-                                    <button><span class="glyphicon glyphicon-zoom-in"></span></button>
-                                </h4>
-                            </div>
-                        </div>
-                    </a>
-                    <div class="product-info simpleCart_shelfItem">
-                        <div class="product-info-cust prt_name">
-                            <span class="item_tag">3C</span>
-                            <span class="item_price">SEIKO 潛水手錶</span>
-                            <div class="ofr">
-                                <p class="pric1">五成新</p>
-                                <p class="disc">2017-9-19</p>
-                            </div>
-                            <div class="clearfix"> </div>
-                        </div>
-                    </div>
-                </div>
             </div>
             <div class="rsidebar span_1_of_left">
                 <section class="sky-form">
@@ -85,196 +31,139 @@
                         <h4 class="m_2"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span>Categories</h4>
                         <div class="tab1">
                             <ul class="place">
-                                <li class="sort" onclick="SetSearchArg('','3C','')">3C用品</li>
-                                <li class="by"><img src="../images/do.png" alt=""></li>
+                                <li class="sort">3C用品</li>
                                 <div class="clearfix"> </div>
                             </ul>
                             <div class="single-bottom">
-                                <a href="#" onclick="SetSearchArg('','3C','1')"><p>電腦</p></a>
-                                <a href="#" onclick="SetSearchArg('','3C','2')"><p>手機</p></a>
-                                <a href="#" onclick="SetSearchArg('','3C','3')"><p>相機</p></a>
-                                <a href="#" onclick="SetSearchArg('','3C','4')"><p>3C其他</p></a>
+                                <a href="#" onclick="SetSearchArg('', '3C', '1')"><p>電腦</p></a>
+                                <a href="#" onclick="SetSearchArg('', '3C', '2')"><p>手機</p></a>
+                                <a href="#" onclick="SetSearchArg('', '3C', '3')"><p>相機</p></a>
+                                <a href="#" onclick="SetSearchArg('', '3C', '4')"><p>3C其他</p></a>
                             </div>
                         </div>
                         <div class="tab2">
                             <ul class="place">
-                                <li class="sort" onclick="SetSearchArg('','GC','')">生活雜貨</li>
-                                <li class="by"><img src="../images/do.png" alt=""></li>
+                                <li class="sort">生活雜貨</li>
                                 <div class="clearfix"> </div>
                             </ul>
                             <div class="single-bottom">
-                                <a href="#" onclick="SetSearchArg('','GC','1')"><p>五金工具</p></a>
-                                <a href="#" onclick="SetSearchArg('','GC','2')"><p>食品</p></a>
-                                <a href="#" onclick="SetSearchArg('','GC','3')"><p>寵物用品</p></a>
-                                <a href="#" onclick="SetSearchArg('','GC','4')"><p>生活其他</p></a>
+                                <a href="#" onclick="SetSearchArg('', 'GC', '1')"><p>五金工具</p></a>
+                                <a href="#" onclick="SetSearchArg('', 'GC', '2')"><p>食品</p></a>
+                                <a href="#" onclick="SetSearchArg('', 'GC', '3')"><p>寵物用品</p></a>
+                                <a href="#" onclick="SetSearchArg('', 'GC', '4')"><p>生活其他</p></a>
                             </div>
                         </div>
                         <div class="tab3">
                             <ul class="place">
-                                <li class="sort" onclick="SetSearchArg('','CL','')">男女服飾</li>
-                                <li class="by"><img src="../images/do.png" alt=""></li>
+                                <li class="sort">男女服飾</li>
                                 <div class="clearfix"> </div>
                             </ul>
                             <div class="single-bottom">
-                                <a href="#" onclick="SetSearchArg('','CL','1')"><p>男裝</p></a>
-                                <a href="#" onclick="SetSearchArg('','CL','2')"><p>女裝</p></a>
-                                <a href="#" onclick="SetSearchArg('','CL','3')"><p>配件</p></a>
+                                <a href="#" onclick="SetSearchArg('', 'CL', '1')"><p>男裝</p></a>
+                                <a href="#" onclick="SetSearchArg('', 'CL', '2')"><p>女裝</p></a>
+                                <a href="#" onclick="SetSearchArg('', 'CL', '3')"><p>配件</p></a>
                             </div>
                         </div>
                         <div class="tab4">
                             <ul class="place">
-                                <li class="sort" onclick="SetSearchArg('','SN','')">文具書籍</li>
-                                <li class="by"><img src="../images/do.png" alt=""></li>
+                                <li class="sort">文具書籍</li>
                                 <div class="clearfix"> </div>
                             </ul>
                             <div class="single-bottom">
-                                <a href="#" onclick="SetSearchArg('','SN','1')"><p>小說</p></a>
-                                <a href="#" onclick="SetSearchArg('','SN','2')"><p>漫畫</p></a>
-                                <a href="#" onclick="SetSearchArg('','SN','3')"><p>雜誌</p></a>
-                                <a href="#" onclick="SetSearchArg('','SN','4')"><p>其他</p></a>
+                                <a href="#" onclick="SetSearchArg('', 'SN', '1')"><p>小說</p></a>
+                                <a href="#" onclick="SetSearchArg('', 'SN', '2')"><p>漫畫</p></a>
+                                <a href="#" onclick="SetSearchArg('', 'SN', '3')"><p>雜誌</p></a>
+                                <a href="#" onclick="SetSearchArg('', 'SN', '4')"><p>其他</p></a>
                             </div>
                         </div>
                         <div class="tab5">
                             <ul class="place">
-                                <li class="sort" onclick="SetSearchArg('','GM','')">電玩相關</li>
-                                <li class="by"><img src="../images/do.png" alt=""></li>
+                                <li class="sort">電玩相關</li>
                                 <div class="clearfix"> </div>
                             </ul>
                             <div class="single-bottom">
-                                <a href="#" onclick="SetSearchArg('','GM','1')"><p>遊戲機</p></a>
-                                <a href="#" onclick="SetSearchArg('','GM','2')"><p>遊戲光碟</p></a>
-                                <a href="#" onclick="SetSearchArg('','GM','3')"><p>電玩攻略</p></a>
+                                <a href="#" onclick="SetSearchArg('', 'GM', '1')"><p>遊戲機</p></a>
+                                <a href="#" onclick="SetSearchArg('', 'GM', '2')"><p>遊戲光碟</p></a>
+                                <a href="#" onclick="SetSearchArg('', 'GM', '3')"><p>電玩攻略</p></a>
                                 <a href="#" onclick="SetSearchArg('','GM','4')"><p>電玩其他</p></a>
                             </div>
-                        </div>
-                        <div class="tab6">
-                            <ul class="place">
-                                <li class="sort" onclick="SetSearchArg('','OT','')">其他</li>
-                                <div class="clearfix"> </div>
-                            </ul>
                         </div>
                     </div>
                     <script>
 							$(document).ready(function(){
-								$(".tab1 .single-bottom").hide();
-								$(".tab2 .single-bottom").hide();
-								$(".tab3 .single-bottom").hide();
-								$(".tab4 .single-bottom").hide();
-								$(".tab5 .single-bottom").hide();
+							    resettabiul();
 
-								$(".tab1 ul .by").click(function () {
-								    if ($(".tab1 ul").css("background-color") == 'rgb(249, 249, 249)') {
-								        $(".tab1 ul").css("background-color", "#e5e5e5");
+							    $(".tab1 ul").click(function () {
+							        if ($(".tab1 ul").css("background-color") == 'rgb(249, 249, 249)')
+							            $(".tab1 ul").css("background-color", "#e5e5e5");
+							        else
+							            $(".tab1 ul").css("background-color", "rgb(249, 249, 249)");
+							        resettabiul(1);
+							        $(".tab1 .single-bottom").slideToggle(300);
+							    });
+							    $(".tab2 ul").click(function () {
+							        if ($(".tab2 ul").css("background-color") == 'rgb(249, 249, 249)')
+							            $(".tab2 ul").css("background-color", "#e5e5e5");
+							        else
+							            $(".tab2 ul").css("background-color", "rgb(249, 249, 249)");
+							        resettabiul(2);
+							        $(".tab2 .single-bottom").slideToggle(300);
+							    });
+							    $(".tab3 ul").click(function () {
+							        if ($(".tab3 ul").css("background-color") == 'rgb(249, 249, 249)')
+							            $(".tab3 ul").css("background-color", "#e5e5e5");
+							        else
+							            $(".tab3 ul").css("background-color", "rgb(249, 249, 249)");
+							        resettabiul(3);
+							        $(".tab3 .single-bottom").slideToggle(300);
+							    });
+							    $(".tab4 ul").click(function () {
+							        if ($(".tab4 ul").css("background-color") == 'rgb(249, 249, 249)') {
+							            $(".tab4 ul").css("background-color", "#e5e5e5");
+							        }
+							        else {
+							            $(".tab4 ul").css("background-color", "rgb(249, 249, 249)");
+							        }
+							        resettabiul(4);
+							        $(".tab4 .single-bottom").slideToggle(300);
+							    });
+							    $(".tab5 ul").click(function () {
+							        if ($(".tab5 ul").css("background-color") == 'rgb(249, 249, 249)')
+							            $(".tab5 ul").css("background-color", "#e5e5e5");
+							        else
+							            $(".tab5 ul").css("background-color", "rgb(249, 249, 249)");
+							        resettabiul(5);
+							        $(".tab5 .single-bottom").slideToggle(300);
+							    });
+
+								function resettabiul(index) {
+								    for (i = 1; i <= 5; i++) {
+								        if (index != i) {
+								            $('.tab' + i + ' ul').css("background-color", "rgb(249, 249, 249)");
+								            $('.tab' + i + ' .single-bottom').slideUp();
+								        }
 								    }
-								    else {
-								        $(".tab1 ul").css("background-color", "rgb(249, 249, 249)");
-								    }
-								    $(".tab2 ul").css("background-color", "rgb(249, 249, 249)");
-								    $(".tab3 ul").css("background-color", "rgb(249, 249, 249)");
-								    $(".tab4 ul").css("background-color", "rgb(249, 249, 249)");
-								    $(".tab5 ul").css("background-color", "rgb(249, 249, 249)");
-									$(".tab1 .single-bottom").slideToggle(300);
-									$(".tab2 .single-bottom").hide();
-									$(".tab3 .single-bottom").hide();
-									$(".tab4 .single-bottom").hide();
-									$(".tab5 .single-bottom").hide();
-								})
-								$(".tab2 ul .by").click(function () {
-								    if ($(".tab2 ul").css("background-color") == 'rgb(249, 249, 249)') {
-								        $(".tab2 ul").css("background-color", "#e5e5e5");
-								    }
-								    else
-								    {
-								        $(".tab2 ul").css("background-color", "rgb(249, 249, 249)");
-								    }
-								    $(".tab1 ul").css("background-color", "rgb(249, 249, 249)");
-								    $(".tab3 ul").css("background-color", "rgb(249, 249, 249)");
-								    $(".tab4 ul").css("background-color", "rgb(249, 249, 249)");
-								    $(".tab5 ul").css("background-color", "rgb(249, 249, 249)");
-									$(".tab2 .single-bottom").slideToggle(300);
-									$(".tab1 .single-bottom").hide();
-									$(".tab3 .single-bottom").hide();
-									$(".tab4 .single-bottom").hide();
-									$(".tab5 .single-bottom").hide();
-								})
-								$(".tab3 ul .by").click(function () {
-								    if ($(".tab3 ul").css("background-color") == 'rgb(249, 249, 249)') {
-								        $(".tab3 ul").css("background-color", "#e5e5e5");
-								    }
-								    else {
-								        $(".tab3 ul").css("background-color", "rgb(249, 249, 249)");
-								    }
-								    $(".tab1 ul").css("background-color", "rgb(249, 249, 249)");
-								    $(".tab2 ul").css("background-color", "rgb(249, 249, 249)");
-								    $(".tab4 ul").css("background-color", "rgb(249, 249, 249)");
-								    $(".tab5 ul").css("background-color", "rgb(249, 249, 249)");
-									$(".tab3 .single-bottom").slideToggle(300);
-									$(".tab4 .single-bottom").hide();
-									$(".tab5 .single-bottom").hide();
-									$(".tab2 .single-bottom").hide();
-									$(".tab1 .single-bottom").hide();
-								})
-								$(".tab4 ul .by").click(function () {
-								    if ($(".tab4 ul").css("background-color") == 'rgb(249, 249, 249)') {
-								        $(".tab4 ul").css("background-color", "#e5e5e5");
-								    }
-								    else {
-								        $(".tab4 ul").css("background-color", "rgb(249, 249, 249)");
-								    }
-								    $(".tab1 ul").css("background-color", "rgb(249, 249, 249)");
-								    $(".tab2 ul").css("background-color", "rgb(249, 249, 249)");
-								    $(".tab3 ul").css("background-color", "rgb(249, 249, 249)");
-								    $(".tab5 ul").css("background-color", "rgb(249, 249, 249)");
-									$(".tab4 .single-bottom").slideToggle(300);
-									$(".tab5 .single-bottom").hide();
-									$(".tab3 .single-bottom").hide();
-									$(".tab2 .single-bottom").hide();
-									$(".tab1 .single-bottom").hide();
-								})
-								$(".tab5 ul .by").click(function () {
-								    if ($(".tab5 ul").css("background-color") == 'rgb(249, 249, 249)') {
-								        $(".tab5 ul").css("background-color", "#e5e5e5");
-								    }
-								    else {
-								        $(".tab5 ul").css("background-color", "rgb(249, 249, 249)");
-								    }
-								    $(".tab1 ul").css("background-color", "rgb(249, 249, 249)");
-								    $(".tab2 ul").css("background-color", "rgb(249, 249, 249)");
-								    $(".tab3 ul").css("background-color", "rgb(249, 249, 249)");
-								    $(".tab4 ul").css("background-color", "rgb(249, 249, 249)");
-									$(".tab5 .single-bottom").slideToggle(300);
-									$(".tab4 .single-bottom").hide();
-									$(".tab3 .single-bottom").hide();
-									$(".tab2 .single-bottom").hide();
-									$(".tab1 .single-bottom").hide();
-								})
-								$(".tab6 ul .by").click(function () {
-								    $(".tab5 .single-bottom").hide();
-								    $(".tab4 .single-bottom").hide();
-								    $(".tab3 .single-bottom").hide();
-								    $(".tab2 .single-bottom").hide();
-								    $(".tab1 .single-bottom").hide();
-								})
+								}
 								$(".tab1 .single-bottom a").click(function () {
 								    $(".tab1 .single-bottom").slideUp();
-								    $(".tab1 ul").css("border", "none");
-								})
+								    $(".tab1 ul").css("background-color", "rgb(249, 249, 249)");
+								});
 								$(".tab2 .single-bottom a").click(function () {
 								    $(".tab2 .single-bottom").slideUp();
-								    $(".tab2 ul").css("border", "none");
-								})
+								    $(".tab2 ul").css("background-color", "rgb(249, 249, 249)");
+								});
 								$(".tab3 .single-bottom a").click(function () {
 								    $(".tab3 .single-bottom").slideUp();
-								    $(".tab3 ul").css("border", "none");
-								})
+								    $(".tab3 ul").css("background-color", "rgb(249, 249, 249)");
+								});
 								$(".tab4 .single-bottom a").click(function () {
 								    $(".tab4 .single-bottom").slideUp();
-								    $(".tab4 ul").css("border", "none");
-								})
+								    $(".tab4 ul").css("background-color", "rgb(249, 249, 249)");
+								});
 								$(".tab5 .single-bottom a").click(function () {
 								    $(".tab5 .single-bottom").slideUp();
-								    $(".tab5 ul").css("border", "none");
-								})
+								    $(".tab5 ul").css("background-color", "rgb(249, 249, 249)");
+								});
 							});
                     </script>
                 </section>
@@ -284,55 +173,116 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        SetSearchArg('', '3C', '');
+        CheckHrefInfomation();
+        calcimgheight();
+        $(window).scroll(function () {
+            var goodsColumeNumber = parseInt(($('.product-model-sec').width() / $('.product-grid').outerWidth()));
+            var windowBottomPosition = (window.pageYOffset + $(window).height());
+            if (windowBottomPosition > $('.header').height() + ($('.product-grid').outerHeight() * (totalGoodsNumber / goodsColumeNumber)) && !$("#loading-img")[0] && !isGoodsListBottom) {
+                $('#container').append(
+                    '<div class="loading-img" id="loading-img">' +
+                    '<img src="../images/magnify.gif" id="loading_img" style="margin: 0 calc((100% - 150px)/2);">' +
+                    '</div>'
+                );
+                AnimateLoadingImage();
+            }
+        });
     });
 
+    function CheckHrefInfomation() {
+        var tag1OrTitle = location.href.split("?")[1].split("=")[0];
+        var value = location.href.split("?")[1].split("=")[1];
+        if (tag1OrTitle == 'tag1') {
+            SetSearchArg('', value, '');
+            $('.product-grid').css("display", "block");
+        }
+        if (tag1OrTitle == 'search') {
+            SetSearchArg(decodeURI(value), '', '');
+            console.log(decodeURI(value));
+            $('.product-grid').css("display", "block");
+        }
+    }
+
+    var waittime = 2;
+    function AnimateLoadingImage() {
+        waittime -= 1;
+        if (waittime == 0) {
+            SetSearchArgNextNO(nextNumber);
+            $("#loading-img").remove();
+            waittime = 2;
+            return;
+        }
+        setTimeout("AnimateLoadingImage()", 1000);
+    }
     function cleartcontent() {
-        console.log("clear");
         $('#container').empty();
     };
     window.addEventListener("resize", calcimgheight);
     function calcimgheight() {
         var newimgheight = $('.product-img img').width() * 4 / 3;
         $('.product-img img').height(newimgheight);
-        console.log("!!");
     };
 
+    var totalGoodsNumber = 0, nextNumber = 6;
+    var isGoodsListBottom = false;
+    var goodsHTMLStringStream;
     var searchArg = {
         Title: "",
         Tag1: "",
         Tag2: "",
         Offset: 0,
-        NextNo: 3
+        NextNo: 6
     };
 
-    function SetSearchArg(title, tag1, tag2, offset, nextNO) {
+    function SearchGoodsInnerPage() {
+        totalGoodsNumber = 0;
+        isGoodsListBottom = false;
+        cleartcontent();
+        searchArg.Title = $('#innerSearchText').val();
+        searchArg.Tag1 = $('#innerPageSearchTag').val();
+        searchArg.Tag2 = "";
+        searchArg.Offset = totalGoodsNumber;
+        searchArg.NextNo = nextNumber;
+        SearchAppend();
+        $('#innerSearchText').val("");
+    }
+
+    function SetSearchArg(title, tag1, tag2) {
+        totalGoodsNumber = 0;
+        isGoodsListBottom = false;
         cleartcontent();
         searchArg.Title = title;
         searchArg.Tag1 = tag1;
         searchArg.Tag2 = tag2;
-        //searchArg.Offset = offset;
-        //searchArg.NextNo = nextNO;
+        searchArg.Offset = totalGoodsNumber;
+        searchArg.NextNo = nextNumber;
         SearchAppend();
-        goodsNumber += nextNo;
     }
 
-    function SearchAppend(){
+    function SetSearchArgNextNO(nextNO) {
+        searchArg.Offset = totalGoodsNumber;
+        searchArg.NextNo = nextNO;
+        SearchAppend();
+    }
+
+    function SearchAppend() {
+        var nowNextNO = 0;
+        goodsHTMLStringStream = "";
         $.ajax({
             type: "POST",
             url: "/Store/GetGoodsByConditions",
             data: searchArg,
             dataType: "json",
             success: function (result) {
-                $('#container').append(
-                    '<div class="loading-img">'+
-                    '<img src="../images/magnify.gif" id="loading_img" style="margin: 0 calc((100% - 150px)/2);">' +
-                    '</div>'
-                );
                 $.each(result, function (index, object) {
-                    $('#container').append(GetGoodsBox(object));
-                    calcimgheight();
+                    goodsHTMLStringStream = goodsHTMLStringStream + GetGoodsBox(object);
+                    totalGoodsNumber++;
+                    nowNextNO++;
                 });
+                if (nowNextNO != nextNumber)
+                    isGoodsListBottom = true;
+                $('#container').append(goodsHTMLStringStream);
+                calcimgheight();
             },
             beforeSend: function () {
 
@@ -345,10 +295,9 @@
             }
         });
     }
-
     function GetGoodsBox(object) {
         var box ='<div class="product-grid">' +
-                    '<a href="../Store/GoodsDetail">' +
+                    '<a href="../Store/GoodsDetail/' + object.GoodId + '">' +
                         '<div class="more-product"><span> </span></div>' +
                         '<div class="product-img b-link-stripe b-animate-go  thickbox">' +
                             '<img src="' + object.PicPath + '" class="img-responsive" alt="">' +
@@ -360,7 +309,7 @@
                         '</div>' +
                     '</a>' +
                     '<div class="product-info simpleCart_shelfItem">' +
-                        '<div class="product-info-cust prt_name">' +
+                    '<div class="product-info-cust prt_name">' +
                             '<span class="item_tag">' + object.Tag2 +'</span>' +
                             '<span class="item_price">' + object.Title + '</span>' +
                             '<div class="ofr">' +

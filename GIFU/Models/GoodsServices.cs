@@ -67,7 +67,7 @@ namespace GIFU.Models
                                   TAG2 AS Tag2,
                                   IS_REASON AS IsReason,
                                   HIT_COUNT AS HitCount, 
-                                  CONVERT(VARCHAR, UPDATE_DATE, 120)
+                                  CONVERT(VARCHAR, UPDATE_DATE, 120) AS UpdateDate
                         FROM dbo.GOOD
                         WHERE GOOD_ID = @GoodId";
             IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
@@ -87,7 +87,12 @@ namespace GIFU.Models
         public List<GoodsMessage> GetGoodsMessagesById(int? goodId)
         {
             DataTable dataTable;
-            string sql = @"SELECT GOOD_ID, COMMENT_NO, [TYPE], [USER_ID], [MESSAGE],  CONVERT(VARCHAR, TIME, 120)
+            string sql = @"SELECT GOOD_ID AS GoodId, 
+                                  COMMENT_NO AS CommentNo, 
+                                  [TYPE] AS Type, 
+                                  [USER_ID] AS UserId, 
+                                  [MESSAGE] AS Message,
+                                  CONVERT(VARCHAR, TIME, 120) AS TIME
                           FROM GIFU.dbo.GOOD_MESSAGE 
                           WHERE GOOD_ID = @GoodId
                           ORDER BY COMMENT_NO ASC, [TYPE] DESC";

@@ -7,16 +7,16 @@
     <div class="main-1">
         <div class="container">
             <div class="steparea">
-                <div class="step consentstep" style="z-index:1" id="step1">
+                <div class="step consentstep" id="step1">
                     <h3>同意書</h3>
                 </div>
-                <div class="step personalinfostep" style="z-index:0" id="step2">
+                <div class="step personalinfostep" id="step2">
                     <h3>資料</h3>
                 </div>
-                <div class="step authenticationstep" style="z-index:0" id="step3">
+                <div class="step authenticationstep" id="step3">
                     <h3>認證</h3>
                 </div>
-                <div class="step succeedstep" style="z-index:0" id="step4">
+                <div class="step succeedstep" id="step4">
                     <h3>成功</h3>
                 </div>
             </div>
@@ -69,19 +69,19 @@
                         <h3>LOGIN INFORMATION</h3>
                         <div class="wow fadeInLeft FullArea" data-wow-delay="0.4s">
                             <span>Email Address<label>*</label></span>
-                            <input type="text" oninput="checkEmail()" name="Email" id="email">
+                            <input type="text" oninput="CheckEmail()" name="Email" id="email">
                             <span class="glyphicon glyphicon-ok-sign checkicon" id="emailcheck"></span>
                             <p class="warningword" style="display:none;" id="emailwarningword">Email格式錯誤</p>
                         </div>
                         <div class="wow fadeInLeft LeftArea" data-wow-delay="0.4s">
                             <span>Password<label>*</label></span>
-                            <input type="password" oninput="checkPassword()" name="Passwd" maxlength="20" id="password">
+                            <input type="password" oninput="CheckPassword()" name="Passwd" maxlength="20" id="password">
                             <span class="glyphicon glyphicon-ok-sign checkicon" id="passwordcheck"></span>
                             <p class="warningword" style="display:none;" id="passwordwarningword">不可輸入非英文,數字</p>
                         </div>
                         <div class="wow fadeInRight RightArea" data-wow-delay="0.4s">
                             <span>Confirm Password<label>*</label></span>
-                            <input type="password" oninput="checkConfirmPassword()" maxlength="20" id="confirmpassword">
+                            <input type="password" oninput="CheckConfirmPassword()" maxlength="20" id="confirmpassword">
                             <span class="glyphicon glyphicon-ok-sign checkicon" id="confirmpasswordcheck" title="title" data-toggle="popover" data-trigger="hover" data-placement="right" data-content="Content"></span>
                             <p class="warningword" style="display:none;" id="confirmpasswordwarningword">與密碼不一致</p>
                         </div>
@@ -103,7 +103,7 @@
                         </div>
                         <div class="wow fadeInLeft RightArea" data-wow-delay="0.4s">
                             <span>CellPhone<label>*</label></span>
-                            <input type="text" maxlength="10" id="cellphone" name="Phone">
+                            <input type="text" maxlength="10" id="cellphone" name="Phone" oninput="CheckCellPhone()">
                             <p class="warningword" style="display:none;" id="cellphonewarningword">Email格式錯誤</p>
                         </div>
                         <div class="wow fadeInLeft FullArea reigster-address" data-wow-delay="0.4s">
@@ -115,10 +115,10 @@
                     </div>
                     <div class="clearfix"> </div>
                     <div class="register-but">
-                        <input type="reset" value="reset">
+                        <input type="reset" value="reset" onclick="ResetRegisterForm()">
                         <input type="button" value="submit" onclick="submitregisterform('register', 'authentication')">
                         <div class="clearfix"> </div>
-                        <button id="consentnextstepbutton" onclick="CatchResultVM('email','以被使用過')">Next Step</button>
+
                     </div>
                 </form>
             </div>
@@ -144,7 +144,7 @@
                     <img src="../images/checkedgreen.png" id="checkedgreen" style="z-index:0;" />
                 </div>
                 <h3>倒數5秒返回首頁</h3>
-                <button onclick="imganimate()">animation</button>
+
             </div>
         </div>
     </div>

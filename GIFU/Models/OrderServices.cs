@@ -67,17 +67,16 @@ namespace GIFU.Models
 
         public int AddOrder(Order order)
         {
-            string sql = @"INSERT INTO dbo.ORDER(ORDER_ID, GOOD_ID, USER_ID, PLACE_TIME, AMOUNT, COMMENT, STATUS, ADDRESS, TRADE_METHOD, UPDATE_DATE)
-	                       VALUES(@OrderId, @GoodId, @UserId, GETDATE(), @Amount, @Comment, @Status, @Address, @TradeMethod, GETDATE())";
+            string sql = @"INSERT INTO dbo.[ORDER](GOOD_ID, USER_ID, PLACE_TIME, AMOUNT, COMMENT, STATUS, ADDRESS, TRADE_METHOD, UPDATE_DATE)
+	                       VALUES(@GoodId, @UserId, GETDATE(), @Amount, @Comment, @Status, @Address, @TradeMethod, GETDATE())";
             IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
-            parameters.Add(new KeyValuePair<string, object>("@OrderId", order.OrderId.NullToDBNullValue()));
             parameters.Add(new KeyValuePair<string, object>("@GoodId", order.GoodId.NullToDBNullValue()));
             parameters.Add(new KeyValuePair<string, object>("@UserId", order.UserId.NullToDBNullValue()));
             parameters.Add(new KeyValuePair<string, object>("@Amount", order.Amount.NullToDBNullValue()));
             parameters.Add(new KeyValuePair<string, object>("@Comment", order.Comment.NullToDBNullValue()));
-            parameters.Add(new KeyValuePair<string, object>("@Status", order.Status.NullToDBNullValue()));
+            parameters.Add(new KeyValuePair<string, object>("@Status", order.Status ?? "1"));
             parameters.Add(new KeyValuePair<string, object>("@Address", order.Address.NullToDBNullValue()));
-            parameters.Add(new KeyValuePair<string, object>("@TradeMethod", order.TradeMethod.NullToDBNullValue()));
+            parameters.Add(new KeyValuePair<string, object>("@TradeMethod", order.TradeMethod ?? "1"));
             int result;
             result = dataAccessTool.ExecuteNonQuery(Variable.GetConnectionString, sql, parameters);
             return result;

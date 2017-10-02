@@ -9,6 +9,7 @@ namespace GIFU.Controllers
     public class StoreController : Controller
     {
         private Models.GoodsServices goodServices = new Models.GoodsServices();
+        private Models.OrderServices orderServices = new Models.OrderServices();
         private Tools.AttachmentHandler attachmentHandler = new Tools.AttachmentHandler();
 
         // GET: Store
@@ -22,9 +23,21 @@ namespace GIFU.Controllers
             return View();
         }
 
-        public ActionResult GoodsDetail()
+        //public ActionResult GoodsDetail()
+        //{
+        //    return View();
+        //}
+        public ActionResult GoodsDetail(string id)
         {
-            return View();
+            if (id != null)
+            {
+                int goodId = Convert.ToInt32(id);
+                Models.Goods goods = goodServices.GetGoodDetailById(goodId);
+                ViewBag.Pictures = goodServices.GetGoodPicturePathById(goodId);
+                ViewBag.Messages = goodServices.GetGoodsMessagesById(goodId);
+                    return View(goods);
+            }
+            return RedirectToAction("GoodsSearch", "Store");
         }
 
         [HttpPost]
@@ -35,20 +48,51 @@ namespace GIFU.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetGoodDetailById(string goodId)
+        public JsonResult PlaceAMessage(Models.GoodsMessage msg)
         {
-            int id = Convert.ToInt32(goodId);
-            var good = goodServices.GetGoodDetailById(id);
-            return this.Json(good);
+            Models.ResultVM resultVM = Variable.GetResult(-1, "請稍後嘗試");
+            if (ModelState.IsValid)
+            {
+                int result = goodServices.AddGoodsMessage(msg);
+                if (result > 0)
+                {
+                    resultVM.result = result;
+                    resultVM.message = "留言成功";
+                }
+            }
+            return this.Json(resultVM);
         }
 
         [HttpPost]
-        public JsonResult GetGoodPicturePathById(string goodId)
+        public JsonResult AddAnOrder(Models.Order order)
         {
-            int id = Convert.ToInt32(goodId);
-            var goodPics = goodServices.GetGoodPicturePathById(id);
-            return this.Json(goodPics);
+            Models.ResultVM resultVM = Variable.GetResult(-1, "請稍後嘗試");
+            if (ModelState.IsValid)
+            {
+                int result = orderServices.AddOrder(order);
+                if (result > 0)
+                {
+                    resultVM.result = result;
+                    resultVM.message = "請等候贈與方確認";
+                }
+            }
+            return this.Json(resultVM);
         }
+        //[HttpPost]
+        //public JsonResult GetGoodDetailById(string goodId)
+        //{
+        //    int id = Convert.ToInt32(goodId);
+        //    var good = goodServices.GetGoodDetailById(id);
+        //    return this.Json(good);
+        //}
+
+        //[HttpPost]
+        //public JsonResult GetGoodPicturePathById(string goodId)
+        //{
+        //    int id = Convert.ToInt32(goodId);
+        //    var goodPics = goodServices.GetGoodPicturePathById(id);
+        //    return this.Json(goodPics);
+        //}
 
         /// <summary>
         /// 新增商品、圖片

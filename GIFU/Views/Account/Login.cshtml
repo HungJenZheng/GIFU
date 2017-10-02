@@ -9,14 +9,14 @@
             <div class="login-page">
                 <div class="account_grid">
                     <div class="col-md-6 login-left">
-                        <h3>NEW CUSTOMERS</h3>
-                        <p>By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.</p>
-                        <a class="acount-btn" href="/Account/Register">Create an Account</a>
+                        <h3>加入會員</h3>
+                        <p>立即加入GIFU<br>可以對需要的商品提出要求<br>不需要的物品可以透過GIFU傳遞幸福<span class="glyphicon glyphicon-heart" style="top:3px;"></span></p>
+                        <a class="acount-btn" href="/Account/Register">Register</a>
                     </div>
                     <div class="col-md-6 login-right">
-                        <h3>REGISTERED CUSTOMERS</h3>
-                        <p>If you have an account with us, please log in.</p>
-                        <form action="/Account/Login" method="post">
+                        <h3>登入會員</h3>
+                        <p>已經擁有帳號的GIFU會員<br>登入後開始享受GIFU帶給你的便利服務</p>
+                        <form name="login" method="post">
                             <div>
                                 <span>Email Address<label>*</label></span>
                                 <input type="email" name="email">
@@ -35,3 +35,8 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        document.login.href = ('/Account/Login?ReturnUrl=' + encodeURIComponent(window.location.pathname));
+    });
+</script>

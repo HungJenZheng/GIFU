@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -9,7 +10,6 @@ namespace GIFU.Controllers
     {
         private Models.AccountServices accountServices = new Models.AccountServices();
         private Models.NotificationServices notificationServices = new Models.NotificationServices();
-        private readonly Hubs.MessagesRepository messagesRepository = new Hubs.MessagesRepository();
 
         // GET: Account
         [Authorize]
@@ -78,7 +78,7 @@ namespace GIFU.Controllers
                 return View(loginVM);
             }
 
-            loginVM.ShaPasswd = FormsAuthentication.HashPasswordForStoringInConfigFile(loginVM.Passwd, "SHA1");
+            //loginVM.ShaPasswd = FormsAuthentication.HashPasswordForStoringInConfigFile(loginVM.Passwd, "SHA1");
             //檢查帳號是否存在
             Models.Account account = accountServices.Authentication(loginVM);
             if (account.Email == null)
@@ -157,9 +157,15 @@ namespace GIFU.Controllers
         //[HttpPost]
         public ActionResult GetMessages()
         {
-            //List<Models.Notification> notifications = notificationServices.GetMessages();
+            List<Models.Notification> notifications = notificationServices.GetMessages();
+            return PartialView("_MessagesList", notifications);
+        }
 
-            return PartialView("_MessagesList", messagesRepository.GetAllMessages());
+        [HttpPost]
+        public ActionResult GetMessagesById(int? userId)
+        {
+            List<Models.Notification> notifications = notificationServices.GetMessagesById(userId);
+            return PartialView("_MessagesList", notifications);
         }
     }
 }

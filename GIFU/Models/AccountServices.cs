@@ -11,9 +11,9 @@ namespace GIFU.Models
         /// <summary>
         /// 依照輸入的UserId取得Account資料
         /// </summary>
-        /// <param name="userID"></param>
+        /// <param name="userId"></param>
         /// <returns></returns>
-        public Account GetAccountDetailById(int userID)
+        public Account GetAccountDetailById(int userId)
         {
             DataTable dataTable;
             string sql = @"SELECT [USER_ID] AS UserId,
@@ -32,7 +32,7 @@ namespace GIFU.Models
 						FROM dbo.ACCOUNT
 						WHERE [USER_ID] = @UserId";
             IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
-            parameters.Add(new KeyValuePair<string, object>("@UserId", userID.NullToDBNullValue()));
+            parameters.Add(new KeyValuePair<string, object>("@UserId", userId.NullToDBNullValue()));
             dataTable = dataAccessTool.Query(Variable.GetConnectionString, sql, parameters);
             if (dataTable.Rows.Count > 0)
                 return DataMappingTool.GetModel<Account>(dataTable.Rows[0]);

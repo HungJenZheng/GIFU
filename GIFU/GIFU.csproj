@@ -191,6 +191,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Hubs\ClientInfo.cs" />
     <Compile Include="Hubs\MessagesHub.cs" />
     <Compile Include="Hubs\MessagesRepository.cs" />
     <Compile Include="Hubs\Startup.cs" />

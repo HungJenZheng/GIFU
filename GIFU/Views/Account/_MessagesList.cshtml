@@ -1,0 +1,58 @@
+﻿@model IEnumerable<GIFU.Models.Notification>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.NotificationId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReceiveId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SendId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Content)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GoodId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Url)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Time)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <th>
+                @Html.DisplayFor(modelItem => item.NotificationId)
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => item.ReceiveId)
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => item.SendId)
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => item.Content)
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => item.GoodId)
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => item.Url)
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => item.Time)
+            </th>
+        </tr>
+    }
+
+</table>

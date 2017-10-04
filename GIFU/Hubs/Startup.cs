@@ -1,4 +1,5 @@
-﻿using Microsoft.Owin;
+﻿using Microsoft.AspNet.SignalR;
+using Microsoft.Owin;
 using Owin;
 [assembly: OwinStartup(typeof(GIFU.Startup))]
 
@@ -8,7 +9,9 @@ namespace GIFU
     {
         public void Configuration(IAppBuilder app)
         {
-            app.MapSignalR();
+            GlobalHost.DependencyResolver.UseSqlServer(Variable.GetConnectionString);
+            var config = new HubConfiguration { EnableDetailedErrors = true };
+            app.MapSignalR(config);
         }
     }
 }

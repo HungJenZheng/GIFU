@@ -8,6 +8,8 @@ namespace GIFU.Controllers
     public class AccountController : Controller
     {
         private Models.AccountServices accountServices = new Models.AccountServices();
+        private Models.NotificationServices notificationServices = new Models.NotificationServices();
+        private readonly Hubs.MessagesRepository messagesRepository = new Hubs.MessagesRepository();
 
         // GET: Account
         [Authorize]
@@ -150,6 +152,14 @@ namespace GIFU.Controllers
                 return this.Json(result);
             }
             return this.Json(-1);
+        }
+
+        //[HttpPost]
+        public ActionResult GetMessages()
+        {
+            //List<Models.Notification> notifications = notificationServices.GetMessages();
+
+            return PartialView("_MessagesList", messagesRepository.GetAllMessages());
         }
     }
 }

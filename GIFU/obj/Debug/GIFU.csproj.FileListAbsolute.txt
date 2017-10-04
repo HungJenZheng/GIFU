@@ -57,3 +57,7 @@ C:\Users\User\documents\visual studio 2015\Projects\GIFU\GIFU\bin\Microsoft.Owin
 C:\Users\User\documents\visual studio 2015\Projects\GIFU\GIFU\bin\Microsoft.Owin.Host.SystemWeb.xml
 C:\Users\User\documents\visual studio 2015\Projects\GIFU\GIFU\bin\Microsoft.Owin.Security.xml
 C:\Users\User\documents\visual studio 2015\Projects\GIFU\GIFU\bin\Newtonsoft.Json.xml
+C:\Users\User\documents\visual studio 2015\Projects\GIFU\GIFU\bin\Microsoft.AspNet.SignalR.SqlServer.dll
+C:\Users\User\documents\visual studio 2015\Projects\GIFU\GIFU\bin\Microsoft.AspNet.SignalR.SqlServer.xml
+C:\Users\User\documents\visual studio 2015\Projects\GIFU\GIFU\bin\Microsoft.AspNet.SignalR.Client.dll
+C:\Users\User\documents\visual studio 2015\Projects\GIFU\GIFU\bin\Microsoft.AspNet.SignalR.Client.xml

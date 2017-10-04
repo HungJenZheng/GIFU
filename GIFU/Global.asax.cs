@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System.Data.SqlClient;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
@@ -10,6 +11,14 @@ namespace GIFU
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            SqlDependency.Start(Variable.GetConnectionString);
+            //var messagesRepository = new Hubs.MessagesRepository();
+            //messagesRepository.GetAllMessages();
+        }
+
+        protected void Application_End()
+        {
+            SqlDependency.Stop(Variable.GetConnectionString);
         }
 
         //protected void Application_BeginRequest(object sender, EventArgs e)

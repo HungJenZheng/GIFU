@@ -72,6 +72,7 @@ body {
     display: inline-block;
     border-right: 1px solid;
     padding: 1em 1em;
+    position:relative;
 }
 
     .top-right ul li:nth-child(1) {
@@ -111,6 +112,11 @@ span.simpleCart_total {
 
 .top-right {
     float: right;
+}
+
+.top-right .headerFunctionList {
+    position:relative;
+    float:right;
 }
 
 select.dropdown1:focus {
@@ -337,7 +343,7 @@ h1.navbar-brand {
 
 .sb-icon-search {
     background: #000 url('../images/search.png') no-repeat 10px 7px;
-    z-index: 90;
+    z-index: 13;
 }
 /* Open state */
 .sb-search.sb-search-open, .no-js .sb-search {
@@ -351,7 +357,7 @@ h1.navbar-brand {
     }
 
     .sb-search.sb-search-open .sb-search-submit, .no-js .sb-search .sb-search-submit {
-        z-index: 90;
+        z-index: 13;
     }
 /*-- search-ends --*/
 
@@ -906,7 +912,27 @@ p span.overline {
 .related-products {
     padding: 4em 0;
     background-color: #FBFBFB;
-    text-align: center;
+    display:inline-block;
+}
+
+.related-products h2 {
+    text-align:center;
+}
+
+.related-products .product-grid {
+    width:21%;
+    margin: 0 2% 4% 2%;
+}
+
+@media (max-width: 640px) {
+    .related-products .product-grid {
+        width:46%;
+    }
+}
+@media (max-width: 320px) {
+    .related-products .product-grid {
+        width:96%;
+    }
 }
 
 .products-grid img {
@@ -1586,9 +1612,32 @@ i.sele {
     float: right;
 }
 
+.recommend {
+    width:100%;
+    height:352px;
+    overflow:hidden;
+    position:relative;
+}
+
+.recommend>.product-grid.active.right,
+.recommend>.product-grid.next {
+    position:absolute;
+    left: 25%;
+}
+.recommend>.product-grid.active.left,
+.frecommend>.product-grid.prev {
+    position:absolute;
+    left: -25%
+}
+.recommend>.product-grid.left,
+.recommend>.product-grid.prev.right,
+.recommend>.product-grid.active {
+    position:absolute;
+    left: 0
+}
+
 .rsidebar {
     display: block;
-    float: left;
     margin: 4em 0 0 0;
     width: 22%;
 }
@@ -1910,36 +1959,39 @@ p.disc {
     height: 100%;
 }
 /*----*/
+.product_right .m_2 {
+    margin-bottom:5px;
+}
 ul.place {
-    margin: 5px 0;
     background: #f9f9f9;
     width: 100%;
     padding: 0px 5px;
     cursor: pointer;
+    display:inline-block;
 }
 
-    ul.place li {
-        display: inline-block;
-        padding: 6px;
-    }
+ul.place li {
+    display: inline-block;
+    padding: 6px;
+}
 
-    ul.place li {
-        color: #8c8c8c;
-        text-decoration: none;
-        cursor: pointer;
-    }
+ul.place li {
+    color: #8c8c8c;
+    text-decoration: none;
+    cursor: pointer;
+}
 
-        ul.place li span {
-            color: #f02b63;
-        }
+ul.place li span {
+    color: #f02b63;
+}
 
-        ul.place li.sort {
-            float: left;
-        }
+ul.place li.sort {
+    float: left;
+}
 
-        ul.place li.by {
-            float: right;
-        }
+ul.place li.by {
+    float: right;
+}
 
 .single-bottom a {
     text-decoration: none;
@@ -3018,7 +3070,7 @@ address {
     }
 
     .sky-form h4 {
-        font-size: 1em;
+        font-size: 1.2em;
     }
 
     .register-top-grid div, .register-bottom-grid div {
@@ -3084,7 +3136,7 @@ address {
 
     .top-right {
         float: right;
-        width: 63%;
+        width: 100%;
     }
 
         .top-right ul li {
@@ -3215,27 +3267,27 @@ address {
     float: left;
 }
 
-    .questionimage h4 {
-        background: white;
-        border-radius: 50%;
-        border: 10px solid #f2f2f2;
-        display: block;
-        float: left;
-        color: #4DA6BF;
-        font-size: 50px;
-        width: 75px;
-        height: 75px;
-        line-height: 52px;
-        padding: 0px 9px;
-    }
+.questionimage h4 {
+    background: white;
+    border-radius: 50%;
+    border: 10px solid #f2f2f2;
+    display: block;
+    float: left;
+    color: #4DA6BF;
+    font-size: 50px;
+    width: 75px;
+    height: 75px;
+    line-height: 52px;
+    padding: 0px 9px;
+}
 
-    .questionimage img {
-        float: left;
-        height: 50px;
-        width: 50px;
-        margin: 12.5px 12.5px;
-        margin-left: 0;
-    }
+.questionimage img {
+    float: left;
+    height: 50px;
+    width: 50px;
+    margin: 12.5px 12.5px;
+    margin-left: 0;
+}
 
 .question .questioncontent {
     float: left;
@@ -3250,12 +3302,12 @@ address {
     width: calc(100% - 150px);
 }
 
-    .question .questioncontent p {
-        font-size: 1em;
-        max-height: 150px;
-        height: 100%;
-        overflow: auto;
-    }
+.question .questioncontent p {
+    font-size: 1em;
+    max-height: 150px;
+    height: 100%;
+    overflow: auto;
+}
 
 .question .questiondate {
     position: absolute;
@@ -3279,27 +3331,27 @@ address {
     float: left;
 }
 
-    .answerimage h4 {
-        background: white;
-        border-radius: 50%;
-        border: 10px solid #cecece;
-        display: block;
-        float: left;
-        color: #F08842;
-        font-size: 50px;
-        width: 75px;
-        height: 75px;
-        line-height: 50px;
-        padding: 0px 12px;
-    }
+.answerimage h4 {
+    background: white;
+    border-radius: 50%;
+    border: 10px solid #cecece;
+    display: block;
+    float: left;
+    color: #F08842;
+    font-size: 50px;
+    width: 75px;
+    height: 75px;
+    line-height: 50px;
+    padding: 0px 12px;
+}
 
-    .answerimage img {
-        float: left;
-        height: 50px;
-        width: 50px;
-        margin: 12.5px 12.5px;
-        margin-left: 0;
-    }
+.answerimage img {
+    float: left;
+    height: 50px;
+    width: 50px;
+    margin: 12.5px 12.5px;
+    margin-left: 0;
+}
 
 .answer .answercontent {
     float: left;
@@ -3315,12 +3367,12 @@ address {
     width: calc(100% - 150px);
 }
 
-    .answer .answercontent p {
-        font-size: 1em;
-        max-height: 150px;
-        height: 100%;
-        overflow: auto;
-    }
+.answer .answercontent p {
+    font-size: 1em;
+    max-height: 150px;
+    height: 100%;
+    overflow: auto;
+}
 
 .answer .answerdate {
     position: absolute;
@@ -3337,57 +3389,57 @@ address {
     margin: 0px;
 }
 
-    .askquestion .accountphoto {
-        width: 75px;
-        height: 75px;
-        margin: 12.5px 12.5px;
-        display: inline-block;
-        float: left;
-        border-radius: 75px;
-    }
+.askquestion .accountphoto {
+    width: 75px;
+    height: 75px;
+    margin: 12.5px 12.5px;
+    display: inline-block;
+    float: left;
+    border-radius: 75px;
+}
 
-    .askquestion .askquestiontextarea {
-        display: inline-block;
-        float: none;
-        width: calc(100% - 112.5px);
-        margin: 12.5px 12.5px;
-        padding: 12.5px 12.5px;
-        background-color: #F8F8F8;
-        border-radius: 25px;
-        margin-left: 0px;
-    }
+.askquestion .askquestiontextarea {
+    display: inline-block;
+    float: none;
+    width: calc(100% - 112.5px);
+    margin: 12.5px 12.5px;
+    padding: 12.5px 12.5px;
+    background-color: #F8F8F8;
+    border-radius: 25px;
+    margin-left: 0px;
+}
 
-    .askquestion textarea {
-        height: 150px;
-        width: 100%;
-        display: block;
-        float: left;
-        font-size: 1.2em;
-        border-radius: 12.5px;
-        border-color: white;
-        padding: 12.5px;
-        resize: none;
-    }
+.askquestion textarea {
+    height: 150px;
+    width: 100%;
+    display: block;
+    float: left;
+    font-size: 1.2em;
+    border-radius: 12.5px;
+    border-color: white;
+    padding: 12.5px;
+    resize: none;
+}
 
-    .askquestion .askquestioninputarea {
-        display: inline-block;
-        float: left;
-        margin: -5px 0px 12.5px 100px;
-    }
+.askquestion .askquestioninputarea {
+    display: inline-block;
+    float: left;
+    margin: -5px 0px 12.5px 100px;
+}
 
-    .askquestion .verificationcode {
-        height: 30px;
-        width: 90px;
-        float: left;
-        margin-right: 10px;
-    }
+.askquestion .verificationcode {
+    height: 30px;
+    width: 90px;
+    float: left;
+    margin-right: 10px;
+}
 
-    .askquestion input {
-        height: 30px;
-        width: 45px;
-        float: left;
-        margin-right: 10px;
-    }
+.askquestion input {
+    height: 30px;
+    width: 45px;
+    float: left;
+    margin-right: 10px;
+}
 
 .ask-btn {
     margin-right: 25px;
@@ -3395,26 +3447,25 @@ address {
     float: right;
 }
 
-
 .goodstagpath {
     display: inline-block;
     padding-left: 34px;
     margin-bottom: 25px;
 }
 
-    .goodstagpath span {
-        font-size: 1.5em;
-        float: left;
-        display: block;
-        margin-right: 3px;
-    }
+.goodstagpath span {
+    font-size: 1.5em;
+    float: left;
+    display: block;
+    margin-right: 3px;
+}
 
-    .goodstagpath .goodstag {
-        font-size: 1.5em;
-        float: left;
-        display: block;
-        color: #7f7f7f;
-    }
+.goodstagpath .goodstag {
+    font-size: 1.5em;
+    float: left;
+    display: block;
+    color: #7f7f7f;
+}
 
 @media(max-width: 991px) {
     .single-grid h3 {
@@ -3426,9 +3477,9 @@ address {
         margin: 0px calc((100% - 83.33%)/2);
     }
 
-        .askquestion textarea {
-            font-size: 1em;
-        }
+    .askquestion textarea {
+        font-size: 1em;
+    }
 }
 
 @media(max-width: 480px) {
@@ -3495,40 +3546,40 @@ address {
         width: calc(100% - 100px);
     }
 
-        .answer .answercontent p {
-            font-size: 0.8em;
-        }
+    .answer .answercontent p {
+        font-size: 0.8em;
+    }
 
     .askquestion {
         width: 100%;
         margin: 0px;
     }
 
-        .askquestion .askquestiontextarea {
-            width: calc(100% - 25px);
-            margin: 12.5px 12.5px;
-            margin-top: 0px;
-        }
+    .askquestion .askquestiontextarea {
+        width: calc(100% - 25px);
+        margin: 12.5px 12.5px;
+        margin-top: 0px;
+    }
 
-        .askquestion .askquestioninputarea {
-            display: inline-block;
-            float: left;
-            margin: -5px 0px 12.5px calc((100% - 160px)/2);
-        }
+    .askquestion .askquestioninputarea {
+        display: inline-block;
+        float: left;
+        margin: -5px 0px 12.5px calc((100% - 160px)/2);
+    }
 
-        .askquestion .verificationcode {
-            height: 20px;
-            width: 60px;
-            float: left;
-            margin-right: 10px;
-        }
+    .askquestion .verificationcode {
+        height: 20px;
+        width: 60px;
+        float: left;
+        margin-right: 10px;
+    }
 
-        .askquestion input {
-            height: 20px;
-            width: 40px;
-            float: left;
-            margin-right: 10px;
-        }
+    .askquestion input {
+        height: 20px;
+        width: 40px;
+        float: left;
+        margin-right: 10px;
+    }
 }
 /*Q&A*/
 
@@ -3538,74 +3589,93 @@ address {
     width: 100%;
 }
 
-    .modal-header .modal-title {
-        float: left;
-        display: block;
-        font-size: 1.5em;
-    }
+.modal-header .modal-title {
+    float: left;
+    display: block;
+    font-size: 1.5em;
+}
 
-    .modal-header button {
-        display: block;
-        float: right;
-    }
+.modal-header button {
+    display: block;
+    float: right;
+}
 
-        .modal-header button a {
-            text-decoration: none;
-            font-size: 1.5em;
-        }
+.modal-header button a {
+    text-decoration: none;
+    font-size: 1.5em;
+}
 
 .modal-body {
     display: inline-block;
     width: 100%;
+    height: calc(100% - 145px);
 }
 
-    .modal-body .imagearea {
-        display: inline-block;
-        float: left;
-        width: 50%;
-    }
+.modal-body .imagearea {
+    display: inline-block;
+    float: left;
+    width: 50%;
+}
 
-    .modal-body img {
-        width: 200px;
-        height: 200px;
-        margin: 0px calc((100% - 200px)/2);
-    }
+.modal-body img {
+    width: 200px;
+    height: 200px;
+    margin: 0px calc((100% - 200px)/2);
+}
 
-    .modal-body .formarea {
-        width: 50%;
-        float: left;
-    }
+.modal-body .formArea {
+    width: 50%;
+    float: left;
+}
 
-.formarea h3 {
+.formArea h3 {
     border-bottom: 1px solid #e5e5e5;
     padding-bottom: 10px;
     font-size: 2em;
+    width:100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
-.formarea p {
+.formArea .formNumberArea,.formAddressArea,.formReasonArea {
+    display:inline-block;
+    width:100%;
+    float:left;
+    margin-top:10px
+}
+
+.formArea .formNumberArea h4 {
+    margin-top:8px;
+    margin-right:5px;
+}
+
+.formArea p {
     margin-right: 5px;
     font-size: 1.2em;
 }
 
-.formarea textarea {
-    margin-top: 5px;
+.formArea textarea {
+    margin-top: 10px;
     width: 100%;
-    height: 48px;
+    height: 75px;
     resize: none;
+    padding:5px 10px;
 }
 
-.formarea .formnumber {
+.formArea .formNumber {
     float: left;
     display: inline-block;
 }
 
-.formarea select {
+.formArea select {
     float: none;
 }
 
-.formarea input {
-    margin-top: 5px;
+.formArea input {
+    margin-top: 10px;
     width: 100%;
+    padding:5px 10px;
 }
 
 .modal-footer {
@@ -3621,6 +3691,10 @@ address {
         font-size: 1em;
     }
 
+    .modal-content {
+        height:auto;
+    }
+
     .modal-body .imagearea {
         width: 100%;
     }
@@ -3629,7 +3703,7 @@ address {
         margin-bottom: 10px;
     }
 
-    .modal-body .formarea {
+    .modal-body .formArea {
         width: 100%;
     }
 
@@ -3671,34 +3745,35 @@ address {
     margin: 0;
 }
 
-    .register-top-grid .reigster-sex label {
-        margin-top: calc(60.38px - 30px);
-        font-size: 14px;
-    }
+/*.register-top-grid .reigster-sex label {
+    margin-top: calc(60.38px - 30px);
+    font-size: 14px;
+}*/
 
 .steparea {
     width: 100%;
+    margin:0 12.5%;
     display: inline-block;
     position: relative;
 }
 
-    .steparea .step {
-        width: 21%;
-        float: left;
-        display: block;
-        border: 6px solid #dbdbdb;
-        border-radius: 50%;
-        margin: 50px 2%;
-        background-color: #f9f9f9;
-    }
+.steparea .step {
+    width: 21%;
+    float: left;
+    display: block;
+    border: 6px solid #dbdbdb;
+    border-radius: 50%;
+    margin: 50px 2%;
+    background-color: #f9f9f9;
+}
 
-        .steparea .step h3 {
-            text-align: center;
-            font-size: 32px;
-            margin: calc((100% - 36px)/2) 0;
-            color: #d3d3d3;
-            font-weight: bold;
-        }
+.steparea .step h3 {
+    text-align: center;
+    font-size: 32px;
+    margin: calc((100% - 36px)/2) 0;
+    color: #d3d3d3;
+    font-weight: bold;
+}
 
 .registerconsentpaper p {
     width: 75%;
@@ -3720,15 +3795,15 @@ address {
     display: inline-block;
 }
 
-    .authentication .register-top-grid .authenticationarea span {
-        font-size: 1.5em;
-        font-weight: 600;
-    }
+.authentication .register-top-grid .authenticationarea span {
+    font-size: 1.5em;
+    font-weight: 600;
+}
 
-    .authentication .register-top-grid .authenticationarea input {
-        font-size: 1.3em;
-        font-weight: 600;
-    }
+.authentication .register-top-grid .authenticationarea input {
+    font-size: 1.3em;
+    font-weight: 600;
+}
 
 .authentication .register-but {
     margin: 0;
@@ -3741,10 +3816,10 @@ address {
     margin-bottom: 25px;
 }
 
-    .succeed .succeedimage img {
-        position: absolute;
-        margin: 0 calc((100% - 256px)/2);
-    }
+.succeed .succeedimage img {
+    position: absolute;
+    margin: 0 calc((100% - 256px)/2);
+}
 
 .succeed h3 {
     display: inline-block;
@@ -3779,12 +3854,12 @@ address {
         height: 200px;
     }
 
-        .succeed .succeedimage img {
-            position: absolute;
-            width: 200px;
-            height: 200px;
-            margin: 0 calc((100% - 200px)/2);
-        }
+    .succeed .succeedimage img {
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        margin: 0 calc((100% - 200px)/2);
+    }
 }
 
 @media (max-width:480px) {
@@ -3794,18 +3869,19 @@ address {
 
     .steparea {
         display: inline-block;
+        margin:0;
     }
 
-        .steparea .step {
-            margin: 25px 25%;
-            position: absolute;
-            width: 50%;
-        }
+    .steparea .step {
+        margin: 25px 25%;
+        position: absolute;
+        width: 50%;
+    }
 
-            .steparea .step h3 {
-                font-size: 32px;
-                margin: calc((100% - 36px)/2) 0;
-            }
+    .steparea .step h3 {
+        font-size: 32px;
+        margin: calc((100% - 36px)/2) 0;
+    }
 
     .registerconsentpaper p {
         height: 300px;
@@ -3826,27 +3902,27 @@ address {
         margin-bottom: 12.5px;
     }
 
-        .authentication .register-top-grid .authenticationarea span {
-            font-size: 1.2em;
-            font-weight: 600;
-        }
+    .authentication .register-top-grid .authenticationarea span {
+        font-size: 1.2em;
+        font-weight: 600;
+    }
 
-        .authentication .register-top-grid .authenticationarea input {
-            font-size: 0.9em;
-            font-weight: 600;
-        }
+    .authentication .register-top-grid .authenticationarea input {
+        font-size: 0.9em;
+        font-weight: 600;
+    }
 
     .succeed .succeedimage {
         height: 150px;
     }
 
-        .succeed .succeedimage img {
-            position: absolute;
-            width: 150px;
-            height: 150px;
-            margin: 0 calc((100% - 150px)/2);
-            background-color: white;
-        }
+    .succeed .succeedimage img {
+        position: absolute;
+        width: 150px;
+        height: 150px;
+        margin: 0 calc((100% - 150px)/2);
+        background-color: white;
+    }
 
     .succeed h3 {
         font-size: 1.5em;
@@ -3876,26 +3952,123 @@ address {
         height: 128px;
     }
 
-        .succeed .succeedimage img {
-            position: absolute;
-            width: 128px;
-            height: 128px;
-            margin: 0 calc((100% - 128px)/2);
-        }
+    .succeed .succeedimage img {
+        position: absolute;
+        width: 128px;
+        height: 128px;
+        margin: 0 calc((100% - 128px)/2);
+    }
 }
 
 #accountfunction {
     position: absolute;
     right: 2px;
     background-color: black;
-    z-index: 10;
+    z-index: 20;
 }
 
+#accountfunction li {
+    display: block;
+    border: none;
+    color: ghostwhite;
+    font-size:1em;
+    padding:1em 0.5em;
+}
+
+#accountfunction li img {
+    width:30px;
+    height:30px;
+    background-color:white;
+    border-radius:50%;
+    margin-right:5px;
+}
+
+#accountfunction li a {
+    color: ghostwhite;
+}
+
+#accountNoticeList {
+    position: absolute;
+    right: 2px;
+    z-index: 20;
+    height: 265px;
+    overflow: auto;
+}
+
+#accountNoticeNumber {
+    height:17px;
+    width:17px;
+    font-size:3px;
+    position:absolute;
+    left:1em;
+    bottom:1em;
+    color:white;
+    border-radius:50%;
+    background:red;
+    text-align:center;
+}
+
+#accountNoticeList li {
+    display: inline-block;
+    border: none;
+    color: ghostwhite;
+    font-size:1em;
+    padding:0.5em 0.5em;
+    border-bottom:1px solid white;
+    width: 100%;
+    float:left;
+}
+
+#accountNoticeList .readnotice {
+    background:black;
+}
+
+#accountNoticeList .notreadnotice {
+    background:#6d6d6d;
+}
+
+#accountNoticeList li img {
+    width:50px;
+    height:50px;
+    margin-right:5px;
+    float:left;
+}
+#accountNoticeList li pre {
+    display:block;
+    float:left;
+    width:calc(100% - 55px);
+    height:50px;
+    padding: 6px 9.7px;
+    margin:0;
+}
+#accountNoticeList li a {
+    color: ghostwhite;
+    display:block;
+    float:right;
+    margin-top:5px;
+}
+
+#accountNoticeList li a span {
+    top:3px;
+}
+
+
+
+#accountNotice img {
+    height:25px;
+    width:25px;
+}
+
+@media (max-width:991px) {   
     #accountfunction li {
-        display: block;
-        border: none;
-        color: ghostwhite;
+        font-size:0.95em;
     }
+}
+@media (max-width:320px) {   
+    #accountfunction li {
+        font-size:0.72em;
+    }
+}
 
 .scrollTopArea {
     position: fixed;
@@ -3904,36 +4077,30 @@ address {
     display: none;
 }
 
-    .scrollTopArea span {
-        width: 15px;
-        display: block;
-        margin: 0 auto;
-        visibility: hidden;
-    }
+.scrollTopArea span {
+    width: 15px;
+    display: block;
+    margin: 0 auto;
+    visibility: hidden;
+}
 
     .scrollTopArea .scrollTopButton {
-        font-weight: 100;
-        font-family: "Corben-Regular";
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        background-color: #dbfffe;
-        border: #cffcfb 2px solid;
-        margin-top: 10px;
-        text-align: center;
-    }
+    font-weight: 100;
+    font-family: "Corben-Regular";
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    background-color: #dbfffe;
+    border: #cffcfb 2px solid;
+    margin-top: 10px;
+    text-align: center;
+}
 
-        .scrollTopArea .scrollTopButton:hover {
-            background-color: #ffdddd;
-            transition: background-color 1s;
-            transition: border 0.5s;
-            border: #fccfcf 2px solid;
-        }
-
-@media (max-width:640px) {
-    .scrollTopArea {
-        top: 0;
-    }
+.scrollTopArea .scrollTopButton:hover {
+    background-color: #ffdddd;
+    transition: background-color 1s;
+    transition: border 0.5s;
+    border: #fccfcf 2px solid;
 }
 
 .innerPageSearch {
@@ -3994,3 +4161,9 @@ address {
                 width: 75px;
             }
 }
+
+#loadingImageArea {
+    margin:0;
+}
+
+

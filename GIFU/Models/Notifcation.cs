@@ -19,5 +19,7 @@ namespace GIFU.Models
         public string Url { get; set; }
         [DisplayName("時間")]
         public DateTime Time { get; set; }
+        [DisplayName("圖片網址")]
+        public string ImageUrl { get; set; }
     }
 }

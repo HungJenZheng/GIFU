@@ -10,7 +10,8 @@
                 <div class="input-group">
                     <div class="input-group-btn">
                         <select name="innerPageSearchTag" class="btn btn-info innerPageSearchTag" id="innerPageSearchTag">
-                            <option selected value="3C">3C用品</option>
+                            <option selected value="">全部商品</option>
+                            <option value="3C">3C用品</option>
                             <option value="GC">生活雜貨</option>
                             <option value="CL">男女服飾</option>
                             <option value="SN">文具書籍</option>
@@ -24,6 +25,8 @@
             </div>
             <h2>Our Products</h2>
             <div class="col-md-9 product-model-sec" id="container">
+            </div>
+            <div class="col-md-9 product-model-sec" id="loadingImageArea">
             </div>
             <div class="rsidebar span_1_of_left">
                 <section class="sky-form">
@@ -178,8 +181,8 @@
         $(window).scroll(function () {
             var goodsColumeNumber = parseInt(($('.product-model-sec').width() / $('.product-grid').outerWidth()));
             var windowBottomPosition = (window.pageYOffset + $(window).height());
-            if (windowBottomPosition > $('.header').height() + ($('.product-grid').outerHeight() * (totalGoodsNumber / goodsColumeNumber)) && !$("#loading-img")[0] && !isGoodsListBottom) {
-                $('#container').append(
+            if (windowBottomPosition > $('.header').height() + ($('.product-grid').outerHeight() * (totalGoodsNumber / goodsColumeNumber)) && !$("#loading-img")[0] && !isGoodsListBottom && waittime == 2) {
+                $('#loadingImageArea').append(
                     '<div class="loading-img" id="loading-img">' +
                     '<img src="../images/magnify.gif" id="loading_img" style="margin: 0 calc((100% - 150px)/2);">' +
                     '</div>'
@@ -194,12 +197,19 @@
         var value = location.href.split("?")[1].split("=")[1];
         if (tag1OrTitle == 'tag1') {
             SetSearchArg('', value, '');
-            $('.product-grid').css("display", "block");
+            $('#innerPageSearchTag option').removeAttr('selected');
+            for (i = 0; i < 7; i++) {
+                if ($('#innerPageSearchTag option:eq(' + i + ')').val() == value) {
+                    $('#innerPageSearchTag option:eq(' + i + ')').attr("selected","");
+                }
+            }
         }
         if (tag1OrTitle == 'search') {
             SetSearchArg(decodeURI(value), '', '');
             console.log(decodeURI(value));
-            $('.product-grid').css("display", "block");
+            $('#innerPageSearchTag option').removeAttr('selected');
+            $('#innerPageSearchTag option:eq(0)').attr("selected", "");
+
         }
     }
 
@@ -207,8 +217,8 @@
     function AnimateLoadingImage() {
         waittime -= 1;
         if (waittime == 0) {
-            SetSearchArgNextNO(nextNumber);
             $("#loading-img").remove();
+            SetSearchArgNextNO(nextNumber);
             waittime = 2;
             return;
         }

@@ -6,6 +6,7 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/style.css" rel="stylesheet" type="text/css" />
+
     <script src="~/Scripts/simpleCart.min.js"> </script>
     <script src="~/Scripts/jquery.min.js"></script>
     <script type="text/javascript" src="~/Scripts/bootstrap-3.1.1.min.js"></script>
@@ -18,7 +19,7 @@
         <div class="header-top">
             <div class="container">
                 <div class="top-right">
-                    <ul style="position:relative;">
+                    <ul class="headerFunctionList">
                         <li class="text"><a href="/Store/GoodsSearch?tag1=">查看商品<span class="glyphicon glyphicon-zoom-in"></span><span class="glyphicon glyphicon-chevron-right"></span></a></li>
                         @{
                             if (Session["username"] == null)
@@ -27,16 +28,23 @@
                             }
                             else
                             {
+                                <li class="text" id="accountNotice" onclick="SlideDownNotice()">
+                                    <a href="#"><img src="/images/bellImage.png"></a>
+                                    <p id="accountNoticeNumber" class="animated infinite jello">2</p>
+                                </li>
+                                <ul id="accountNoticeList" style="display:none;">
+                                    @*通知*@
+                                </ul>
                                 <li class="text" id="accountimginfo" onclick="SlideDownFunction()">
                                     <a href="#"><img src="/images/accountphoto.png" class="accountphoto">@Session["username"]</a>
                                     @*<input type="hidden" id="userId" value="@Session["userId"]">*@
                                     <p id="userId" style="display:none">@Session["userId"]</p>
                                 </li>
                                 <ul id="accountfunction" style="display:none;">
-                                    <li>管理個人</li>
-                                    <li>管理商品</li>
-                                    <li>管理訂單</li>
-                                    <li><a id="signout" href="#">登出</a></li>
+                                    <li><img src="/images/personalInfoImage.png"><a href="/Account/ManageInfo">管理個人</a></li>
+                                    <li><img src="/images/goodsImage.png"><a href="/Account/ManageGoods">管理商品</a></li>
+                                    <li><img src="/images/orderImage.png"><a href="/Account/ManageOrders">管理訂單</a></li>
+                                    <li><img src="/images/signoutImage.png"><a id="signout" href="#">登出</a></li>
                                 </ul>
                             }
                         }
@@ -81,8 +89,6 @@
                                 <li class="dropdown">
                                     <a href="/Store/GoodsSearch?tag1=OT" onclick="location.reload()">其他</a>
                                 </li>
-                                <!-- <li><a href="products.html">Top</a></li>
-                                <li><a href="products.html">Bikini</a></li> -->
                             </ul>
                         </div>
                         <!--/.navbar-collapse-->
@@ -178,6 +184,9 @@
 <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
 <script src="~/signalr/hubs"></script>
 <script>
+	var signOutUrl = '/Account/SignOut?ReturnUrl=' + encodeURIComponent(window.location.pathname);
+    var loginUrl = '/Account/Login?ReturnUrl=' + encodeURIComponent(window.location.pathname);
+
     $(document).ready(function () {
         // Declare a proxy to reference the hub.
         var notifications = $.connection.messagesHub;
@@ -197,7 +206,8 @@
     });
 
     function getAllMessages() {
-        var tbl = $('#messagesTable');
+        var tbl = $('#accountNoticeList');
+        //var tbl = $('#messagesTable');
         console.log("Update");
         $.ajax({
             url: '/Account/GetMessagesById',
@@ -235,14 +245,19 @@
         }
         $('#sb-search').removeClass('sb-search-open');
     });
+	window.addEventListener("resize", function () {
+        $('#accountfunction').width($('#accountimginfo').outerWidth());
+    });
 
     function SlideDownFunction() {
-        $('#accountfunction').slideToggle(300);
+		if ($('#accountfunction').css("display") == 'none') {
+            $('#accountNoticeList').fadeOut(300);
+            $('#accountfunction').fadeIn(300);
+        }
+        else {
+            $('#accountfunction').fadeOut(300);
+        }
     }
-
-    $('#accountfunction').width($('#accountimginfo').outerWidth());
-    var signOutUrl = '/Account/SignOut?ReturnUrl=' + encodeURIComponent(window.location.pathname);
-    var loginUrl = '/Account/Login?ReturnUrl=' + encodeURIComponent(window.location.pathname);
 
     //設定ScrollTopButton
     $('#scrollTopButton').hover(function () {
@@ -264,5 +279,16 @@
 
     function ScrollTop() {
         $('html,body').animate({ scrollTop: 0 }, 600);
+    }
+
+	//設定通知
+	function SlideDownNotice() {
+        if ($('#accountNoticeList').css("display") == 'none') {
+            $('#accountfunction').fadeOut(300);
+            $('#accountNoticeList').fadeIn(300);
+        }
+        else {
+            $('#accountNoticeList').fadeOut(300);
+        }
     }
 </script>

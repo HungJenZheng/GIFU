@@ -140,20 +140,26 @@
                             }
                         }
                     </div>
-                    <div class="formarea">
+                    <div class="formArea">
                         <h3>@Model.Title</h3>
                         <form>
-                            <p>理由:</p>
-                            <textarea id="applyforgoodsreason" maxlength="50" placeholder="如果贈與方無要求可以不填寫(最多輸入50個字)"></textarea>
-                            <p class="formnumber">數量:</p>
-                            <select id="applyforgoodsnumber">
-                                @for (int i = 1; i <= Model.Amount; i++)
-                                {
-                                    <option value="@i">@i</option>
-                                }
-                            </select>
-                            <p>地址:</p>
-                            <input type="text" id="applyforgoodsaddress" placeholder="請輸入地址">
+                            <div class="formNumberArea">
+                                <h4 class="formNumber">數量:</h4>
+                                <select id="applyforgoodsnumber" class="btn btn-default">
+                                    @for (int i = 1; i <= Model.Amount; i++)
+                                    {
+                                        <option value="@i">@i</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="formAddressArea">
+                                <h4>地址:</h4>
+                                <input type="text" id="applyforgoodsaddress" placeholder="請輸入地址">
+                            </div>
+                            <div class="formReasonArea">
+                                <h4>理由:</h4>
+                                <textarea id="applyforgoodsreason" maxlength="50" placeholder="如果贈與方無要求可以不填寫(最多輸入50個字)"></textarea>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -165,89 +171,142 @@
         </div>
     </div>
     <!--跳出視窗-->
-
+    <!--推薦商品-->
     <div class="related-products">
-        <div class="container">
-            <h3>Related Products</h3>
-            <div class="product-model-sec single-product-grids">
-
-                <div class="product-grid">
-                    <a href="/Store/GoodsDetail">
-                        <div class="product-img b-link-stripe b-animate-go  thickbox">
-                            <img src="/images/1/1.jpg" class="img-responsive" alt="">
-                            <div class="b-wrapper">
-                                <h4 class="b-animate b-from-left  b-delay03">
-                                    <button><span class="glyphicon glyphicon-zoom-in"></span></button>
-                                </h4>
-                            </div>
-                        </div>
-                    </a>
-                    <div class="product-info simpleCart_shelfItem">
-                        <div class="product-info-cust prt_name">
-                            <span class="item_tag">3C</span>
-                            <span class="item_price">SEIKO 潛水手錶</span>
-                            <div class="ofr">
-                                <p class="pric1">五成新</p>
-                                <p class="disc">2017-9-19</p>
-                            </div>
-                            <div class="clearfix"> </div>
+        <h2>推薦商品</h2>
+        <div class="col-md-12 product-model-sec recommend" id="container">
+            <div class="product-grid">
+                <a href="../Store/GoodsDetail/1">
+                    <div class="more-product"><span> </span></div>
+                    <div class="product-img b-link-stripe b-animate-go  thickbox">
+                        <img src="/images/1/1.jpg" class="img-responsive" alt="">
+                        <div class="b-wrapper">
+                            <h4 class="b-animate b-from-left  b-delay03">
+                                <button><span class="glyphicon glyphicon-zoom-in"></span></button>
+                            </h4>
                         </div>
                     </div>
-                </div>
-                <div class="product-grid">
-                    <a href="/Store/GoodsDetail">
-                        <div class="product-img b-link-stripe b-animate-go  thickbox">
-                            <img src="/images/1/1.jpg" class="img-responsive" alt="">
-                            <div class="b-wrapper">
-                                <h4 class="b-animate b-from-left  b-delay03">
-                                    <button><span class="glyphicon glyphicon-zoom-in"></span></button>
-                                </h4>
-                            </div>
+                </a>
+                <div class="product-info simpleCart_shelfItem">
+                    <div class="product-info-cust prt_name">
+                        <span class="item_tag">no1</span>
+                        <span class="item_price">text</span>
+                        <div class="ofr">
+                            <p class="pric1">9成新</p>
+                            <p class="disc">2017-07-01</p>
                         </div>
-                    </a>
-                    <div class="product-info simpleCart_shelfItem">
-                        <div class="product-info-cust prt_name">
-                            <span class="item_tag">3C</span>
-                            <span class="item_price">SEIKO 潛水手錶</span>
-                            <div class="ofr">
-                                <p class="pric1">五成新</p>
-                                <p class="disc">2017-9-19</p>
-                            </div>
-                            <div class="clearfix"> </div>
-                        </div>
+                        <div class="clearfix"> </div>
                     </div>
                 </div>
-                <div class="product-grid">
-                    <a href="/Store/GoodsDetail">
-                        <div class="product-img b-link-stripe b-animate-go  thickbox">
-                            <img src="/images/1/1.jpg" class="img-responsive" alt="">
-                            <div class="b-wrapper">
-                                <h4 class="b-animate b-from-left  b-delay03">
-                                    <button><span class="glyphicon glyphicon-zoom-in"></span></button>
-                                </h4>
-                            </div>
+            </div>
+            <div class="product-grid">
+                <a href="../Store/GoodsDetail/1">
+                    <div class="more-product"><span> </span></div>
+                    <div class="product-img b-link-stripe b-animate-go  thickbox">
+                        <img src="/images/1/1.jpg" class="img-responsive" alt="">
+                        <div class="b-wrapper">
+                            <h4 class="b-animate b-from-left  b-delay03">
+                                <button><span class="glyphicon glyphicon-zoom-in"></span></button>
+                            </h4>
                         </div>
-                    </a>
-                    <div class="product-info simpleCart_shelfItem">
-                        <div class="product-info-cust prt_name">
-                            <span class="item_tag">3C</span>
-                            <span class="item_price">SEIKO 潛水手錶</span>
-                            <div class="ofr">
-                                <p class="pric1">五成新</p>
-                                <p class="disc">2017-9-19</p>
-                            </div>
-                            <div class="clearfix"> </div>
+                    </div>
+                </a>
+                <div class="product-info simpleCart_shelfItem">
+                    <div class="product-info-cust prt_name">
+                        <span class="item_tag">no2</span>
+                        <span class="item_price">text</span>
+                        <div class="ofr">
+                            <p class="pric1">9成新</p>
+                            <p class="disc">2017-07-01</p>
                         </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+            </div>
+            <div class="product-grid">
+                <a href="../Store/GoodsDetail/1">
+                    <div class="more-product"><span> </span></div>
+                    <div class="product-img b-link-stripe b-animate-go  thickbox">
+                        <img src="/images/1/1.jpg" class="img-responsive" alt="">
+                        <div class="b-wrapper">
+                            <h4 class="b-animate b-from-left  b-delay03">
+                                <button><span class="glyphicon glyphicon-zoom-in"></span></button>
+                            </h4>
+                        </div>
+                    </div>
+                </a>
+                <div class="product-info simpleCart_shelfItem">
+                    <div class="product-info-cust prt_name">
+                        <span class="item_tag">no3</span>
+                        <span class="item_price">text</span>
+                        <div class="ofr">
+                            <p class="pric1">9成新</p>
+                            <p class="disc">2017-07-01</p>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+            </div>
+            <div class="product-grid">
+                <a href="../Store/GoodsDetail/1">
+                    <div class="more-product"><span> </span></div>
+                    <div class="product-img b-link-stripe b-animate-go  thickbox">
+                        <img src="/images/1/1.jpg" class="img-responsive" alt="">
+                        <div class="b-wrapper">
+                            <h4 class="b-animate b-from-left  b-delay03">
+                                <button><span class="glyphicon glyphicon-zoom-in"></span></button>
+                            </h4>
+                        </div>
+                    </div>
+                </a>
+                <div class="product-info simpleCart_shelfItem">
+                    <div class="product-info-cust prt_name">
+                        <span class="item_tag">no4</span>
+                        <span class="item_price">text</span>
+                        <div class="ofr">
+                            <p class="pric1">9成新</p>
+                            <p class="disc">2017-07-01</p>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+            </div>
+            <div class="product-grid">
+                <a href="../Store/GoodsDetail/1">
+                    <div class="more-product"><span> </span></div>
+                    <div class="product-img b-link-stripe b-animate-go  thickbox">
+                        <img src="/images/1/1.jpg" class="img-responsive" alt="">
+                        <div class="b-wrapper">
+                            <h4 class="b-animate b-from-left  b-delay03">
+                                <button><span class="glyphicon glyphicon-zoom-in"></span></button>
+                            </h4>
+                        </div>
+                    </div>
+                </a>
+                <div class="product-info simpleCart_shelfItem">
+                    <div class="product-info-cust prt_name">
+                        <span class="item_tag">no5</span>
+                        <span class="item_price">text</span>
+                        <div class="ofr">
+                            <p class="pric1">9成新</p>
+                            <p class="disc">2017-07-01</p>
+                        </div>
+                        <div class="clearfix"> </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <!--推薦商品-->
 </div>
 @*<button onclick="GetGoodsDetailByGoodsID(1)">index1</button>*@
 <script>
     var url = '/Account/Login?ReturnUrl='+encodeURIComponent(window.location.pathname);
     $(document).ready(function () {
+        //調整推薦商品區高度
+        ResizeRecommendCalcHeight();
+        //推薦商品slider
+        SliderRecommendGoods();
         //調整留言板
         ResizeQAMargin();
         //相簿輪播
@@ -271,7 +330,7 @@
         //是否需要理由
         if ('@Model.IsReason' == 'Y'){
             $('#applyforsubmit').addClass('disabled');
-            $('#applyforgoodsreason').change(function() {
+            $('#applyforgoodsreason').on('input', function() {
                 if (this.value === ''){
                     $('#applyforsubmit').addClass('disabled');
                 } else {
@@ -336,55 +395,13 @@
             }
         });
     });
-    //function GetGoodsDetailByGoodsID(goodsid) {
-    //    console.log("good");
-    //    goodsID.GoodId = goodsid;
-    //    GoodsContentByGoodsID(goodsID);
-    //    $('#slider').empty();
-    //    $('#slidernumberbutton').empty();
-    //    GoodsImagesByGoodsID(goodsID);
-    //}
 
-    //var goodsID = {
-    //    GoodId:""
-    //};
-
-    //function GoodsContentByGoodsID(goodsID)
-    //{
-    //    console.log(goodsID);
-    //    $.ajax({
-    //        type: "POST",
-    //        url: "/Store/GetGoodDetailById",
-    //        data: goodsID,
-    //        dataType: "json",
-    //        success: function (result) {
-    //            $('#goodstitle').text(result.Title);
-    //            $('#goodsnumber').text(result.Amount);
-    //            $('#goodsnew-degree').text(result.NewDegree);
-    //            $('#goodsintroduction').text(result.Introduction);
-    //            $('#goodsupdate-date').text(result.UpdateDate);
-    //        },
-    //        fail: function (error) {
-    //            console.log(error);
-    //        }
-    //    });
-    //}
-    //function GoodsImagesByGoodsID(goodsID) {
-    //    $.ajax({
-    //        type: "POST",
-    //        url: "/Store/GetGoodPicturePathById",
-    //        data: goodsID,
-    //        dataType: "json",
-    //        success: function (result) {
-    //            $.each(result, function (index, object) {
-    //                $('#slider').append('<img id="sliderimage'+ index + '" src="'+ object.Path +'" style="z-index: '+ index +';">');
-    //                $('#slidernumberbutton').append('<li onclick="SliderImageTo('+ index +');"><a href=""></a></li>');
-    //                sliderimagecalcimgheight();
-    //            });
-    //        },
-    //        fail: function (error) {
-    //            console.log(error);
-    //        }
-    //    });
-    //}
+    function SliderRecommendGoods(){
+        $('.recommend').append($('.recommend .product-grid:eq(0)'));
+        setTimeout(SliderRecommendGoods,2000);
+    }
+    window.addEventListener("resize", ResizeRecommendCalcHeight);
+    function ResizeRecommendCalcHeight(){
+        $('.recommend').height($('.product-grid').outerHeight());
+    }
 </script>

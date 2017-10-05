@@ -237,6 +237,9 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\_MessagesList.cshtml" />
+    <Content Include="Views\Account\ManageGoods.cshtml" />
+    <Content Include="Views\Account\ManageInfo.cshtml" />
+    <Content Include="Views\Account\ManageOrders.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

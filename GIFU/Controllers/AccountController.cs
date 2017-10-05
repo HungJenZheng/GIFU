@@ -18,6 +18,21 @@ namespace GIFU.Controllers
             return View();
         }
 
+        public ActionResult ManageInfo()
+        {
+            return View();
+        }
+
+        public ActionResult ManageOrders()
+        {
+            return View();
+        }
+
+        public ActionResult ManageGoods()
+        {
+            return View();
+        }
+
         /// <summary>
         /// 註冊頁面
         /// </summary>

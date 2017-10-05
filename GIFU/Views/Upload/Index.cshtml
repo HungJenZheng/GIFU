@@ -5,7 +5,7 @@
 
 <h2>Upload Index</h2>
 
-<form action="/Store/AddGoodsWithMultiPicture" method="post" enctype="multipart/form-data">
+<form action="/Store/AddGoodsWithMultiPicture" method="post" enctype="multipart/form-data" id="uploadForm">
     <p>
         <label for="userId">使用者ID</label>
         <input type="text" name="userId" value="1" />
@@ -42,3 +42,23 @@
     <input type="file" name="files" id="file" multiple/>
     <input type="submit" name="submit" value="Submit" />
 </form>
+<script>
+    $('#uploadForm').submit(function (e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        $.ajax({
+            type: "POST",
+            url: "/Store/AddGoodsWithMultiPicture",
+            data: formData,
+            dataType: "json",
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                ShowNotify(response.result, response.message);
+            }, fail: function (error) {
+
+            }
+        });
+    });
+</script>

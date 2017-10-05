@@ -1,58 +1,65 @@
 ﻿@model IEnumerable<GIFU.Models.Notification>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.NotificationId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ReceiveId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SendId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Content)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.GoodId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Url)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Time)
-        </th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+@foreach (var item in Model)
+{
+    <li class="notreadnotice">
+        <img @("src=" + item.ImageUrl) class="">
+        <pre>@item.Content</pre>
+        <a href="@item.Url">前往<span class="glyphicon glyphicon-chevron-right"></span></a>
+    </li>
+}
+@*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
         <tr>
             <th>
-                @Html.DisplayFor(modelItem => item.NotificationId)
+                @Html.DisplayNameFor(model => model.NotificationId)
             </th>
             <th>
-                @Html.DisplayFor(modelItem => item.ReceiveId)
+                @Html.DisplayNameFor(model => model.ReceiveId)
             </th>
             <th>
-                @Html.DisplayFor(modelItem => item.SendId)
+                @Html.DisplayNameFor(model => model.SendId)
             </th>
             <th>
-                @Html.DisplayFor(modelItem => item.Content)
+                @Html.DisplayNameFor(model => model.Content)
             </th>
             <th>
-                @Html.DisplayFor(modelItem => item.GoodId)
+                @Html.DisplayNameFor(model => model.GoodId)
             </th>
             <th>
-                @Html.DisplayFor(modelItem => item.Url)
+                @Html.DisplayNameFor(model => model.Url)
             </th>
             <th>
-                @Html.DisplayFor(modelItem => item.Time)
+                @Html.DisplayNameFor(model => model.Time)
             </th>
         </tr>
-    }
 
-</table>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th>
+                    @Html.DisplayFor(modelItem => item.NotificationId)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => item.ReceiveId)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => item.SendId)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => item.Content)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => item.GoodId)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => item.Url)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => item.Time)
+                </th>
+            </tr>
+        }
+
+    </table>*@

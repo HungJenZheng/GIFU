@@ -34,11 +34,14 @@ namespace GIFU.Models
                                   ,[RECEIVE_ID] AS ReceiveId
                                   ,[SEND_ID] AS SendId
                                   ,[CONTENT] AS Content
-                                  ,[GOOD_ID] AS GoodId
+                                  ,N.[GOOD_ID] AS GoodId
                                   ,[URL] AS Url
                                   ,[TIME] AS Time
-                              FROM [GIFU].[dbo].[NOTIFICATION]
-                              WHERE [RECEIVE_ID] = @UserId
+								  ,GP.[PATH] AS ImageUrl
+                              FROM [GIFU].[dbo].[NOTIFICATION] AS N
+								LEFT JOIN [GIFU].[dbo].[GOOD_PICTURE] AS GP
+									ON N.GOOD_ID = GP.GOOD_ID
+                              WHERE N.[RECEIVE_ID] = 1 AND GP.IS_MAIN = 'T'
                               ORDER BY [TIME] DESC";
             IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
             parameters.Add(new KeyValuePair<string, object>("@UserId", userId));

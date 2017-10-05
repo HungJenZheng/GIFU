@@ -23,10 +23,6 @@ namespace GIFU.Controllers
             return View();
         }
 
-        //public ActionResult GoodsDetail()
-        //{
-        //    return View();
-        //}
         public ActionResult GoodsDetail(string id)
         {
             if (id != null)
@@ -35,7 +31,7 @@ namespace GIFU.Controllers
                 Models.Goods goods = goodServices.GetGoodDetailById(goodId);
                 ViewBag.Pictures = goodServices.GetGoodPicturePathById(goodId);
                 ViewBag.Messages = goodServices.GetGoodsMessagesById(goodId);
-                    return View(goods);
+                return View(goods);
             }
             return RedirectToAction("GoodsSearch", "Store");
         }
@@ -117,6 +113,12 @@ namespace GIFU.Controllers
             return this.Json(Variable.GetResult(-1, "商品資訊輸入有誤"));
         }
 
+        /// <summary>
+        /// 上傳商品及多張圖片
+        /// </summary>
+        /// <param name="files"></param>
+        /// <param name="good"></param>
+        /// <returns></returns>
         [HttpPost]
         public JsonResult AddGoodsWithMultiPicture(IEnumerable<HttpPostedFileBase> files, Models.Goods good)
         {

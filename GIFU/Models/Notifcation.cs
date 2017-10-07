@@ -21,5 +21,7 @@ namespace GIFU.Models
         public DateTime Time { get; set; }
         [DisplayName("圖片網址")]
         public string ImageUrl { get; set; }
+        public string IsRead { get; set; }
+        public int? UnReadCount { get; set; }
     }
 }

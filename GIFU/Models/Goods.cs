@@ -23,7 +23,9 @@ namespace GIFU.Models
         [Required(ErrorMessage = "此欄位必填")]
         public string IsReason { get; set; }
         public int HitCount { get; set; }
-        public string PicPath { get; set; }
         public string UpdateDate { get; set; }
+        public string PicPath { get; set; }
+        public string Tag1Name { get; set; }
+        public string Tag2Name { get; set; }
     }
 }

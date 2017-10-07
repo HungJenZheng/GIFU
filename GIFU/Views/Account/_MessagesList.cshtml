@@ -3,7 +3,7 @@
 {
     <li class="notreadnotice">
         <img @("src=" + item.ImageUrl) class="">
-        <pre>@item.Content</pre>
+        <pre>@Html.Raw(@item.Content)</pre>
         <a href="@item.Url">前往<span class="glyphicon glyphicon-chevron-right"></span></a>
     </li>
 }

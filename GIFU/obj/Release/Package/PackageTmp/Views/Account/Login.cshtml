@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+}
+
+<div class="content">
+    <div class="main-1">
+        <div class="container">
+            <div class="login-page">
+                <div class="account_grid">
+                    <div class="col-md-6 login-left">
+                        <h3>加入會員</h3>
+                        <p>立即加入GIFU<br>可以對需要的商品提出要求<br>不需要的物品可以透過GIFU傳遞幸福<span class="glyphicon glyphicon-heart" style="top:3px;"></span></p>
+                        <a class="acount-btn" href="/Account/Register">Register</a>
+                    </div>
+                    <div class="col-md-6 login-right">
+                        <h3>登入會員</h3>
+                        <p>已經擁有帳號的GIFU會員<br>登入後開始享受GIFU帶給你的便利服務</p>
+                        <form name="login" method="post">
+                            <div>
+                                <span>Email Address<label>*</label></span>
+                                <input type="email" name="email">
+                            </div>
+                            <div>
+                                <span>Password<label>*</label></span>
+                                <input type="password" name="passwd">
+                            </div>
+                            <a class="forgot" href="#">Forgot Your Password?</a>
+                            <input type="submit" value="Login">
+                        </form>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        document.login.href = ('/Account/Login?ReturnUrl=' + encodeURIComponent(window.location.pathname));
+    });
+</script>

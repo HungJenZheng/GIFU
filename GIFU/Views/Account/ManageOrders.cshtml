@@ -1,9 +1,9 @@
 ﻿@{
     ViewBag.Title = "ManageOrders";
 }
-
-<link href="/Content/ManageOrders.css" rel="stylesheet" type="text/css" />
-
+@section css{
+    <link href="/Content/ManageOrders.css" rel="stylesheet" type="text/css" />
+}
 <body>
     <div class="container">
         <div class="row info">
@@ -35,7 +35,6 @@
                 </div>
             </div>
             <!-- 左側欄位-end -->
-
             <!-- 右側欄位 -->
             <div class="col-md-6 col-md-8 info-detail">
                 <div class="row">
@@ -49,7 +48,7 @@
                     <table class="order-list-t">
                         <tr>
                             <td class="goods-img-t">
-                                <img src="/images/profile_pic1.svg" style="height: 100px; width:100px;"/>
+                                <img src="/images/profile_pic1.svg" style="height: 100px; width:100px;" />
                             </td>
                             <td class="goods-status-t">
                                 <p>贈送方名字: 建宏</p>
@@ -145,8 +144,8 @@
                             </td>
                         </tr>
                     </table>
-            </div>
-            <!-- 右側欄位-end -->
+                </div>
+                <!-- 右側欄位-end -->
             </div>
         </div>
     </div>

@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "Upload";
+}
+
+<h2>Upload Index</h2>
+
+<form action="/Store/AddGoodsWithMultiPicture" method="post" enctype="multipart/form-data" id="uploadForm">
+    <p>
+        <label for="userId">使用者ID</label>
+        <input type="text" name="userId" value="1" />
+    </p>
+    <p>
+        <label for="title">標題</label>
+        <input type="text" name="title" value="測試新增商品" />
+    </p>
+    <p>
+        <label for="introduction">介紹</label>
+        <input type="text" name="introduction" value="測試新增商品測試新增商品測試新增商品測試新增商品" />
+    </p>
+    <p>
+        <label for="amount">數量</label>
+        <input type="number" name="name" value="10" />
+    </p>
+    <p>
+        <label for="newDegree">新舊程度</label>
+        <input type="range" name="newDegree" value="5" min="1" max="10" />
+    </p>
+    <p>
+        <label for="tag1">商品TAG1</label>
+        <input type="text" name="tag1" value="3C" />
+    </p>
+    <p>
+        <label for="tag2">商品TAG2</label>
+        <input type="text" name="tag2" value="1" />
+    </p>
+    <p>
+        <label for="tag1">是否需要理由</label>
+        <input type="text" name="isReason" value="F" />
+    </p>
+    <label for="file">Filename: </label>
+    <input type="file" name="files" id="file" multiple/>
+    <input type="submit" name="submit" value="Submit" />
+</form>
+<script>
+    $('#uploadForm').submit(function (e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        $.ajax({
+            type: "POST",
+            url: "/Store/AddGoodsWithMultiPicture",
+            data: formData,
+            dataType: "json",
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                ShowNotify(response.result, response.message);
+            }, fail: function (error) {
+
+            }
+        });
+    });
+</script>

@@ -23,8 +23,10 @@ namespace GIFU.Models
                                   AMOUNT AS Amount,
                                   NEW_DEGREE AS NewDegree,
                                   TAG1 AS Tag1,
-                                  (SELECT NAME FROM dbo.CODE WHERE CODE_KIND = TAG1 AND CODE_ID = TAG2) AS Tag2, 
-                                  CONVERT(VARCHAR, UPDATE_DATE, 120),
+                                  TAG2 AS Tag2,
+                                  (SELECT NAME FROM dbo.CODE WHERE CODE_KIND = 'TAG' AND CODE_ID = TAG1) AS Tag1Name, 
+                                  (SELECT NAME FROM dbo.CODE WHERE CODE_KIND = TAG1 AND CODE_ID = TAG2) AS Tag2Name, 
+                                  CONVERT(VARCHAR, UPDATE_DATE, 120) AS UpdateDate,
                                   GP.PATH PicPath
                         FROM dbo.GOOD G
                             LEFT JOIN dbo.GOOD_PICTURE GP
@@ -51,9 +53,9 @@ namespace GIFU.Models
         /// <summary>
         /// 根據GoodId取得商品詳細資訊
         /// </summary>
-        /// <param name="goodId"></param>
+        /// <param name="goodsId"></param>
         /// <returns></returns>
-        public Goods GetGoodDetailById(int? goodId)
+        public Goods GetGoodDetailById(int? goodsId)
         {
             DataTable dataTable;
             string sql = @"SELECT GOOD_ID   AS GoodId,
@@ -65,13 +67,15 @@ namespace GIFU.Models
                                   STATUS AS Status,
                                   TAG1 AS Tag1,
                                   TAG2 AS Tag2,
+                                  (SELECT NAME FROM dbo.CODE WHERE CODE_KIND = 'TAG' AND CODE_ID = TAG1) AS Tag1Name, 
+                                  (SELECT NAME FROM dbo.CODE WHERE CODE_KIND = TAG1 AND CODE_ID = TAG2) AS Tag2Name, 
                                   IS_REASON AS IsReason,
                                   HIT_COUNT AS HitCount, 
                                   CONVERT(VARCHAR, UPDATE_DATE, 120) AS UpdateDate
                         FROM dbo.GOOD
                         WHERE GOOD_ID = @GoodId";
             IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
-            parameters.Add(new KeyValuePair<string, object>("@GoodId", goodId ?? (object)string.Empty));
+            parameters.Add(new KeyValuePair<string, object>("@GoodId", goodsId ?? (object)string.Empty));
             dataTable = dataAccessTool.Query(Variable.GetConnectionString, sql, parameters);
             if (dataTable.Rows.Count > 0)
                 return DataMappingTool.GetModel<Goods>(dataTable.Rows[0]);
@@ -82,9 +86,9 @@ namespace GIFU.Models
         /// <summary>
         /// 根據GoodId取得商品留言
         /// </summary>
-        /// <param name="goodId"></param>
+        /// <param name="goodsId"></param>
         /// <returns></returns>
-        public List<GoodsMessage> GetGoodsMessagesById(int? goodId)
+        public List<GoodsMessage> GetGoodsMessagesById(int? goodsId)
         {
             DataTable dataTable;
             string sql = @"SELECT GOOD_ID AS GoodId, 
@@ -97,7 +101,7 @@ namespace GIFU.Models
                           WHERE GOOD_ID = @GoodId
                           ORDER BY COMMENT_NO ASC, [TYPE] DESC";
             IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
-            parameters.Add(new KeyValuePair<string, object>("@GoodId", goodId ?? (object)string.Empty));
+            parameters.Add(new KeyValuePair<string, object>("@GoodId", goodsId ?? (object)string.Empty));
             dataTable = dataAccessTool.Query(Variable.GetConnectionString, sql, parameters);
             if (dataTable.Rows.Count > 0)
                 return DataMappingTool.GetModelList<GoodsMessage>(dataTable);
@@ -153,22 +157,22 @@ namespace GIFU.Models
         /// <summary>
         /// 新增商品
         /// </summary>
-        /// <param name="good"></param>
+        /// <param name="goods"></param>
         /// <returns></returns>
-        public int AddGood(Goods good)
+        public int AddGood(Goods goods)
         {
             string sql = @"INSERT INTO dbo.GOOD([USER_ID], TITLE, INTRODUCTION, AMOUNT, NEW_DEGREE, TAG1, TAG2, IS_REASON, UPDATE_DATE)
                            VALUES(@UserId, @Title, @Introduction, @Amount, @NewDegree, @Tag1, @Tag2, @IsReason, GETDATE())
                            SELECT SCOPE_IDENTITY()";
             IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
-            parameters.Add(new KeyValuePair<string, object>("@UserId", good.UserId.NullToDBNullValue()));
-            parameters.Add(new KeyValuePair<string, object>("@Title", good.Title.NullToDBNullValue()));
-            parameters.Add(new KeyValuePair<string, object>("@Introduction", good.Introduction.NullToDBNullValue()));
-            parameters.Add(new KeyValuePair<string, object>("@Amount", good.Amount.NullToDBNullValue()));
-            parameters.Add(new KeyValuePair<string, object>("@NewDegree", good.NewDegree.NullToDBNullValue()));
-            parameters.Add(new KeyValuePair<string, object>("@Tag1", good.Tag1.NullToDBNullValue()));
-            parameters.Add(new KeyValuePair<string, object>("@Tag2", good.Tag2.NullToDBNullValue()));
-            parameters.Add(new KeyValuePair<string, object>("@IsReason", good.IsReason.NullToDBNullValue()));
+            parameters.Add(new KeyValuePair<string, object>("@UserId", goods.UserId.NullToDBNullValue()));
+            parameters.Add(new KeyValuePair<string, object>("@Title", goods.Title.NullToDBNullValue()));
+            parameters.Add(new KeyValuePair<string, object>("@Introduction", goods.Introduction.NullToDBNullValue()));
+            parameters.Add(new KeyValuePair<string, object>("@Amount", goods.Amount.NullToDBNullValue()));
+            parameters.Add(new KeyValuePair<string, object>("@NewDegree", goods.NewDegree.NullToDBNullValue()));
+            parameters.Add(new KeyValuePair<string, object>("@Tag1", goods.Tag1.NullToDBNullValue()));
+            parameters.Add(new KeyValuePair<string, object>("@Tag2", goods.Tag2.NullToDBNullValue()));
+            parameters.Add(new KeyValuePair<string, object>("@IsReason", goods.IsReason.NullToDBNullValue()));
             object result = dataAccessTool.ExecuteScalar(Variable.GetConnectionString, sql, parameters);
             return Convert.ToInt32(result);
         }
@@ -176,9 +180,9 @@ namespace GIFU.Models
         /// <summary>
         /// 更新書籍
         /// </summary>
-        /// <param name="good"></param>
+        /// <param name="goods"></param>
         /// <returns></returns>
-        public int UpdateGood(Goods good)
+        public int UpdateGood(Goods goods)
         {
             string sql = @"UPDATE dbo.GOOD SET 
                                 TITLE = @Title, 
@@ -191,14 +195,14 @@ namespace GIFU.Models
                                 UPDATE_DATE = GETDATE()
                            WHERE GOOD_ID = @GoodId";
             IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
-            parameters.Add(new KeyValuePair<string, object>("@GoodId", good.GoodId.NullToDBNullValue()));
-            parameters.Add(new KeyValuePair<string, object>("@Title", good.Title.NullToDBNullValue()));
-            parameters.Add(new KeyValuePair<string, object>("@Introduction", good.Introduction.NullToDBNullValue()));
-            parameters.Add(new KeyValuePair<string, object>("@Amount", good.Amount.NullToDBNullValue()));
-            parameters.Add(new KeyValuePair<string, object>("@NewDegree", good.NewDegree.NullToDBNullValue()));
-            parameters.Add(new KeyValuePair<string, object>("@Tag1", good.Tag1.NullToDBNullValue()));
-            parameters.Add(new KeyValuePair<string, object>("@Tag2", good.Tag2.NullToDBNullValue()));
-            parameters.Add(new KeyValuePair<string, object>("@IsReason", good.IsReason.NullToDBNullValue()));
+            parameters.Add(new KeyValuePair<string, object>("@GoodId", goods.GoodId.NullToDBNullValue()));
+            parameters.Add(new KeyValuePair<string, object>("@Title", goods.Title.NullToDBNullValue()));
+            parameters.Add(new KeyValuePair<string, object>("@Introduction", goods.Introduction.NullToDBNullValue()));
+            parameters.Add(new KeyValuePair<string, object>("@Amount", goods.Amount.NullToDBNullValue()));
+            parameters.Add(new KeyValuePair<string, object>("@NewDegree", goods.NewDegree.NullToDBNullValue()));
+            parameters.Add(new KeyValuePair<string, object>("@Tag1", goods.Tag1.NullToDBNullValue()));
+            parameters.Add(new KeyValuePair<string, object>("@Tag2", goods.Tag2.NullToDBNullValue()));
+            parameters.Add(new KeyValuePair<string, object>("@IsReason", goods.IsReason.NullToDBNullValue()));
             int result;
             result = dataAccessTool.ExecuteNonQuery(Variable.GetConnectionString, sql, parameters);
             return result;
@@ -207,15 +211,15 @@ namespace GIFU.Models
         /// <summary>
         /// 更新商品數量(For訂單使用)
         /// </summary>
-        /// <param name="good"></param>
+        /// <param name="goods"></param>
         /// <returns></returns>
-        public int UpdateGoodAmount(Goods good)
+        public int UpdateGoodAmount(Goods goods)
         {
             string sql = @"UPDATE dbo.GOOD SET AMOUNT = AMOUNT - @Amount
                            WHERE GOOD_ID = @GoodId";
             IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
-            parameters.Add(new KeyValuePair<string, object>("@GoodId", good.GoodId.NullToDBNullValue()));
-            parameters.Add(new KeyValuePair<string, object>("@Amount", good.Amount.NullToDBNullValue()));
+            parameters.Add(new KeyValuePair<string, object>("@GoodId", goods.GoodId.NullToDBNullValue()));
+            parameters.Add(new KeyValuePair<string, object>("@Amount", goods.Amount.NullToDBNullValue()));
             int result;
             result = dataAccessTool.ExecuteNonQuery(Variable.GetConnectionString, sql, parameters);
             return result;
@@ -224,9 +228,9 @@ namespace GIFU.Models
         /// <summary>
         /// 根據GoodId取得該商品的詳細圖片
         /// </summary>
-        /// <param name="goodId"></param>
+        /// <param name="goodsId"></param>
         /// <returns></returns>
-        public List<GoodsPicture> GetGoodPicturePathById(int? goodId)
+        public List<GoodsPicture> GetGoodPicturePathById(int? goodsId)
         {
             DataTable dataTable;
             string sql = @"SELECT GOOD_ID   AS GoodId,
@@ -236,7 +240,7 @@ namespace GIFU.Models
                            FROM GOOD_PICTURE
                            WHERE GOOD_ID = @GoodId";
             IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
-            parameters.Add(new KeyValuePair<string, object>("@GoodId", goodId ?? (object)string.Empty));
+            parameters.Add(new KeyValuePair<string, object>("@GoodId", goodsId ?? (object)string.Empty));
             dataTable = dataAccessTool.Query(Variable.GetConnectionString, sql, parameters);
             if (dataTable.Rows.Count > 0)
                 return DataMappingTool.GetModelList<GoodsPicture>(dataTable);
@@ -247,28 +251,43 @@ namespace GIFU.Models
         /// <summary>
         /// 新增商品照片
         /// </summary>
-        /// <param name="goodId"></param>
+        /// <param name="goodsId"></param>
         /// <param name="path"></param>
         /// <returns></returns>
-        public int AddPicturePath(int goodId, string path)
+        public int AddPicturePath(int goodsId, string path)
         {
             //取得目前最大的Pic_No
-            string sql = @"SELECT MAX(PIC_NO) FROM GOOD_PICTURE WHERE GOOD_ID = @GoodId";
+            string sql = @"SELECT MAX(PIC_NO) FROM GOOD_PICTURE WHERE GOOD_ID = @GoodsId";
             IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
-            parameters.Add(new KeyValuePair<string, object>("@GoodId", goodId));
+            parameters.Add(new KeyValuePair<string, object>("@GoodsId", goodsId));
             object obj = dataAccessTool.ExecuteScalar(Variable.GetConnectionString, sql, parameters);
             int maxNo = (obj != DBNull.Value) ? Convert.ToInt32(obj) : 0;
 
             sql = @"INSERT INTO dbo.GOOD_PICTURE
-                           VALUES(@GoodId, @PicNO, @Path, @IsMain)";
+                           VALUES(@GoodsId, @PicNO, @Path, @IsMain)";
             parameters.Clear();
-            parameters.Add(new KeyValuePair<string, object>("@GoodId", goodId));
+            parameters.Add(new KeyValuePair<string, object>("@GoodsId", goodsId));
             parameters.Add(new KeyValuePair<string, object>("@PicNO", maxNo + 1));
             parameters.Add(new KeyValuePair<string, object>("@Path", path));
             //第一張照片為Main
             if (maxNo == 0) parameters.Add(new KeyValuePair<string, object>("@IsMain", 'T'));
             else parameters.Add(new KeyValuePair<string, object>("@IsMain", 'F'));
 
+            int result = dataAccessTool.ExecuteNonQuery(Variable.GetConnectionString, sql, parameters);
+            return result;
+        }
+
+        /// <summary>
+        /// 增加商品點擊數
+        /// </summary>
+        /// <param name="goodsId"></param>
+        /// <returns></returns>
+        public int AddHitCount(int? goodsId)
+        {
+            string sql = @"UPDATE [GIFU].[dbo].[GOOD] SET [HIT_COUNT] = [HIT_COUNT] + 1
+                           WHERE GOOD_ID = @GoodsId";
+            IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
+            parameters.Add(new KeyValuePair<string, object>("@GoodsId", goodsId.NullToDBNullValue()));
             int result = dataAccessTool.ExecuteNonQuery(Variable.GetConnectionString, sql, parameters);
             return result;
         }

@@ -3460,11 +3460,12 @@ address {
     margin-right: 3px;
 }
 
-.goodstagpath .goodstag {
-    font-size: 1.5em;
+.goodstagpath .goodstag a {
+    font-size: 1.2em;
     float: left;
     display: block;
     color: #7f7f7f;
+    text-decoration: none;
 }
 
 @media(max-width: 991px) {

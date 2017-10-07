@@ -44,6 +44,13 @@ namespace GIFU.Controllers
         }
 
         [HttpPost]
+        public ActionResult GetGoodsByConditionsReturnView(Models.GoodsSearchArg arg)
+        {
+            var goods = goodServices.GetGoodsByConditions(arg);
+            return PartialView("_GoodsBox", goods);
+        }
+
+        [HttpPost]
         public JsonResult PlaceAMessage(Models.GoodsMessage msg)
         {
             Models.ResultVM resultVM = Variable.GetResult(-1, "請稍後嘗試");
@@ -74,34 +81,19 @@ namespace GIFU.Controllers
             }
             return this.Json(resultVM);
         }
-        //[HttpPost]
-        //public JsonResult GetGoodDetailById(string goodId)
-        //{
-        //    int id = Convert.ToInt32(goodId);
-        //    var good = goodServices.GetGoodDetailById(id);
-        //    return this.Json(good);
-        //}
-
-        //[HttpPost]
-        //public JsonResult GetGoodPicturePathById(string goodId)
-        //{
-        //    int id = Convert.ToInt32(goodId);
-        //    var goodPics = goodServices.GetGoodPicturePathById(id);
-        //    return this.Json(goodPics);
-        //}
 
         /// <summary>
         /// 新增商品、圖片
         /// </summary>
         /// <param name="file">上傳的圖片</param>
-        /// <param name="good">商品資訊</param>
+        /// <param name="goods">商品資訊</param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult AddGoods(HttpPostedFileBase file, Models.Goods good)
+        public JsonResult AddGoods(HttpPostedFileBase file, Models.Goods goods)
         {
             if (ModelState.IsValid && file != null)
             {
-                int goodId = goodServices.AddGood(good);
+                int goodId = goodServices.AddGood(goods);
                 Models.ResultVM resultVM;
                 //商品新增成功
                 if (goodId != 0)
@@ -117,15 +109,15 @@ namespace GIFU.Controllers
         /// 上傳商品及多張圖片
         /// </summary>
         /// <param name="files"></param>
-        /// <param name="good"></param>
+        /// <param name="goods"></param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult AddGoodsWithMultiPicture(IEnumerable<HttpPostedFileBase> files, Models.Goods good)
+        public JsonResult AddGoodsWithMultiPicture(IEnumerable<HttpPostedFileBase> files, Models.Goods goods)
         {
             Models.ResultVM resultVM;
             if (ModelState.IsValid && files != null)
             {
-                int goodId = goodServices.AddGood(good);
+                int goodId = goodServices.AddGood(goods);
                 if (goodId == 0) return this.Json(Variable.GetResult(-1, "商品新增失敗"));
                 foreach (var file in files)
                 {
@@ -134,7 +126,7 @@ namespace GIFU.Controllers
                         resultVM = attachmentHandler.SaveFile(file, Server.MapPath(Variable.GetSaveFilePath), goodId.ToString());
                         if (resultVM.result > 0)
                         {
-                            string path = Path.Combine("..", goodId.ToString(), file.FileName);
+                            string path = Path.Combine(goodId.ToString(), file.FileName);
                             path = path.Replace("\\", "/");
                             goodServices.AddPicturePath(goodId, path);
                         }
@@ -159,22 +151,29 @@ namespace GIFU.Controllers
         /// <summary>
         /// 更新商品資訊
         /// </summary>
-        /// <param name="good"></param>
+        /// <param name="goods"></param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult UpdateGood(Models.Goods good)
+        public JsonResult UpdateGood(Models.Goods goods)
         {
-            if (ModelState.IsValid && good.GoodId != null)
+            int result = -1;
+            string message = "商品資訊輸入有誤";
+            if (ModelState.IsValid && goods.GoodId != null)
             {
-                int result = goodServices.UpdateGood(good);
-                Models.ResultVM resultVM;
+                result = goodServices.UpdateGood(goods);
                 if (result > 0)
-                    resultVM = Variable.GetResult(result, good.Title + "更新成功");
+                    message = goods.Title + "更新成功";
                 else
-                    resultVM = Variable.GetResult(result, good.Title + "更新失敗");
-                return this.Json(resultVM);
+                    message = goods.Title + "更新失敗";
             }
-            return this.Json(Variable.GetResult(-1, "商品資訊輸入有誤"));
+            return this.Json(Variable.GetResult(result, message));
+        }
+
+        [HttpPost]
+        public JsonResult AddHitCount(int? goodId)
+        {
+            int result = goodServices.AddHitCount(goodId);
+            return this.Json(result);
         }
     }
 }

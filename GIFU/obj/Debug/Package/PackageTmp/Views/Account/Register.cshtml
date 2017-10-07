@@ -1,0 +1,164 @@
+﻿
+@{
+    ViewBag.Title = "Register";
+}
+<div class="content">
+    <!-- registration -->
+    <div class="main-1">
+        <div class="container">
+            <div class="steparea">
+                <div class="step consentstep" id="step1">
+                    <h3>同意書</h3>
+                </div>
+                <div class="step personalinfostep" id="step2">
+                    <h3>資料</h3>
+                </div>
+                <div class="step succeedstep" id="step4">
+                    <h3>成功</h3>
+                </div>
+            </div>
+            <script type="text/javascript">
+                window.addEventListener("resize", calcstepheight);
+                function calcstepheight() {
+                    $('.step').height($('.step').width() + 12);
+                    var margin = $('.step').css('margin-top');
+                    $('.steparea').height($('.step').height() + (margin.substr(0, 2)) * 2 + 12);
+                }
+            </script>
+            <div class="registerconsentpaper" id="registerstep1">
+                <p>
+                    一、 使用者於初次登錄帳戶時，必需填具詳實之個人資料，若發生資料不實，或者盜用他人資料時，本公司可以保留隨時終止您會員資格及使用各項服務資格之權利，使用者所登錄之資料事後有變更時，應至官方網站進行會員資料修改動作，倘若因資料不實或不全而造成使用者權益受損，一切後果皆使用者自行承擔。
+                    <br>二、 為維護整體環境秩序之健全與發展，您同意遵守本公司網站之相關公告，管理方法規章及罰則。
+                    <br>三、 若因天災，不可抗力或其它非人為因素而導致您的損失，本公司將無義務賠償此部分之損失。
+                    <br>四、 若您攻擊本公司伺服器或網站，本公司有權關閉您的IP地址。
+                    <br>五、 使用者基於公共安全，公共秩序與善良風俗，有以下各項情形是不被允許的：
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;1. 具有犯罪行為或是教唆犯罪之內容。
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;2. 反國家行為之內容。
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;3. 泛政治化議題。
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;4. 有害於善良風俗與其它社會秩序。
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;5. 損害他人名譽或侵害他人權利之內容。
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;6. 辱罵或者露骨性不雅的內容。
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;7. 暗中陷害其它使用者或者侵害人權之內容。
+                    <br>六、 使用者對本公司所提供之服務，若有使用服務以外的目的時，以下情形是不被允許的：
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;1. 捉弄，威脅其它使用者持續地騷擾固定的使用者，造成其它使用者不便的行為。
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;2. 自稱管理者或公司之行為。
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;3. 本公司未賦予的權利，如變更顧客程式，侵入伺服器，或任意變更網站的內容之情形。
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;4. 在網站上，刊登其它公司商品廣告或進行銷售活動之情形。
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;5. 在網站上，公開或秘密販賣不法物品。或有其它不法目的使用遊戲或網站之情形。
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;6. 在網站上，違反隱私資料的保護，或違反實際私生活的保護之情形。
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;7. 對人種、性別、特定宗教、宗教狂等社會偏激行為，甚至組成團體或公會之情形。
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;8. 轉讓予他人或以現金販賣使用者帳號一切物品之行為。
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;9. 惡意利用程式的錯誤從事之任何行為或刻意阻礙他人。
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;11. 未經著作權人的許可，在遊戲中網站發佈有可能引發著作權問題的行為。
+                    <br>九、 使用者並沒有本公司服務的所有權，所以當你勾選同意本使用者條約上有關使用權限的內容時，僅具有本遊戲的使用權而非所有權。
+                    <br>十、 非經本公司許可，使用者不可利用遊戲從事任何營業活動。
+                    <br>十一、 使用者不可侵害第三者的智慧財產權。
+                    <br>十二、 對違反條約及傷害本公司名譽之玩家，本公司得視情節終止其帳號之使用權。
+                    <br>十三、 玩家在網頁中若因不當行為或使用方式而遭致損害時，其責任歸屬於使用者本人，本公司不負任何責任。
+                    <br>十四、 使用者應遵守此同意書之內容與相關法令，不可以有損害其它公司名譽 或招致業務上明顯障礙的行為。
+                </p>
+                <button id="consentnextstepbutton" onclick="registernextstep(2)">Next Step</button>
+
+            </div>
+            <div class="register" style="display:none;" id="registerstep2">
+                <form id="register-form" action="/Account/Register" method="post">
+                    <div class="register-top-grid">
+                        <h3>LOGIN INFORMATION</h3>
+                        <div class="wow fadeInLeft FullArea" data-wow-delay="0.4s">
+                            <span>Email Address<label>*</label></span>
+                            <input type="text" oninput="CheckEmail()" name="Email" id="email">
+                            <span class="glyphicon glyphicon-ok-sign checkicon" id="emailcheck"></span>
+                            <p class="warningword" style="display:none;" id="emailwarningword">Email格式錯誤</p>
+                        </div>
+                        <div class="wow fadeInLeft LeftArea" data-wow-delay="0.4s">
+                            <span>Password<label>*</label></span>
+                            <input type="password" oninput="CheckPassword()" name="Passwd" maxlength="20" id="password">
+                            <span class="glyphicon glyphicon-ok-sign checkicon" id="passwordcheck"></span>
+                            <p class="warningword" style="display:none;" id="passwordwarningword">不可輸入非英文,數字</p>
+                        </div>
+                        <div class="wow fadeInRight RightArea" data-wow-delay="0.4s">
+                            <span>Confirm Password<label>*</label></span>
+                            <input type="password" oninput="CheckConfirmPassword()" maxlength="20" id="confirmpassword">
+                            <span class="glyphicon glyphicon-ok-sign checkicon" id="confirmpasswordcheck" title="title" data-toggle="popover" data-trigger="hover" data-placement="right" data-content="Content"></span>
+                            <p class="warningword" style="display:none;" id="confirmpasswordwarningword">與密碼不一致</p>
+                        </div>
+                        <div class="wow fadeInLeft LeftArea" data-wow-delay="0.4s">
+                            <span>Name<label>*</label></span>
+                            <input type="text" maxlength="5" id="name" name="Name">
+                            <p class="warningword" style="display:none;" id="namewarningword">Email格式錯誤</p>
+                        </div>
+                        <div class="wow fadeInRight RightArea" data-wow-delay="0.4s">
+                            <span>Sex<label>*</label></span>
+                            <div class="reigster-sex">
+                                <label class="radio-inline"><input type="radio" name="Sex" value="M" checked="checked">男</label>
+                                <label class="radio-inline"><input type="radio" name="Sex" value="F">女</label>
+                            </div>
+                        </div>
+                        <div class="wow fadeInLeft LeftArea" data-wow-delay="0.4s">
+                            <span>Birthday<label>*</label></span>
+                            <input type="date" id="birthday" name="Birthday" />
+                            <p class="warningword" style="display:none;" id="birthdaywarningword">Email格式錯誤</p>
+                        </div>
+                        <div class="wow fadeInLeft RightArea" data-wow-delay="0.4s">
+                            <span>CellPhone<label>*</label></span>
+                            <input type="text" maxlength="10" id="cellphone" name="Phone" oninput="CheckCellPhone()">
+                            <p class="warningword" style="display:none;" id="cellphonewarningword">Email格式錯誤</p>
+                        </div>
+                        <div class="wow fadeInLeft FullArea reigster-address" data-wow-delay="0.4s">
+                            <span>Address<label>*</label></span>
+                            <input type="text" id="address" name="Address">
+                            <p class="warningword" style="display:none;" id="addresswarningword">Email格式錯誤</p>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                    <div class="clearfix"> </div>
+                    <div class="register-but">
+                        <input type="reset" value="reset" onclick="ResetRegisterForm()">
+                        <input type="button" value="submit" onclick="submitregisterform('register', 'authentication')">
+                        <div class="clearfix"> </div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="authentication" style="display:none;" id="registerstep3">
+                <div class="register-top-grid">
+                    <div class="wow fadeInLeft authenticationarea" data-wow-delay="0.4s">
+                        <span>驗證碼 :</span>
+                        <input type="text" id="authentication">
+                    </div>
+                </div>
+                <div class="register-but">
+                    <form>
+                        <input type="reset" value="again">
+                        <input type="button" value="Next" onclick="registernextstep()">
+                        <div class="clearfix"> </div>
+                    </form>
+                    <button id="consentnextstepbutton" onclick="gotonext('authentication', 'succeed')">Next Step</button>
+                </div>
+            </div>
+            <div class="succeed" style="display:none;" id="registerstep4">
+                <div class="succeedimage">
+                    <img src="../images/checkedblack.png" id="checkedblack" style="z-index:1;" />
+                    <img src="../images/checkedgreen.png" id="checkedgreen" style="z-index:0;" />
+                </div>
+                <h3>倒數5秒返回首頁</h3>
+
+            </div>
+        </div>
+    </div>
+    <!-- registration -->
+</div>
+<p id="temp_result" style="display:none">@TempData["result"]</p>
+<p id="temp_message" style="display:none">@TempData["message"]</p>
+<script src="~/Scripts/register.js"></script>
+@{
+    if (TempData["Error"] != null)
+    {
+        <script>
+            $(document).ready(function () {
+                //alert('@TempData["Error"]');
+                CatchResultVM(-1, '@TempData["Error"]');
+            });
+        </script>
+    }
+}

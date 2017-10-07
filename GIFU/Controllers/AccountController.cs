@@ -18,16 +18,19 @@ namespace GIFU.Controllers
             return View();
         }
 
+        [Authorize]
         public ActionResult ManageInfo()
         {
             return View();
         }
 
+        [Authorize]
         public ActionResult ManageOrders()
         {
             return View();
         }
 
+        [Authorize]
         public ActionResult ManageGoods()
         {
             return View();
@@ -181,6 +184,23 @@ namespace GIFU.Controllers
         {
             List<Models.Notification> notifications = notificationServices.GetMessagesById(userId);
             return PartialView("_MessagesList", notifications);
+        }
+
+        /// <summary>
+        /// 標示訊息為已讀
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult SetAllMessagesWereRead(int? userId)
+        {
+            int result = notificationServices.SetIsRead(userId);
+            string message;
+            if (result > 0)
+                message = "訊息已讀";
+            else
+                message = "更新錯誤";
+            return this.Json(Variable.GetResult(result, message));
         }
     }
 }

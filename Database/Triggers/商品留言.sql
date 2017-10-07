@@ -18,8 +18,8 @@ BEGIN
 						WHEN 'A' THEN g.[USER_ID]
 				   END AS SEND_ID, 
 				   CASE [TYPE]
-						WHEN 'Q' THEN REPLACE((SELECT NAME FROM dbo.CODE WHERE CODE_KIND = 'NTI' AND CODE_ID = '4'), 'XXX', '<b>'+g.TITLE+'</b>')
-						WHEN 'A' THEN REPLACE((SELECT NAME FROM dbo.CODE WHERE CODE_KIND = 'NTI' AND CODE_ID = '5'), 'XXX', '<b>'+g.TITLE+'</b>')
+						WHEN 'Q' THEN REPLACE((SELECT NAME FROM dbo.CODE WHERE CODE_KIND = 'NTI' AND CODE_ID = '4'), 'XXX', '<b>' + g.TITLE + '</b>')
+						WHEN 'A' THEN REPLACE((SELECT NAME FROM dbo.CODE WHERE CODE_KIND = 'NTI' AND CODE_ID = '5'), 'XXX', '<b>' + g.TITLE + '</b>')
 				   END AS CONTENT,
 				   i.GOOD_ID AS GOOD_ID,
 				   '/Store/GoodsDetail/' + CAST(i.GOOD_ID AS varchar(20)) AS URL,

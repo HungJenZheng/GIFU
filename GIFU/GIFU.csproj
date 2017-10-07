@@ -158,14 +158,23 @@
     <Content Include="Content\flexslider.css" />
     <Content Include="Content\form.css" />
     <Content Include="Content\jquery-ui.css" />
+    <Content Include="Content\ManageGoods.css" />
+    <Content Include="Content\ManageInfo.css" />
+    <Content Include="Content\ManageOrders.css" />
     <Content Include="Content\owl.carousel.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\style.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap-3.1.1.min.js" />
+    <Content Include="Scripts\bootstrap-notify.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="fonts\Corben-Regular.ttf" />
+    <Content Include="fonts\OpenSans-Regular.ttf" />
+    <None Include="Properties\PublishProfiles\GIFU.pubxml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\classie.js" />
     <Content Include="Scripts\common.js" />
@@ -240,6 +249,7 @@
     <Content Include="Views\Account\ManageGoods.cshtml" />
     <Content Include="Views\Account\ManageInfo.cshtml" />
     <Content Include="Views\Account\ManageOrders.cshtml" />
+    <Content Include="Views\Store\_GoodsBox.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

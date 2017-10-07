@@ -27,6 +27,11 @@ namespace GIFU.Models
                 return new List<Notification>();
         }
 
+        /// <summary>
+        /// 根據UserId取得最新的十筆通知
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public List<Notification> GetMessagesById(int? userId)
         {
             DataTable dataTable;
@@ -38,10 +43,16 @@ namespace GIFU.Models
                                   ,[URL] AS Url
                                   ,[TIME] AS Time
 								  ,GP.[PATH] AS ImageUrl
+								  ,[IS_READ] AS IsRead
+								  ,SUM(CASE IS_READ
+									WHEN 'F' THEN 1
+									WHEN 'T' THEN 0
+									ELSE 0
+								  END) OVER (PARTITION BY RECEIVE_ID) AS UnReadCount
                               FROM [GIFU].[dbo].[NOTIFICATION] AS N
 								LEFT JOIN [GIFU].[dbo].[GOOD_PICTURE] AS GP
 									ON N.GOOD_ID = GP.GOOD_ID
-                              WHERE N.[RECEIVE_ID] = 1 AND GP.IS_MAIN = 'T'
+                              WHERE N.[RECEIVE_ID] = @UserId AND GP.IS_MAIN = 'T'
                               ORDER BY [TIME] DESC";
             IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
             parameters.Add(new KeyValuePair<string, object>("@UserId", userId));
@@ -50,6 +61,20 @@ namespace GIFU.Models
                 return DataMappingTool.GetModelList<Notification>(dataTable);
             else
                 return new List<Notification>();
+        }
+
+        /// <summary>
+        /// 標示訊息為已讀
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public int SetIsRead(int? userId)
+        {
+            string sql = @"UPDATE [GIFU].[dbo].[NOTIFICATION] SET IS_READ = 'T' WHERE RECEIVE_ID = @UserId";
+            IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
+            parameters.Add(new KeyValuePair<string, object>("@UserId", userId));
+            int result = dataAccessTool.ExecuteNonQuery(Variable.GetConnectionString, sql, parameters);
+            return result;
         }
     }
 }

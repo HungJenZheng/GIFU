@@ -2,7 +2,6 @@
 @{
     ViewBag.Title = "GoodsDetail";
 }
-@*<input type="hidden" id="goodId" value="@Model.GoodId">*@
 <p id="goodId" style="display:none">@Model.GoodId</p>
 <div class="content">
     <div class="single">
@@ -10,9 +9,10 @@
             <div class="single-grids">
                 <div class="row">
                     <div class="col-md-12 goodstagpath">
-                        <h4 class="goodstag">3C用品</h4>
-                        <span class="glyphicon glyphicon-chevron-right"></span>
-                        <h4 class="goodstag">3C其他</h4>
+                        <h4 class="goodstag"><a href=@("/Store/GoodsSearch?tag1="+Model.Tag1)>@Model.Tag1Name</a></h4>
+                        <span style="font-size: 1.5em;">>></span>
+                        @*<span class="glyphicon glyphicon-chevron-right"></span>*@
+                        <h4 class="goodstag"><a href=@("/Store/GoodsSearch?tag1="+Model.Tag1+"&tag2="+@Model.Tag2)>@Model.Tag2Name</a></h4>
                     </div>
                 </div>
                 <div class="col-md-6 single-grid">

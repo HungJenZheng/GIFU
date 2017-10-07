@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="DBConn-Web.config Connection String" description="DBConn Connection String used in web.config by the application to access the database." defaultValue="Data Source=DESKTOP-B7IAKHE\SQLEXPRESS;Initial Catalog=GIFU;Integrated Security=False;User ID=sa;Password=123;Connect Timeout=15;TrustServerCertificate=False" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\User\\documents\\visual\ studio\ 2015\\Projects\\GIFU\\GIFU\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DBConn']/@connectionString" />
+  </parameter>
+</parameters>

@@ -82,10 +82,11 @@ namespace GIFU.Models
             return result;
         }
 
-        public int UpdateStatus(string status)
+        public int UpdateStatus(int orderId, string status)
         {
-            string sql = @"UPDATE dbo.ORDER SET STATUS = @Status";
+            string sql = @"UPDATE dbo.ORDER SET STATUS = @Status, UPDATE_DATE = GETDATE() WHERE ORDER_ID = @OrderId";
             IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
+            parameters.Add(new KeyValuePair<string, object>("@OrderId", orderId.NullToDBNullValue()));
             parameters.Add(new KeyValuePair<string, object>("@Status", status.NullToDBNullValue()));
             int result;
             result = dataAccessTool.ExecuteNonQuery(Variable.GetConnectionString, sql, parameters);

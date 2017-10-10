@@ -121,7 +121,7 @@ namespace GIFU.Controllers
             Session["userId"] = account.UserId;
 
             //以下只會執行一個
-            FormsAuthentication.RedirectFromLoginPage(loginVM.Email, false);
+            //FormsAuthentication.RedirectFromLoginPage(loginVM.Email, false);
             //string returnRul = FormsAuthentication.GetRedirectUrl(loginVM.Email, false).TrimEnd('/');
             return Redirect(FormsAuthentication.GetRedirectUrl(loginVM.Email, false));
         }
@@ -132,6 +132,9 @@ namespace GIFU.Controllers
         [Authorize]
         public void SignOut()
         {
+            //HttpCookie cookie = FormsAuthentication.GetAuthCookie(User.Identity.Name, false);
+            //HttpCookie cookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            //FormsAuthenticationTicket decrypt = FormsAuthentication.Decrypt(cookie.Value);
             if (User.Identity.IsAuthenticated)
             {
                 //清除Session中的資料

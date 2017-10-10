@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/animate.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/style.css" rel="stylesheet" type="text/css" />
     @RenderSection("css", required: false)
     <script src="~/Scripts/simpleCart.min.js"> </script>
@@ -66,6 +67,15 @@
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
+                            <div id="headersearch">
+                                <div class="sb-search">
+                                    <form action="/Store/GoodsSearch" method="get">
+                                        <input class="sb-search-input" placeholder="搜尋..." type="search" name="search" onclick="event.stopPropagation()">
+                                        <input class="sb-search-submit" type="button">
+                                        <a href="/Store/GoodsSearch" class="searchbutton"><span class="sb-icon-search"></span></a>
+                                    </form>
+                                </div>
+                            </div>
                             <h1 class="navbar-brand"><a href="/Store/Index">GIFU</a></h1>
                         </div>
                         <!--/.navbar-header-->
@@ -97,11 +107,11 @@
                     <!--/.navbar-->
                 </div>
                 <div class="search-box">
-                    <div id="sb-search" class="sb-search">
-                        <form action="/Store/GoodsSearch" method="get" id="searchForm">
-                            <input class="sb-search-input" placeholder="搜尋..." type="search" name="search" id="search">
-                            <input class="sb-search-submit" type="button" id="searchSubmitButton">
-                            <a href="/Store/GoodsSearch" id="searchbutton"><span class="sb-icon-search"></span></a>
+                    <div class="sb-search">
+                        <form action="/Store/GoodsSearch" method="get" class="searchForm">
+                            <input class="sb-search-input" placeholder="搜尋..." type="search" name="search" onclick="event.stopPropagation()">
+                            <input class="sb-search-submit" type="button">
+                            <a href="/Store/GoodsSearch" class="searchbutton"><span class="sb-icon-search"></span></a>
                         </form>
                     </div>
                 </div>
@@ -125,34 +135,35 @@
                 <div class="footer-grids">
                     <div class="col-md-2 footer-grid">
                         <h4>商品分類</h4>
-                        <ul>
-                            <li><a href="products.html">3C用品</a></li>
-                            <li><a href="#">生活雜貨</a></li>
-                            <li><a href="#">男女服飾</a></li>
-                            <li><a href="#">文具書籍</a></li>
-                            <li><a href="#">電玩相關</a></li>
-                            <li><a href="#">其他商品</a></li>
+                        <ul class="footerularea">
+                            <li><a href="Store/GoodsSearch?tag1=3C">3C用品</a></li>
+                            <li><a href="Store/GoodsSearch?tag1=GC">生活雜貨</a></li>
+                            <li><a href="Store/GoodsSearch?tag1=CL">男女服飾</a></li>
+                            <li><a href="Store/GoodsSearch?tag1=SN">文具書籍</a></li>
+                            <li><a href="Store/GoodsSearch?tag1=GM">電玩相關</a></li>
+                            <li><a href="Store/GoodsSearch?tag1=OT">其他商品</a></li>
                         </ul>
                     </div>
                     <div class="col-md-2 footer-grid">
                         <h4>會員中心</h4>
-                        <ul>
-                            <li><a href="#">基本資料</a></li>
-                            <li><a href="#">商品管理</a></li>
-                            <li><a href="#">訂單管理</a></li>
-                            <li><a href="contact.html">Contact Us</a></li>
+                        <ul class="footerularea">
+
+                            <li><a href="/Account/Register">註冊會員</a></li>
+
+                            <li><a href="/Account/Login">立即登錄</a></li>
+                            <li><a href="#">Contact Us</a></li>
                         </ul>
                     </div>
                     <div class="col-md-2 footer-grid">
                         <h4>關於我們</h4>
-                        <ul>
+                        <ul class="footerularea">
                             <li><a href="#">主要理念</a></li>
                             <li><a href="#">未來展望</a></li>
                         </ul>
                     </div>
                     <div class="col-md-2 footer-grid">
                         <h4>加入我們</h4>
-                        <ul>
+                        <ul class="footerularea">
                             <li><a href="#">前端設計</a></li>
                             <li><a href="#">後端管理</a></li>
                             <li><a href="#">活動企劃</a></li>
@@ -221,6 +232,10 @@
             data: { userId: @Session["userId"] }
         }).success(function (result) {
             tbl.empty().append(result);
+            $('#accountNoticeNumber').text($('#unReadCount').text());
+            if($('#unReadCount').text() > 0){
+                $('#accountNoticeNumber').fadeIn();
+            }
         }).error(function (error) {
             console.log(error);
         });
@@ -240,24 +255,32 @@
     });
     //===============================================
 
-    $('#searchbutton').click(function (e) {
+    $('.searchbutton').click(function (e) {
+
         e.preventDefault();
-        $('#sb-search').addClass('sb-search-open');
+		event.stopPropagation();
+        $(this).parent().parent().addClass('sb-search-open');
     });
-    $('#searchSubmitButton').click(function (e) {
-        if ($('#search').val() != "") {
-            console.log($('#search').val());
-            $('#searchForm').submit();
+
+    $('.sb-search-submit').click(function (e) {
+        console.log("submit");
+        if ($(this).parent().find('.sb-search-input').val() != "") {
+
+            $(this).parent().submit();
         }
-        $('#sb-search').removeClass('sb-search-open');
+        $(this).parent().parent().removeClass('sb-search-open');
     });
+
     window.addEventListener("resize", function () {
         $('#accountfunction').width($('#accountimginfo').outerWidth());
     });
 
     function SlideDownFunction() {
+		event.stopPropagation();
         if ($('#accountfunction').css("display") == 'none') {
             $('#accountNoticeList').fadeOut(300);
+            $('#accountNoticeList li').removeClass('notreadnotice');
+            $('#accountNoticeList li').addClass('readnotice');
             $('#accountfunction').fadeIn(300);
         }
         else {
@@ -267,7 +290,6 @@
 
     //設定ScrollTopButton
     $('#scrollTopButton').hover(function () {
-        console.log("!!");
         $('#arrowup2').css('visibility', 'visible');
         $('#arrowup1').css('visibility', 'visible');
     }, function () {
@@ -289,12 +311,47 @@
 
     //設定通知
     function SlideDownNotice() {
+		event.stopPropagation();
         if ($('#accountNoticeList').css("display") == 'none') {
             $('#accountfunction').fadeOut(300);
             $('#accountNoticeList').fadeIn(300);
+            if($('#accountNoticeNumber').css('display') == 'block'){
+                PostAjaxSetAllMessagesWereRead();
+            }
         }
         else {
             $('#accountNoticeList').fadeOut(300);
+            $('#accountNoticeList li').removeClass('notreadnotice');
+            $('#accountNoticeList li').addClass('readnotice');
         }
     }
+
+    function PostAjaxSetAllMessagesWereRead(){
+        $.ajax({
+            type:"POST",
+            url:"/Account/SetAllMessagesWereRead",
+            data:{userId: $('#userId').text()},
+            dataType:"json"
+        }).success(function (result){
+            //ShowNotify(result.result,result.message);
+        }).error(function(error){
+            console.log(error);
+        });
+        $('#accountNoticeNumber').fadeOut();
+    }
+
+    document.addEventListener('click', function (ev) {
+        $('#accountNoticeList').fadeOut(300);
+        $('#accountNoticeList li').removeClass('notreadnotice');
+        $('#accountNoticeList li').addClass('readnotice');
+        $('#accountfunction').fadeOut(300);
+        $('.sb-search').removeClass('sb-search-open');
+    });
+
+    //S版面FooterUL下拉功能
+    $('.footer-grid').click(function () {
+        if ($('body').width() < 640) {
+            $(this).find('.footerularea').slideToggle(300);
+        }
+    });
 </script>

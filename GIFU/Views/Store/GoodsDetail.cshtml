@@ -12,7 +12,7 @@
                         <h4 class="goodstag"><a href=@("/Store/GoodsSearch?tag1="+Model.Tag1)>@Model.Tag1Name</a></h4>
                         <span style="font-size: 1.5em;">>></span>
                         @*<span class="glyphicon glyphicon-chevron-right"></span>*@
-                        <h4 class="goodstag"><a href=@("/Store/GoodsSearch?tag1="+Model.Tag1+"&tag2="+@Model.Tag2)>@Model.Tag2Name</a></h4>
+                        <h4 class="goodstag"><a href=@("/Store/GoodsSearch?tag1="+Model.Tag1+"?tag2="+@Model.Tag2)>@Model.Tag2Name</a></h4>
                     </div>
                 </div>
                 <div class="col-md-6 single-grid">
@@ -52,6 +52,7 @@
                     </script>
                 </div>
                 <div class="col-md-6 single-grid simpleCart_shelfItem">
+                    <span id="goodsUserId" style="display:none;">@Model.UserId</span>
                     <h3 class="goodsname" id="goodstitle">@Model.Title</h3>
                     <div class="galry">
                         <p class="goodsnumber" id="goodsamount">數量 : <span>@Model.Amount</span></p>
@@ -74,9 +75,9 @@
     <div class="container">
         @foreach (var item in (List<GIFU.Models.GoodsMessage>)ViewBag.Messages)
         {
-            <div class="row">
-                @if (item.Type == "Q")
-                {
+            if (item.Type == "Q")
+            {
+                <div class="row questionRow">
                     <div class="question" @("id=question" + @item.CommentNo)>
                         <div class="questionimage" @("id=questionimage" + @item.CommentNo)>
                             <h4>Q</h4>
@@ -86,10 +87,13 @@
                             <p class="content">@item.Message</p>
                         </div>
                         <p class="questiondate">@item.Time<a href="#"><span class="glyphicon glyphicon-exclamation-sign"></span></a></p>
+                        <button class="answerButton btn btn-warning">答覆</button>
                     </div>
-                }
-                else if (item.Type == "A")
-                {
+                </div>
+            }
+            else if (item.Type == "A")
+            {
+                <div class="row">
                     <div class="answer" @("id=answer" + item.CommentNo)>
                         <div class="answerimage" @("id=answerimage" + @item.CommentNo)>
                             <h4>A</h4>
@@ -100,10 +104,10 @@
                         </div>
                         <p class="answerdate">@item.Time<a href="#"><span class="glyphicon glyphicon-exclamation-sign"></span></a></p>
                     </div>
-                }
-            </div>
+                </div>
+            }
         }
-        <div class="row">
+        <div class="row askquestionRow">
             <div class="col-md-2"></div>
             <div class="col-md-8 ">
                 <div class="askquestion row">
@@ -303,6 +307,8 @@
 <script>
     var url = '/Account/Login?ReturnUrl='+encodeURIComponent(window.location.pathname);
     $(document).ready(function () {
+        //判斷是否為商品持有者
+        CheckGoodsUserId();
         //調整推薦商品區高度
         ResizeRecommendCalcHeight();
         //推薦商品slider
@@ -340,10 +346,22 @@
         }
     });
 
+    function CheckGoodsUserId(){
+        var questionTotalNumber = $('.container').children('.questionRow').length;
+        if($('#userId').text() == $('goodsUserId').text()){
+            for (i = 1; i <= questionTotalNumber; i++) {
+                if($('#answer' + i) != null){
+                    $('#question'+ i + ' .answerButton').fadeIn();
+                }
+            }
+        }
+    }
+
     window.addEventListener("resize", ResizeQAMargin);
 
     function ResizeQAMargin() {//TODO 修改留言數量
-        for (i = 1; i <= 3; i++)
+        var questionTotalNumber = $('.container').children('.questionRow').length;
+        for (i = 1; i <= questionTotalNumber; i++)
         {
             $('#answerimage' + i).css('margin-top', ($('#answer' + i).height() - $('#answerimage' + i).height()) / 2);
             $('#questionimage' + i).css('margin-top', ($('#question' + i).height() - $('#questionimage' + i).height()) / 2);
@@ -389,12 +407,34 @@
             dataType: "json",
             success: function (result) {
                 ShowNotify(result.result, result.message);
+                AppendAskQuestion();
+                $('#askQuestion').val("");
+                ResizeQAMargin();
             },
             fail: function (error) {
                 console.log(error);
             }
         });
     });
+
+    function AppendAskQuestion(){
+        var questionNextNumber = ($('.container').children('.questionRow').length) + 1;
+        var today = new Date();
+        $('.container .askquestionRow').before(
+            '<div class="row questionRow">' +
+                '<div class="question" id="question'+ questionNextNumber +'">' +
+                    '<div class="questionimage" id="questionimage'+ questionNextNumber +'">' +
+                        '<h4>Q</h4>' +
+                        '<img src="/images/accountphoto.png" />' +
+                    '</div>' +
+                    '<div class="questioncontent">' +
+                        '<p class="content">'+ $('#askQuestion').val() +'</p>' +
+                    '</div>' +
+                    '<p class="questiondate">'+ today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate() +'<a href="#"><span class="glyphicon glyphicon-exclamation-sign"></span></a></p>' +
+                '</div>' +
+            '</div>'
+        );
+    }
 
     function SliderRecommendGoods(){
         $('.recommend').append($('.recommend .product-grid:eq(0)'));
@@ -404,4 +444,27 @@
     function ResizeRecommendCalcHeight(){
         $('.recommend').height($('.product-grid').outerHeight());
     }
+
+    $('.answerButton').click(function (){
+        var commentNo = ($(this).parent().attr('id')).substring(8);
+        console.log(commentNo);
+        $(this).parent().parent().after(
+        '<div class="row">'+
+                '<div class="answer" id="answer'+ commentNo +'">'+
+                    '<div class="answerimage" id="answerimage'+ commentNo +'">'+
+                        '<h4>A</h4>'+
+                        '<img src="/images/accountphoto.png" />'+
+                   ' </div>'+
+                    '<div class="answercontent">'+
+                        '<textarea class="content" maxlength="50" placeholder="答覆此問題(最多輸入50個字)"></textarea>'+
+                    '</div>'+
+                   '<button class="answerQuestionButton btn btn-info">回覆</button>'+
+                '</div>'+
+            '</div>'
+        );
+        $('#answer' + commentNo).parent().hide().fadeIn();
+        ResizeQAMargin();
+        $(this).fadeOut();
+
+    });
 </script>

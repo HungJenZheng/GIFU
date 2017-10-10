@@ -159,7 +159,7 @@ namespace GIFU.Models
         /// </summary>
         /// <param name="goods"></param>
         /// <returns></returns>
-        public int AddGood(Goods goods)
+        public int AddGoods(Goods goods)
         {
             string sql = @"INSERT INTO dbo.GOOD([USER_ID], TITLE, INTRODUCTION, AMOUNT, NEW_DEGREE, TAG1, TAG2, IS_REASON, UPDATE_DATE)
                            VALUES(@UserId, @Title, @Introduction, @Amount, @NewDegree, @Tag1, @Tag2, @IsReason, GETDATE())
@@ -182,7 +182,7 @@ namespace GIFU.Models
         /// </summary>
         /// <param name="goods"></param>
         /// <returns></returns>
-        public int UpdateGood(Goods goods)
+        public int UpdateGoods(Goods goods)
         {
             string sql = @"UPDATE dbo.GOOD SET 
                                 TITLE = @Title, 
@@ -203,6 +203,16 @@ namespace GIFU.Models
             parameters.Add(new KeyValuePair<string, object>("@Tag1", goods.Tag1.NullToDBNullValue()));
             parameters.Add(new KeyValuePair<string, object>("@Tag2", goods.Tag2.NullToDBNullValue()));
             parameters.Add(new KeyValuePair<string, object>("@IsReason", goods.IsReason.NullToDBNullValue()));
+            int result;
+            result = dataAccessTool.ExecuteNonQuery(Variable.GetConnectionString, sql, parameters);
+            return result;
+        }
+
+        public int DeleteGoods(int? goodsId)
+        {
+            string sql = @"DELETE FROM [GIFU].[dbo].[GOOD] WHERE GOOD_ID = @GoodId";
+            IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
+            parameters.Add(new KeyValuePair<string, object>("@GoodId", goodsId.NullToDBNullValue()));
             int result;
             result = dataAccessTool.ExecuteNonQuery(Variable.GetConnectionString, sql, parameters);
             return result;
@@ -273,6 +283,15 @@ namespace GIFU.Models
             if (maxNo == 0) parameters.Add(new KeyValuePair<string, object>("@IsMain", 'T'));
             else parameters.Add(new KeyValuePair<string, object>("@IsMain", 'F'));
 
+            int result = dataAccessTool.ExecuteNonQuery(Variable.GetConnectionString, sql, parameters);
+            return result;
+        }
+
+        public int DeletePicturePathByGoodsId(int goodsId)
+        {
+            string sql = @"DELETE FROM [GIFU].[dbo].[GOOD_PICTURE] WHERE GOOD_ID = @GoodId";
+            IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
+            parameters.Add(new KeyValuePair<string, object>("@GoodsId", goodsId));
             int result = dataAccessTool.ExecuteNonQuery(Variable.GetConnectionString, sql, parameters);
             return result;
         }

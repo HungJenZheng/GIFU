@@ -58,7 +58,7 @@ namespace GIFU.Tools
                     && extension != ".gif" && extension != ".mpg"
                     && extension != ".mpeg")
                 {
-                    res = "Error:檔案類型限制:jpg, jpeg, gif, bmp, png, tif, tiff, doc, docx, xls, xlsx,txt, rtf, ppt, pptx, pdf, mpg, mpeg, avi, wmv, rm, mov, mkv, dat, 3gp, mp3, mp4, wav, zip, rar, 7z";
+                    res = "Error:檔案類型限制:jpg, jpeg, gif, bmp, png, mpg, mpeg";
                 }
             }
 

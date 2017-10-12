@@ -14,6 +14,7 @@ a {
 .info {
     background-color: black;
     border: 2px solid black;
+    margin-top: 40px;
 }
 
 .info-area {
@@ -82,6 +83,7 @@ a {
     font-size: 1.4rem;
     color: rgba(100, 100, 100, 1);
     border-left: 2px solid black;
+    min-height: 800px;
 }
 
 .page-title h1 {
@@ -97,69 +99,104 @@ a {
     border-top: 2px solid rgba(100, 100, 100, 1);
 }
 
-.order-area {
-    padding-left: 10%;
-    padding-right: 10%;
-}
 /*======================================================================================*/
+.modal-header, .modal-footer {
+    background-color: #1c294c;
+    color: white;
+}
 
-.order-list-t {
+.modal-content {
+    border: 2px solid #1c294c;
+}
+
+.modal-header .close {
+    color: white;
+}
+
+.modal-title {
+    color: rgb(140, 148, 164);
+}
+/*====================================*/
+
+.goods-info .goods-statust {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.goods-info-list {
     width: 100%;
-}
-
-    .order-list-t .transport-status-t {
-        text-align: center;
-        vertical-align: middle;
-    }
-/*======================================================================================*/
-.order-list-t {
     border-collapse: separate;
     border-spacing: 0 30px;
 }
 
-.order-list img {
-    max-height: 100px;
-    max-width: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.order-list .img-area {
-    height: 100px;
+.goods-info .goods-img {
     width: 100px;
-    margin-left: auto;
-    margin-right: auto;
+    height: 100px;
 }
 
-.order-list .goods-status {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    /*padding-left: 10%;*/
+.goods-info:hover {
+    background-color: #eff0f2;
 }
 
-.order-list .transport-status {
-    align-items: center;
+.goods-info:hover {
+    cursor: pointer;
+}
+
+
+/*=================================*/
+.applyModalInfo p {
+    font-size: 1.5rem;
+    color: gray;
+}
+
+.applyModalInfo span, .applyModalInfo pre {
+    font-size: 1.5rem;
+    color: black;
+}
+
+#apply-goods-status {
+    height: 40px;
+    line-height: 35px;
+    font-size: 1.8rem;
     text-align: center;
-    justify-content: center;
-    font-size: 1.6rem;
+    border-top: 2px solid #1c294c;
+    border-bottom: 2px solid #1c294c;
+    background-color: #f5f5f5;
+    color: #1c294c;
+    text-align: center;
+    vertical-align: middle;
+    padding: 0 5px;
+    margin-top: 15px;
 }
 
+.apply-goods-info table {
+    width: 100%;
+    font-size: 1.5rem;
+}
+
+.apply-goods-info th {
+    width: 35%;
+    font-weight: normal;
+    color: gray;
+    padding-bottom: 4px;
+}
+
+.apply-goods-info td {
+    width: 65%;
+    padding-bottom: 4px;
+}
+/*=================================*/
 @media (max-width:992px) {
     #profile_pic img {
         height: 80px;
         width: 80px;
     }
 
-    .info-detail {
-        background-color: white;
-        float: right;
-        width: 75%;
-    }
+.info-detail {
+    background-color: white;
+    float: right;
+    width: 75%;
+}
 }
 
 @media (max-width:768px) {
@@ -195,10 +232,6 @@ a {
     }
 
     .function-area {
-        /* font-size: 1.6rem;
-        white-space: nowrap; 
-        display:inline-block;
-        margin-right:10px;*/
         padding-right: 0px;
         padding-left: 0px;
     }
@@ -213,5 +246,4 @@ a {
         width: 100%;
     }
 }
-
-/*========*/
+/*=================================*/

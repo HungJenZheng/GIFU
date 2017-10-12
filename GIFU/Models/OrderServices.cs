@@ -29,7 +29,7 @@ namespace GIFU.Models
 	                        JOIN dbo.GOOD_PICTURE G
 		                        ON O.GOOD_ID = G.GOOD_ID
                         WHERE (O.GOOD_ID = @GoodId) OR
-                              ([USER_ID] = @UserId) AND
+                              (O.[USER_ID] = @UserId) AND
 	                          G.IS_MAIN = 'T'";
             IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
             parameters.Add(new KeyValuePair<string, object>("@GoodId", arg.GoodId.NullToDBNullValue()));
@@ -39,6 +39,44 @@ namespace GIFU.Models
                 return DataMappingTool.GetModelList<Order>(dataTable);
             else
                 return new List<Order>();
+        }
+
+        public List<OrderShow> GetOrdersDetailByUserId(int? userId)
+        {
+            DataTable dataTable;
+            string sql = @"SELECT O.ORDER_ID  AS OrderId,
+                                  O.GOOD_ID AS GoodId,
+								  G.TITLE AS GoodsTitle,
+                                  A.NAME AS GiverName,
+                                  O.PLACE_TIME AS PlaceTime,
+                                  O.AMOUNT AS Amount,
+								  O.COMMENT AS Comment,
+								  C.NAME AS StatusName,
+								  O.[ADDRESS] AS Address,
+                                  CONVERT(VARCHAR, O.UPDATE_DATE, 120) AS UpdateDate,
+								  G.NEW_DEGREE AS NewDegree,
+								  (SELECT NAME FROM dbo.CODE WHERE CODE_KIND = 'TAG' AND CODE_ID = G.TAG1) AS Tag1Name,
+								  (SELECT NAME FROM dbo.CODE WHERE CODE_KIND = G.TAG1 AND CODE_ID = G.TAG2) AS Tag2Name,
+								  GP.PATH AS PicPath
+                        FROM [dbo].[ORDER] O
+							JOIN dbo.GOOD G
+								ON O.GOOD_ID = G.GOOD_ID
+	                        JOIN dbo.ACCOUNT A
+		                        ON G.USER_ID = A.USER_ID
+	                        JOIN dbo.GOOD_PICTURE GP
+		                        ON O.GOOD_ID = GP.GOOD_ID
+							JOIN dbo.CODE C
+								ON O.[STATUS] = C.CODE_ID
+                        WHERE (O.[USER_ID] = 2) AND
+	                          GP.IS_MAIN = 'T' AND
+							  C.CODE_KIND = 'OST'";
+            IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
+            parameters.Add(new KeyValuePair<string, object>("@UserId", userId.NullToDBNullValue()));
+            dataTable = dataAccessTool.Query(Variable.GetConnectionString, sql, parameters);
+            if (dataTable.Rows.Count > 0)
+                return DataMappingTool.GetModelList<OrderShow>(dataTable);
+            else
+                return new List<OrderShow>();
         }
 
         public Order GetOrderById(int? orderId)

@@ -3246,7 +3246,7 @@ address {
     font-size: 50px;
     width: 75px;
     height: 75px;
-    line-height: 52px;
+    line-height: 58px;
     padding: 0px 9px;
 }
 
@@ -3320,8 +3320,8 @@ address {
     font-size: 50px;
     width: 75px;
     height: 75px;
-    line-height: 50px;
-    padding: 0px 12px;
+    line-height: 53px;
+    padding: 0px 11px;
 }
 
 .answerimage img {
@@ -3439,16 +3439,28 @@ address {
     margin-right: 3px;
 }
 
-.goodstagpath .goodstag {
+.goodstagpath .goodstag a {
     font-size: 1.5em;
     float: left;
     display: block;
     color: #7f7f7f;
+    text-decoration: none;
 }
 
 .answer .answerQuestionButton {
     position:absolute;
     right:12.5px;
+    bottom:2px;
+    width:40px;
+    height:20px;
+    font-size:8px;
+    padding:0;
+    border-color:#39B3D7;
+}
+
+.answer .updateAnswerButton {
+    position:absolute;
+    left:137px;
     bottom:2px;
     width:40px;
     height:20px;
@@ -3545,6 +3557,10 @@ address {
 
     .answer .answercontent p {
         font-size: 0.8em;
+    }
+
+    .answer .updateAnswerButton {
+        left:88px;
     }
 
     .askquestion {
@@ -4220,5 +4236,21 @@ address {
                 text-align: center;
                 cursor: pointer;
             }
+}
+
+@-webkit-keyframes myfirst /* Safari ©M Chrome */
+{
+0%   {border-top-color: #4DA6BF;}
+25%  {border-right-color: #4DA6BF;}
+50%  {border-bottom-color: #4DA6BF;}
+75% {border-left-color: #4DA6BF;}
+100% {border-color: #f2f2f2;}
+}
+
+.questionimage h4.spin {
+    -webkit-animation: myfirst 2s;
+    animation-iteration-count:infinite;
+
+    transition:border-color 0.1s;
 
 }

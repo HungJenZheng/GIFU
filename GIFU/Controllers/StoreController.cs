@@ -194,16 +194,23 @@ namespace GIFU.Controllers
         }
 
         [HttpPost]
-        public JsonResult AddGoodsMessage(Models.GoodsMessage message)
+        public JsonResult AddGoodsMessage(Models.GoodsMessage msg) //AnswerGoodsMessage
         {
-            int result = goodServices.AddGoodsMessage(message);
+            int result = goodServices.AddGoodsMessage(msg);
             return this.Json(result);
         }
 
         [HttpPost]
-        public JsonResult UpdateGoodsMessage(Models.GoodsMessage message)
+        public JsonResult AnswerGoodsMessage(Models.GoodsMessage msg) //AnswerGoodsMessage
         {
-            int result = goodServices.UpdateGoodsMessage(message);
+            int result = goodServices.AnswerGoodsMessage(msg);
+            return this.Json(result);
+        }
+
+        [HttpPost]
+        public JsonResult UpdateGoodsMessage(Models.GoodsMessage msg)
+        {
+            int result = goodServices.UpdateGoodsMessage(msg);
             return this.Json(result);
         }
     }

@@ -53,7 +53,7 @@ namespace GIFU.Models
 								LEFT JOIN [GIFU].[dbo].[GOOD_PICTURE] AS GP
 									ON N.GOOD_ID = GP.GOOD_ID
                               WHERE N.[RECEIVE_ID] = @UserId AND GP.IS_MAIN = 'T'
-                              ORDER BY [TIME] DESC";
+                              ORDER BY [NOTIFICATION_ID] DESC";
             IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
             parameters.Add(new KeyValuePair<string, object>("@UserId", userId));
             dataTable = dataAccessTool.Query(Variable.GetConnectionString, sql, parameters);

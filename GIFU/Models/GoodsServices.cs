@@ -140,11 +140,29 @@ namespace GIFU.Models
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
+        public int AnswerGoodsMessage(GoodsMessage message)
+        {
+            string sql = @"INSERT INTO [GIFU].[dbo].[GOOD_MESSAGE]
+                    VALUES(@GoodId, @CommentNo, @Type, @UserId, @Message, GETDATE())";
+            IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
+            parameters.Add(new KeyValuePair<string, object>("@GoodId", message.GoodId.NullToDBNullValue()));
+            parameters.Add(new KeyValuePair<string, object>("@CommentNo", message.CommentNo.NullToDBNullValue()));
+            parameters.Add(new KeyValuePair<string, object>("@Type", message.Type.NullToDBNullValue()));
+            parameters.Add(new KeyValuePair<string, object>("@UserId", message.UserId.NullToDBNullValue()));
+            parameters.Add(new KeyValuePair<string, object>("@Message", message.Message.NullToDBNullValue()));
+            int result = dataAccessTool.ExecuteNonQuery(Variable.GetConnectionString, sql, parameters);
+            return result;
+        }
+
+        /// <summary>
+        ///更新商品訊息
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
         public int UpdateGoodsMessage(GoodsMessage message)
         {
             string sql = @"UPDATE [GIFU].[dbo].[GOOD_MESSAGE]
-                            SET MESSANGE = @Messange,
-                                TIME = GETDATE()
+                            SET MESSAGE = @Message, TIME = GETDATE()
                             WHERE GOOD_ID = @GoodId AND COMMENT_NO = @CommentNo AND Type = 'A'";
             IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
             parameters.Add(new KeyValuePair<string, object>("@GoodId", message.GoodId.NullToDBNullValue()));

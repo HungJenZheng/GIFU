@@ -1,5 +1,4 @@
-﻿@model GIFU.Models.Goods
-@{
+﻿@{
     ViewBag.Title = "GoodsDetail";
 }
 <p id="goodId" style="display:none">@Model.GoodId</p>
@@ -87,24 +86,44 @@
                             <p class="content">@item.Message</p>
                         </div>
                         <p class="questiondate">@item.Time<a href="#"><span class="glyphicon glyphicon-exclamation-sign"></span></a></p>
-                        <button class="answerButton btn btn-warning">答覆</button>
+                        @*<button class="answerButton btn btn-warning">答覆</button>*@
                     </div>
                 </div>
             }
             else if (item.Type == "A")
             {
-                <div class="row">
-                    <div class="answer" @("id=answer" + item.CommentNo)>
-                        <div class="answerimage" @("id=answerimage" + @item.CommentNo)>
-                            <h4>A</h4>
-                            <img src="/images/accountphoto.png" />
+                //商品為登入者所有時顯示可編輯區塊
+                if (item.UserId == Convert.ToInt32(Session["userId"]))
+                {
+                    <div class="row">
+                        <div class="answer" @("id=answer" + item.CommentNo)>
+                            <div class="answerimage" @("id=answerimage" + @item.CommentNo)>
+                                <h4>A</h4>
+                                <img src="/images/accountphoto.png" />
+                            </div>
+                            <div class="answercontent">
+                                <textarea class="content" maxlength="50" placeholder="答覆此問題(最多輸入50個字)">@item.Message</textarea>
+                            </div>
+                            <button class="updateAnswerButton btn btn-success" onclick=@("PostAjaxUpdateMessage(" + item.CommentNo + ")")>更新</button>
+                            <p class="answerdate">@item.Time<a href="#"><span class="glyphicon glyphicon-exclamation-sign"></span></a></p>
                         </div>
-                        <div class="answercontent">
-                            <p class="content">@item.Message</p>
-                        </div>
-                        <p class="answerdate">@item.Time<a href="#"><span class="glyphicon glyphicon-exclamation-sign"></span></a></p>
                     </div>
-                </div>
+                }
+                else
+                {
+                    <div class="row">
+                        <div class="answer" @("id=answer" + item.CommentNo)>
+                            <div class="answerimage" @("id=answerimage" + @item.CommentNo)>
+                                <h4>A</h4>
+                                <img src="/images/accountphoto.png" />
+                            </div>
+                            <div class="answercontent">
+                                <p class="content">@item.Message</p>
+                            </div>
+                            <p class="answerdate">@item.Time<a href="#"><span class="glyphicon glyphicon-exclamation-sign"></span></a></p>
+                        </div>
+                    </div>
+                }
             }
         }
         <div class="row askquestionRow">
@@ -348,12 +367,15 @@
 
     function CheckGoodsUserId(){
         var questionTotalNumber = $('.container').children('.questionRow').length;
-        if($('#userId').text() == $('goodsUserId').text()){
+        if($('#userId').text() == $('#goodsUserId').text()){
             for (i = 1; i <= questionTotalNumber; i++) {
-                if($('#answer' + i) != null){
-                    $('#question'+ i + ' .answerButton').fadeIn();
+                if($('#answer' + i).length == 0){
+                    $('#question'+ i + ' .questionimage h4').addClass('spin');
                 }
             }
+            $('.askquestionRow').fadeOut();
+            //註冊回覆按鈕Click事件
+            RegistAnswerButtonClickEvent();
         }
     }
 
@@ -445,26 +467,74 @@
         $('.recommend').height($('.product-grid').outerHeight());
     }
 
-    $('.answerButton').click(function (){
-        var commentNo = ($(this).parent().attr('id')).substring(8);
-        console.log(commentNo);
-        $(this).parent().parent().after(
-        '<div class="row">'+
-                '<div class="answer" id="answer'+ commentNo +'">'+
-                    '<div class="answerimage" id="answerimage'+ commentNo +'">'+
-                        '<h4>A</h4>'+
-                        '<img src="/images/accountphoto.png" />'+
-                   ' </div>'+
-                    '<div class="answercontent">'+
-                        '<textarea class="content" maxlength="50" placeholder="答覆此問題(最多輸入50個字)"></textarea>'+
+    function RegistAnswerButtonClickEvent(){
+        $('.questionimage h4.spin').on("click", function (){
+            var commentNo = ($(this).parent().parent().attr('id')).substring(8);
+            $(this).parent().parent().parent().after(
+            '<div class="row">'+
+                    '<div class="answer" id="answer'+ commentNo +'">'+
+                        '<div class="answerimage" id="answerimage'+ commentNo +'">'+
+                            '<h4>A</h4>'+
+                            '<img src="/images/accountphoto.png" />'+
+                       ' </div>'+
+                        '<div class="answercontent">'+
+                            '<textarea class="content" maxlength="50" placeholder="答覆此問題(最多輸入50個字)"></textarea>'+
+                        '</div>'+
+                       '<button class="answerQuestionButton btn btn-info" onclick="PostAjaxAddMessage('+ commentNo +')">回覆</button>'+
+                       '<button class="updateAnswerButton btn btn-success" style="display:none;" onclick="PostAjaxUpdateMessage('+ commentNo +')">更新</button>'+
                     '</div>'+
-                   '<button class="answerQuestionButton btn btn-info">回覆</button>'+
-                '</div>'+
-            '</div>'
-        );
-        $('#answer' + commentNo).parent().hide().fadeIn();
-        ResizeQAMargin();
-        $(this).fadeOut();
+                '</div>'
+            );
+            $('#answer' + commentNo).parent().hide().fadeIn();
+            $(this).removeClass('spin');
+            $(this).off("click");
+            ResizeQAMargin();
+        });
+    }
 
-    });
+    function PostAjaxAddMessage(commentNo) {
+        var today = new Date();
+        $.ajax({
+            type: "POST",
+            url: "/Store/AnswerGoodsMessage",
+            data: {GoodId: $('#goodId').text(),
+                CommentNo: commentNo,
+                Type: 'A',
+                UserId: $('#userId').text(),
+                Message: $('#answer'+ commentNo + ' textarea').val()},
+            dataType: "json",
+            success: function (result) {
+                ShowNotify(result.result, result.message);
+                $('#answer'+ commentNo +' .answerQuestionButton').fadeOut();
+                $('#answer'+ commentNo +' .updateAnswerButton').fadeIn();
+                $('#answer'+ commentNo).append('<p class="answerdate">'+ today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate() +'<a href="#"><span class="glyphicon glyphicon-exclamation-sign"></span></a></p>');
+                ResizeQAMargin();
+            },
+            fail: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    function PostAjaxUpdateMessage(commentNo){
+        var today = new Date();
+        $.ajax({
+            type: "POST",
+            url: "/Store/UpdateGoodsMessage",
+            data: {GoodId: $('#goodId').text(),
+                Type: 'A',
+                CommentNo: commentNo,
+                UserId: $('#userId').text(),
+                Message:  $('#answer'+ commentNo + ' textarea').val()},
+            dataType: "json",
+            success: function (result) {
+                ShowNotify(result, 'TEST');
+                $('#answer'+ commentNo + ' .answerdate').text(today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate());
+                ResizeQAMargin();
+            },
+            fail: function (error) {
+                console.log(error);
+            }
+        });
+    }
 </script>

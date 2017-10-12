@@ -216,6 +216,7 @@
     <Compile Include="Models\LoginVM.cs" />
     <Compile Include="Models\Notifcation.cs" />
     <Compile Include="Models\NotificationServices.cs" />
+    <Compile Include="Models\OrderShow.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderGetArg.cs" />
     <Compile Include="Models\OrderServices.cs" />

@@ -10,6 +10,7 @@ namespace GIFU.Controllers
     {
         private Models.AccountServices accountServices = new Models.AccountServices();
         private Models.NotificationServices notificationServices = new Models.NotificationServices();
+        private Models.OrderServices orderServices = new Models.OrderServices();
 
         // GET: Account
         [Authorize]
@@ -27,6 +28,7 @@ namespace GIFU.Controllers
         [Authorize]
         public ActionResult ManageOrders()
         {
+            ViewBag.Orders = orderServices.GetOrdersDetailByUserId(Convert.ToInt32(Session["userId"]));
             return View();
         }
 

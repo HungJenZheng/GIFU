@@ -216,14 +216,13 @@
         $.connection.hub.start().done(function () {
             GetAllMessages();
         }).fail(function (e) {
-            alert(e);
+            console.log(e);
         });
     });
 
     function GetAllMessages() {
         var tbl = $('#accountNoticeList');
         //var tbl = $('#messagesTable');
-        console.log("Update");
         $.ajax({
             url: '/Account/GetMessagesById',
             //contentType: 'application/html ; charset:utf-8',
@@ -263,7 +262,6 @@
     });
 
     $('.sb-search-submit').click(function (e) {
-        console.log("submit");
         if ($(this).parent().find('.sb-search-input').val() != "") {
 
             $(this).parent().submit();

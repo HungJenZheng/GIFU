@@ -1827,7 +1827,7 @@ i.sele {
     font-size: 1em;
     font-family: 'Dosis-Bold';
     text-transform: uppercase;
-    border-radius: 25%;
+    border-radius: 7px;
     border: 1px solid #caccce;
     padding: 2px 4px;
 }
@@ -3439,12 +3439,12 @@ address {
     margin-right: 3px;
 }
 
-.goodstagpath .goodstag a {
+.goodstagpath .goodstag a{
     font-size: 1.5em;
     float: left;
     display: block;
     color: #7f7f7f;
-    text-decoration: none;
+	text-decoration: none;
 }
 
 .answer .answerQuestionButton {
@@ -3981,11 +3981,12 @@ address {
 }
 
 #accountfunction li {
-    display: block;
+    display: inline-block;
     border: none;
     color: ghostwhite;
     font-size:1em;
-    padding:1em 0.5em;
+    padding:0;
+    width:100%;
 }
 
 #accountfunction li img {
@@ -3996,8 +3997,17 @@ address {
     margin-right:5px;
 }
 
-#accountfunction li a {
+    #accountfunction li a {
+        width:100%;
+        height:100%;
+        display:inline-block;
+        float:left;
+        padding:1em 0.5em;
+    }
+
+#accountfunction li p {
     color: ghostwhite;
+    display:inline-block;
 }
 
 #accountNoticeList {
@@ -4037,18 +4047,54 @@ address {
     border: none;
     color: ghostwhite;
     font-size:1em;
-    padding:0.5em 0.5em;
+    padding:0;
     border-bottom:1px solid white;
     width: 100%;
     float:left;
+    position:relative;
+}
+
+#accountNoticeList {
+    border:1px solid black;
+}
+
+#accountNoticeList::-webkit-scrollbar
+{
+    position:absolute;
+    right:0;
+	width: 8px;
+	background-color: #F5F5F5;
+}
+
+#accountNoticeList::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	background-image: -webkit-gradient(linear,
+									   left bottom,
+									   left top,
+									   color-stop(0.44, rgb(122,153,217)),
+									   color-stop(0.72, rgb(73,125,189)),
+									   color-stop(0.86, rgb(28,58,148)));
+}
+
+.hidescrollbar::-webkit-scrollbar { 
+    display: none;
 }
 
 #accountNoticeList .readnotice {
-    background:black;
+    background: #000;
 }
 
 #accountNoticeList .notreadnotice {
-    background:#6d6d6d;
+    background:#e2e2e2;
+}
+
+#accountNoticeList li a {
+    width:100%;
+    height:100%;
+    padding:1em 1em;
+    display:inline-block;
+    float:left;
 }
 
 #accountNoticeList li img {
@@ -4071,14 +4117,14 @@ address {
     -webkit-line-clamp: 2;
     font-size: 14px;
 }
-#accountNoticeList li a {
+#accountNoticeList li p {
     color: ghostwhite;
     display:block;
     float:right;
     margin-top:5px;
 }
 
-#accountNoticeList li a span {
+#accountNoticeList li p span {
     top:3px;
 }
 

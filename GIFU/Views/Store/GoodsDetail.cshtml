@@ -92,7 +92,7 @@
             }
             else if (item.Type == "A")
             {
-                //商品為登入者所有時顯示可編輯區塊
+                //物品為登入者所有時顯示可編輯區塊
                 if (item.UserId == Convert.ToInt32(Session["userId"]))
                 {
                     <div class="row">
@@ -126,21 +126,24 @@
                 }
             }
         }
-        <div class="row askquestionRow">
-            <div class="col-md-2"></div>
-            <div class="col-md-8 ">
-                <div class="askquestion row">
-                    <div class="askquestionphotoarea">
-                        <img src="/images/accountphoto.png" class="accountphoto" />
+        @if (Model.UserId != Convert.ToInt32(Session["userId"]))
+        {
+            <div class="row askquestionRow">
+                <div class="col-md-2"></div>
+                <div class="col-md-8 ">
+                    <div class="askquestion row">
+                        <div class="askquestionphotoarea">
+                            <img src="/images/accountphoto.png" class="accountphoto" />
+                        </div>
+                        <div class="askquestiontextarea">
+                            <textarea id="askQuestion" maxlength="50" placeholder="為保障會員交易安全，留言請勿填寫個人資料、外部連結或任何導私下交易之內容，否則您送出的內容可能無法正常顯示。(限制輸入50個字)"></textarea>
+                        </div>
+                        <button id="ask-btn" class="btn ask-btn btn-info" type="submit" formmethod="post">提問</button>
                     </div>
-                    <div class="askquestiontextarea">
-                        <textarea id="askQuestion" maxlength="50" placeholder="為保障會員交易安全，留言請勿填寫個人資料、外部連結或任何導私下交易之內容，否則您送出的內容可能無法正常顯示。(限制輸入50個字)"></textarea>
-                    </div>
-                    <button id="ask-btn" class="btn ask-btn btn-info" type="submit" formmethod="post">提問</button>
                 </div>
+                <div class="col-md-2"></div>
             </div>
-            <div class="col-md-2"></div>
-        </div>
+        }
     </div>
     <!--Q&Amessage-->
     <!--跳出視窗-->
@@ -194,9 +197,9 @@
         </div>
     </div>
     <!--跳出視窗-->
-    <!--推薦商品-->
+    <!--推薦物品-->
     <div class="related-products">
-        <h2>推薦商品</h2>
+        <h2>推薦物品</h2>
         <div class="col-md-12 product-model-sec recommend" id="container">
             <div class="product-grid">
                 <a href="../Store/GoodsDetail/1">
@@ -320,17 +323,17 @@
             </div>
         </div>
     </div>
-    <!--推薦商品-->
+    <!--推薦物品-->
 </div>
 @*<button onclick="GetGoodsDetailByGoodsID(1)">index1</button>*@
 <script>
     var url = '/Account/Login?ReturnUrl='+encodeURIComponent(window.location.pathname);
     $(document).ready(function () {
-        //判斷是否為商品持有者
+        //判斷是否為物品持有者
         CheckGoodsUserId();
-        //調整推薦商品區高度
+        //調整推薦物品區高度
         ResizeRecommendCalcHeight();
-        //推薦商品slider
+        //推薦物品slider
         SliderRecommendGoods();
         //調整留言板
         ResizeQAMargin();
@@ -373,7 +376,7 @@
                     $('#question'+ i + ' .questionimage h4').addClass('spin');
                 }
             }
-            $('.askquestionRow').fadeOut();
+            $('#want-goods').css('pointer-events', 'none').css('cursor', 'default').css('opacity', '0.6');
             //註冊回覆按鈕Click事件
             RegistAnswerButtonClickEvent();
         }

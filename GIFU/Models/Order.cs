@@ -9,6 +9,7 @@ namespace GIFU.Models
         public int? GoodId { get; set; }
         [Required]
         public int? UserId { get; set; }
+        public string UserName { get; set; }
         public string PlaceTime { get; set; }
         [Required]
         public int? Amount { get; set; }

@@ -22,7 +22,7 @@
             <div class="container">
                 <div class="top-right">
                     <ul class="headerFunctionList">
-                        <li class="text"><a href="/Store/GoodsSearch?tag1=">查看商品<span class="glyphicon glyphicon-zoom-in"></span><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                        <li class="text"><a href="/Store/GoodsSearch?tag1=">查看物品<span class="glyphicon glyphicon-zoom-in"></span><span class="glyphicon glyphicon-chevron-right"></span></a></li>
                         @{
                             if (Session["username"] == null)
                             {
@@ -34,7 +34,7 @@
                                     <a href="#"><img src="/images/bellImage.png"></a>
                                     <p id="accountNoticeNumber" class="animated infinite jello">2</p>
                                 </li>
-                                <ul id="accountNoticeList" style="display:none;">
+                                <ul id="accountNoticeList" class="hidescrollbar" style="display:none;">
                                     @*通知*@
                                 </ul>
                                 <li class="text" id="accountimginfo" onclick="SlideDownFunction()">
@@ -43,10 +43,10 @@
                                     <p id="userId" style="display:none">@Session["userId"]</p>
                                 </li>
                                 <ul id="accountfunction" style="display:none;">
-                                    <li><img src="/images/personalInfoImage.png"><a href="/Account/ManageInfo">管理個人</a></li>
-                                    <li><img src="/images/goodsImage.png"><a href="/Account/ManageGoods">管理商品</a></li>
-                                    <li><img src="/images/orderImage.png"><a href="/Account/ManageOrders">管理訂單</a></li>
-                                    <li><img src="/images/signoutImage.png"><a id="signout" href="#">登出</a></li>
+                                    <li><a href="/Account/ManageInfo"><img src="/images/personalInfoImage.png"><p>管理個人</p></a></li>
+                                    <li><a href="/Account/ManageGoods"><img src="/images/goodsImage.png"><p>管理物品</p></a></li>
+                                    <li><a href="/Account/ManageOrders"><img src="/images/orderImage.png"><p>管理訂單</p></a></li>
+                                    <li><a href="#" id="signout"><img src="/images/signoutImage.png"><p>登出</p></a></li>
                                 </ul>
                             }
                         }
@@ -79,7 +79,6 @@
                             <h1 class="navbar-brand"><a href="/Store/Index">GIFU</a></h1>
                         </div>
                         <!--/.navbar-header-->
-
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav">
                                 <li class="dropdown">
@@ -122,34 +121,26 @@
     <!--header-->
     <div class="container body-content">
         @RenderBody()
-        @*TODO: 測試RignalR*@
-        <div class="row">
-            <div class="col-md-12">
-                <div id="messagesTable"></div>
-            </div>
-        </div>
         <hr />
         <!--footer-->
         <div class="footer-section">
             <div class="container">
                 <div class="footer-grids">
                     <div class="col-md-2 footer-grid">
-                        <h4>商品分類</h4>
+                        <h4>物品分類</h4>
                         <ul class="footerularea">
                             <li><a href="Store/GoodsSearch?tag1=3C">3C用品</a></li>
                             <li><a href="Store/GoodsSearch?tag1=GC">生活雜貨</a></li>
                             <li><a href="Store/GoodsSearch?tag1=CL">男女服飾</a></li>
                             <li><a href="Store/GoodsSearch?tag1=SN">文具書籍</a></li>
                             <li><a href="Store/GoodsSearch?tag1=GM">電玩相關</a></li>
-                            <li><a href="Store/GoodsSearch?tag1=OT">其他商品</a></li>
+                            <li><a href="Store/GoodsSearch?tag1=OT">其他物品</a></li>
                         </ul>
                     </div>
                     <div class="col-md-2 footer-grid">
                         <h4>會員中心</h4>
                         <ul class="footerularea">
-
                             <li><a href="/Account/Register">註冊會員</a></li>
-
                             <li><a href="/Account/Login">立即登錄</a></li>
                             <li><a href="#">Contact Us</a></li>
                         </ul>
@@ -205,6 +196,9 @@
     {
         <text>
     $(document).ready(function () {
+        //調整使用者功能區域寬度
+        ResizeAccountFunctionUlWidth()
+
         // Declare a proxy to reference the hub.
         var notifications = $.connection.messagesHub;
 
@@ -223,6 +217,7 @@
     function GetAllMessages() {
         var tbl = $('#accountNoticeList');
         //var tbl = $('#messagesTable');
+        console.log("Update");
         $.ajax({
             url: '/Account/GetMessagesById',
             //contentType: 'application/html ; charset:utf-8',
@@ -262,6 +257,7 @@
     });
 
     $('.sb-search-submit').click(function (e) {
+        console.log("submit");
         if ($(this).parent().find('.sb-search-input').val() != "") {
 
             $(this).parent().submit();
@@ -269,9 +265,11 @@
         $(this).parent().parent().removeClass('sb-search-open');
     });
 
-    window.addEventListener("resize", function () {
+    window.addEventListener("resize",ResizeAccountFunctionUlWidth());
+
+    function ResizeAccountFunctionUlWidth(){
         $('#accountfunction').width($('#accountimginfo').outerWidth());
-    });
+    }
 
     function SlideDownFunction() {
 		event.stopPropagation();
@@ -309,10 +307,12 @@
 
     //設定通知
     function SlideDownNotice() {
-		event.stopPropagation();
+        event.stopPropagation();
         if ($('#accountNoticeList').css("display") == 'none') {
             $('#accountfunction').fadeOut(300);
-            $('#accountNoticeList').fadeIn(300);
+            $('#accountNoticeList').fadeIn(300,function () {
+                $('#accountNoticeList').animate({ scrollTop: 0 }, 300);
+            });
             if($('#accountNoticeNumber').css('display') == 'block'){
                 PostAjaxSetAllMessagesWereRead();
             }
@@ -351,5 +351,11 @@
         if ($('body').width() < 640) {
             $(this).find('.footerularea').slideToggle(300);
         }
+    });
+
+    $('#accountNoticeList').hover(function () {
+        $(this).removeClass('hidescrollbar');
+    },function () {
+        $(this).addClass('hidescrollbar');
     });
 </script>

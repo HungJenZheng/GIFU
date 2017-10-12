@@ -10,7 +10,7 @@
                 <div class="input-group">
                     <div class="input-group-btn">
                         <select name="innerPageSearchTag" class="btn btn-info innerPageSearchTag" id="innerPageSearchTag">
-                            <option value="" id="optionTag1">全部商品</option>
+                            <option value="" id="optionTag1">全部物品</option>
                             <option value="3C" id="optionTag13C">3C用品</option>
                             <option value="GC" id="optionTag1GC">生活雜貨</option>
                             <option value="CL" id="optionTag1CL">男女服飾</option>
@@ -23,7 +23,7 @@
                     <input type="button" class="btn btn-light innerSearchButton" onclick="SetSearchArg($('#innerSearchText').val(), $('#innerPageSearchTag').val(), '')" value="Search">
                 </div>
             </div>
-            <h2>Our Products</h2>
+            <h2>物品分享區</h2>
             <div class="col-md-9 product-model-sec" id="container">
             </div>
             <div class="col-md-9 product-model-sec" id="loadingImageArea">
@@ -101,7 +101,7 @@
     $(document).ready(function () {
         //檢查網址資訊
         CheckHrefInfomation();
-        //調整商品圖案高度
+        //調整物品圖案高度
         ResizeGoodsImageHeight();
     });
 
@@ -149,7 +149,7 @@
         }
     }
 
-    //網頁滾動事件處理  載入更多商品
+    //網頁滾動事件處理  載入更多物品
     $(window).scroll(function () {
         var goodsColumeNumber = parseInt(($('.product-model-sec').width() / $('.product-grid').outerWidth()));
         var windowBottomPosition = (window.pageYOffset + $(window).height());
@@ -180,7 +180,7 @@
     //網頁寬度改變觸發事件 ResizeGoodsImageHeight實作
     window.addEventListener("resize", ResizeGoodsImageHeight);
 
-    //調整商品圖案高度
+    //調整物品圖案高度
     function ResizeGoodsImageHeight() {
         var newimgheight = $('.product-img img').width() * 4 / 3;
         $('.product-img img').height(newimgheight);
@@ -197,7 +197,7 @@
         NextNo: 6
     };
 
-    //清空商品區所有商品
+    //清空物品區所有物品
     function ClearGoodsAreaContent() {
         $('#container').empty();
     };
@@ -255,7 +255,7 @@
         });
     }
 
-    //塞後端商品資訊進HTML
+    //塞後端物品資訊進HTML
     function GetGoodsBox(object) {
         var box ='<div class="product-grid">' +
                     '<a href="../Store/GoodsDetail/' + object.GoodId + '" onclick="AddHitCount(' + object.GoodId + ')">' +
@@ -271,7 +271,7 @@
                     '</a>' +
                     '<div class="product-info simpleCart_shelfItem">' +
                     '<div class="product-info-cust prt_name">' +
-                            '<span class="item_tag">' + object.Tag1 +'</span>' +
+                            '<span class="item_tag">' + object.Tag2Name +'</span>' +
                             '<span class="item_price">' + object.Title + '</span>' +
                             '<div class="ofr">' +
                                 '<p class="pric1">' + object.NewDegree + '成新</p>' +
@@ -284,7 +284,7 @@
         return box;
     }
 
-    //送Ajax處理點擊商品後增加該商品點擊次數
+    //送Ajax處理點擊物品後增加該物品點擊次數
     function AddHitCount(goodsId) {
         $.ajax({
             type: "POST",

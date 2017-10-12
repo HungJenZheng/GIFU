@@ -22,15 +22,13 @@ namespace GIFU.Models
                                   PLACE_TIME AS PlaceTime,
                                   AMOUNT    AS Amount,
                                   [STATUS]    AS Status,
+								  O.COMMENT AS Comment,
                                   CONVERT(VARCHAR, O.UPDATE_DATE, 120) AS UpdateDate
                         FROM [dbo].[ORDER] O
 	                        JOIN dbo.ACCOUNT A
 		                        ON O.USER_ID = A.USER_ID
-	                        JOIN dbo.GOOD_PICTURE G
-		                        ON O.GOOD_ID = G.GOOD_ID
                         WHERE (O.GOOD_ID = @GoodId) OR
-                              (O.[USER_ID] = @UserId) AND
-	                          G.IS_MAIN = 'T'";
+                              (O.[USER_ID] = @UserId)";
             IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
             parameters.Add(new KeyValuePair<string, object>("@GoodId", arg.GoodId.NullToDBNullValue()));
             parameters.Add(new KeyValuePair<string, object>("@UserId", arg.UserId.NullToDBNullValue()));

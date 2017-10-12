@@ -213,5 +213,16 @@ namespace GIFU.Controllers
             int result = goodServices.UpdateGoodsMessage(msg);
             return this.Json(result);
         }
+
+        [HttpPost]
+        public JsonResult GetOrderByGoodsId(Models.OrderGetArg arg)
+        {
+            if (arg.GoodId != null)
+            {
+                List<Models.Order> orders = orderServices.GetOrdersByCondition(arg);
+                return Json(orders);
+            }
+            return Json(new List<Models.Order>());
+        }
     }
 }

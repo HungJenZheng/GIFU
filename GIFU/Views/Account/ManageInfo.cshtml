@@ -7,7 +7,8 @@
 
 <div class="container body-content">
     <div class="row info">
-        <div class="col-md-4 info-area">
+        <!-- 左側欄位 -->
+        <div class="col-sm-3 col-md-4 info-area">
             <div class="row">
                 <div id="profile_pic" class="col-md-5">
                     <img src="/images/profile_pic1.svg" alt="">
@@ -28,11 +29,12 @@
             <div class="row">
                 <ul class="col-md-12 function-area">
                     <li><a href="/Account/ManageInfo">個人資訊</a></li>
-                    <li><a href="/Account/ManageGoods">商品管理</a></li>
-                    <li><a href="/Account/ManageOrders">訂單查看</a></li>
+                    <li><a href="/Account/ManageGoods">物品管理</a></li>
+                    <li><a href="/Account/ManageOrders">索取清單</a></li>
                 </ul>
             </div>
         </div>
+        <!-- 左側欄位-end -->
         <div class="col-md-8 info-detail">
             <div class="row">
                 <div class="col-md-12 page-title">
@@ -45,51 +47,75 @@
                     <img src="/images/profile_pic1.svg" alt="">
                 </div>
                 <div class="col-md-8 text-area">
-                    <p id="name">郭晉名</p>
+                    <p id="userName">郭晉名</p>
                     <p>性別: <span class="important-text">男生</span></p>
-                    <p>生日: <span class="important-text">1992 /02 /22</span></p>
-                    <p>電話: <span class="important-text">0923-123-434</span></p>
+                    <p>生日: <span class="important-text">1992/02/22</span></p>
+                    <p>電話: <span class="important-text" id="userTel">0923-123-434</span></p>
                     <p>email: <span class="important-text">qwer12345678@gmail.com</span></p>
-                    <p>寄送地址: <span class="important-text">台北市大同區太原路92巷2-1號</span></p>
+                    <p>寄送地址: <span id="userAddress" class="important-text">台北市大同區太原路92巷2-1號</span></p>
                 </div>
             </div>
-            <div class="row">
-                <div class="can-modify-info col-md-12">
-                    <div class="form-group">
-                        <label for="usr">修改電話: </label>
-                        <input type="text" class="form-control" id="usr">
+            <form id="user-info-form">
+                <div class="row">
+                    <div class="can-modify-info col-md-12">
+                        <div class="form-group">
+                            <label for="userModifyTel">修改電話: </label>
+                            <input type="text" class="form-control" maxlength="10" id="userModifyTel" name="Phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="userModifyAddress">修改地址: </label>
+                            <input type="text" class="form-control" id="userModifyAddress" name="Address">
+                        </div>
+                        <div class="form-group">
+                            <label for="userModifyPassword">修改密碼: </label>
+                            <input type="text" class="form-control" id="userModifyPassword">
+                        </div>
+                        <div class="form-group">
+                            <label for="userModifyPassword2">確認密碼: </label>
+                            <input type="text" class="form-control" id="userModifyPassword2" name="Passwd" oninput="CallFunction()">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="usr">修改地址: </label>
-                        <input type="text" class="form-control" id="usr">
-                    </div>
-                    <div class="form-group">
-                        <label for="usr">修改密碼: </label>
-                        <input type="text" class="form-control" id="usr">
-                    </div>
-                    <div class="form-group">
-                        <label for="usr">確認密碼: </label>
-                        <input type="text" class="form-control" id="usr">
+                    <div class="col-md-12">
+                        <div class="button-area">
+                            <button type="submit" class="clear-button">提交</button>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-12">
-                    <div class="button-area">
-                        <button type="submit" class="clear-button" onclick="">清除</button>
-                        <button type="submit" class="clear-button" onclick="">提交</button>
-                    </div>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
+
 </div>
 
-    <script type="text/javascript">
-        function fuck() {
-            $('.button-area').css('background-color', 'black');
-        }
+<script type="text/javascript">
 
-        function world() {
-            $('#hello').append('<p>world</p>');
-        }
-    </script>
+        $(document).ready(function () {
+            var userTel = document.getElementById("userTel").innerText;
+            var userAddress = document.getElementById("userAddress").innerText;
+            document.getElementById("userModifyTel").defaultValue = userTel;
+            document.getElementById("userModifyAddress").defaultValue = userAddress;
+        });
+
+
+        $('#user-info-form').submit(function (e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            formData.append('UserId', $('#userId').text());
+            $.ajax({
+                type: "POST",
+                url: "/Account/UpdateAccount",
+                data: formData,
+                dataType: "json",
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    ShowNotify(response.result, response.message);
+                    $('#userTel').text($('#userModifyTel').val());
+                }, fail: function (error) {
+                }
+            });
+        });
+
+</script>
 

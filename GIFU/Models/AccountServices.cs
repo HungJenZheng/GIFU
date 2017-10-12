@@ -81,16 +81,20 @@ namespace GIFU.Models
         /// <returns></returns>
         public int UpdateAccount(Account account)
         {
+            IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
             string sql = @"UPDATE dbo.ACCOUNT SET 
-							PASSWD = @Passwd, 
 							NAME = @Name, 
 							PHONE = @Phone, 
 							[ADDRESS] = @Address, 
-							UPDATE_DATE = GETDATE()
-					WHERE [USER_ID] = @UserId";
-            IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
+							UPDATE_DATE = GETDATE(),";
+            if (account.Passwd != null)
+            {
+                sql += "PASSWD = @Passwd ";
+                parameters.Add(new KeyValuePair<string, object>("@Passwd", account.Passwd.NullToDBNullValue()));
+            }
+            sql += " WHERE [USER_ID] = @UserId";
+
             parameters.Add(new KeyValuePair<string, object>("@UserId", account.UserId.NullToDBNullValue()));
-            parameters.Add(new KeyValuePair<string, object>("@Passwd", account.Passwd.NullToDBNullValue()));
             parameters.Add(new KeyValuePair<string, object>("@Name", account.Name.NullToDBNullValue()));
             parameters.Add(new KeyValuePair<string, object>("@Phone", account.Phone.NullToDBNullValue()));
             parameters.Add(new KeyValuePair<string, object>("@Address", account.Address.NullToDBNullValue()));

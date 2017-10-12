@@ -169,7 +169,7 @@ namespace GIFU.Controllers
         [HttpPost]
         public JsonResult UpdateAccount(Models.Account account)
         {
-            if (ModelState.IsValid && account.UserId != null)
+            if (account.UserId != null)
             {
                 int result = accountServices.UpdateAccount(account);
                 return this.Json(result);

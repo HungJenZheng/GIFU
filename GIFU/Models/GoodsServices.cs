@@ -328,5 +328,32 @@ namespace GIFU.Models
             int result = dataAccessTool.ExecuteNonQuery(Variable.GetConnectionString, sql, parameters);
             return result;
         }
+
+        public List<Goods> RecommendGoods()
+        {
+            DataTable dataTable;
+            string sql = @"SELECT TOP 12 G.GOOD_ID   AS GoodId,
+                                  [USER_ID] AS UserId,
+                                  TITLE     AS Title,
+                                  AMOUNT AS Amount,
+                                  NEW_DEGREE AS NewDegree,
+                                  TAG1 AS Tag1,
+                                  TAG2 AS Tag2,
+                                  (SELECT NAME FROM dbo.CODE WHERE CODE_KIND = 'TAG' AND CODE_ID = TAG1) AS Tag1Name, 
+                                  (SELECT NAME FROM dbo.CODE WHERE CODE_KIND = TAG1 AND CODE_ID = TAG2) AS Tag2Name, 
+                                  CONVERT(VARCHAR, UPDATE_DATE, 120) AS UpdateDate,
+                                  GP.PATH PicPath
+                        FROM dbo.GOOD G
+                            LEFT JOIN dbo.GOOD_PICTURE GP
+                                ON G.GOOD_ID = GP.GOOD_ID AND GP.IS_MAIN = 'T'
+                        WHERE STATUS = 'Y' AND AMOUNT > 0
+                        ORDER BY HIT_COUNT ASC";
+            IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
+            dataTable = dataAccessTool.Query(Variable.GetConnectionString, sql, parameters);
+            if (dataTable.Rows.Count > 0)
+                return DataMappingTool.GetModelList<Goods>(dataTable);
+            else
+                return new List<Goods>();
+        }
     }
 }

@@ -7,7 +7,7 @@
         <div class="container">
             <div class="single-grids">
                 <div class="row">
-                    <div class="col-md-12 goodstagpath">
+                    <div class="col-xs-12 goodstagpath">
                         <h4 class="goodstag"><a href=@("/Store/GoodsSearch?tag1="+Model.Tag1)>@Model.Tag1Name</a></h4>
                         <span style="font-size: 1.5em;">>></span>
                         @*<span class="glyphicon glyphicon-chevron-right"></span>*@
@@ -136,7 +136,7 @@
                             <img src="/images/accountphoto.png" class="accountphoto" />
                         </div>
                         <div class="askquestiontextarea">
-                            <textarea id="askQuestion" maxlength="100" placeholder="為保障會員交易安全，留言請勿填寫個人資料、外部連結或任何導私下交易之內容，否則您送出的內容可能無法正常顯示。(限制輸入100個字)"></textarea>
+                            <textarea id="askQuestion" maxlength="150" placeholder="為保障會員交易安全，留言請勿填寫個人資料、外部連結或任何導私下交易之內容，否則您送出的內容可能無法正常顯示。(限制輸入150個字)"></textarea>
                         </div>
                         <button id="ask-btn" class="btn ask-btn btn-info" type="submit" formmethod="post">提問</button>
                     </div>
@@ -356,7 +356,7 @@
         }
 
         //是否需要理由
-        if ('@Model.IsReason' == 'Y'){
+        if ('@Model.IsReason' == 'T'){
             $('#applyforsubmit').addClass('disabled');
             $('#applyforgoodsreason').on('input', function() {
                 if (this.value === ''){

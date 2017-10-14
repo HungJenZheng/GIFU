@@ -1,11 +1,30 @@
 ﻿@model IEnumerable<GIFU.Models.Notification>
+    @if (Model != null && Model.Count() != 0)
+    {
+        <p id="unReadCount" style="display:none">@Model.First().UnReadCount</p>
+    }
 @foreach (var item in Model)
 {
-    <li class="notreadnotice">
-        <img @("src=" + item.ImageUrl) class="">
-        <pre>@item.Content</pre>
-        <a href="@item.Url">前往<span class="glyphicon glyphicon-chevron-right"></span></a>
-    </li>
+    if (@item.IsRead == "T")
+    {
+        <li class="readnotice">
+            <a href="@item.Url">
+                <img @("src=" + item.ImageUrl) class="" alt="@item.GoodId">
+                <pre>@Html.Raw(@item.Content)</pre>
+                @*<p href="@item.Url">前往<span class="glyphicon glyphicon-chevron-right"></span></p>*@
+            </a>
+        </li>
+    }
+    else
+    {
+        <li class="notreadnotice">
+            <a href="@item.Url">
+                <img @("src=" + item.ImageUrl) class="" alt="@item.GoodId">
+                <pre>@Html.Raw(@item.Content)</pre>
+                @*<p href="@item.Url">前往<span class="glyphicon glyphicon-chevron-right"></span></p>*@
+            </a>
+        </li>
+    }
 }
 @*<p>
         @Html.ActionLink("Create New", "Create")

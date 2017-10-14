@@ -17,14 +17,6 @@
                     <h3>成功</h3>
                 </div>
             </div>
-            <script type="text/javascript">
-                window.addEventListener("resize", calcstepheight);
-                function calcstepheight() {
-                    $('.step').height($('.step').width() + 12);
-                    var margin = $('.step').css('margin-top');
-                    $('.steparea').height($('.step').height() + (margin.substr(0, 2)) * 2 + 12);
-                }
-            </script>
             <div class="registerconsentpaper" id="registerstep1">
                 <p>
                     一、 使用者於初次登錄帳戶時，必需填具詳實之個人資料，若發生資料不實，或者盜用他人資料時，本公司可以保留隨時終止您會員資格及使用各項服務資格之權利，使用者所登錄之資料事後有變更時，應至官方網站進行會員資料修改動作，倘若因資料不實或不全而造成使用者權益受損，一切後果皆使用者自行承擔。
@@ -57,8 +49,7 @@
                     <br>十三、 玩家在網頁中若因不當行為或使用方式而遭致損害時，其責任歸屬於使用者本人，本公司不負任何責任。
                     <br>十四、 使用者應遵守此同意書之內容與相關法令，不可以有損害其它公司名譽 或招致業務上明顯障礙的行為。
                 </p>
-                <button id="consentnextstepbutton" onclick="registernextstep(2)">Next Step</button>
-
+                <button id="consentnextstepbutton" onclick="NextRegisterStep(2)">Next Step</button>
             </div>
             <div class="register" style="display:none;" id="registerstep2">
                 <form id="register-form" action="/Account/Register" method="post">
@@ -114,27 +105,10 @@
                     <div class="clearfix"> </div>
                     <div class="register-but">
                         <input type="reset" value="reset" onclick="ResetRegisterForm()">
-                        <input type="button" value="submit" onclick="submitregisterform('register', 'authentication')">
+                        <input type="button" value="submit" onclick="SubmitRegisterForm()">
                         <div class="clearfix"> </div>
-
                     </div>
                 </form>
-            </div>
-            <div class="authentication" style="display:none;" id="registerstep3">
-                <div class="register-top-grid">
-                    <div class="wow fadeInLeft authenticationarea" data-wow-delay="0.4s">
-                        <span>驗證碼 :</span>
-                        <input type="text" id="authentication">
-                    </div>
-                </div>
-                <div class="register-but">
-                    <form>
-                        <input type="reset" value="again">
-                        <input type="button" value="Next" onclick="registernextstep()">
-                        <div class="clearfix"> </div>
-                    </form>
-                    <button id="consentnextstepbutton" onclick="gotonext('authentication', 'succeed')">Next Step</button>
-                </div>
             </div>
             <div class="succeed" style="display:none;" id="registerstep4">
                 <div class="succeedimage">
@@ -142,7 +116,6 @@
                     <img src="../images/checkedgreen.png" id="checkedgreen" style="z-index:0;" />
                 </div>
                 <h3>倒數5秒返回首頁</h3>
-
             </div>
         </div>
     </div>

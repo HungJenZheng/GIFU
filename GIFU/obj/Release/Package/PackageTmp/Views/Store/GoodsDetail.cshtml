@@ -1,18 +1,17 @@
-﻿@model GIFU.Models.Goods
-@{
+﻿@{
     ViewBag.Title = "GoodsDetail";
 }
-@*<input type="hidden" id="goodId" value="@Model.GoodId">*@
 <p id="goodId" style="display:none">@Model.GoodId</p>
 <div class="content">
     <div class="single">
         <div class="container">
             <div class="single-grids">
                 <div class="row">
-                    <div class="col-md-12 goodstagpath">
-                        <h4 class="goodstag">3C用品</h4>
-                        <span class="glyphicon glyphicon-chevron-right"></span>
-                        <h4 class="goodstag">3C其他</h4>
+                    <div class="col-xs-12 goodstagpath">
+                        <h4 class="goodstag"><a href=@("/Store/GoodsSearch?tag1="+Model.Tag1)>@Model.Tag1Name</a></h4>
+                        <span style="font-size: 1.5em;">>></span>
+                        @*<span class="glyphicon glyphicon-chevron-right"></span>*@
+                        <h4 class="goodstag"><a href=@("/Store/GoodsSearch?tag1="+Model.Tag1+"?tag2="+@Model.Tag2)>@Model.Tag2Name</a></h4>
                     </div>
                 </div>
                 <div class="col-md-6 single-grid">
@@ -52,6 +51,7 @@
                     </script>
                 </div>
                 <div class="col-md-6 single-grid simpleCart_shelfItem">
+                    <span id="goodsUserId" style="display:none;">@Model.UserId</span>
                     <h3 class="goodsname" id="goodstitle">@Model.Title</h3>
                     <div class="galry">
                         <p class="goodsnumber" id="goodsamount">數量 : <span>@Model.Amount</span></p>
@@ -74,9 +74,9 @@
     <div class="container">
         @foreach (var item in (List<GIFU.Models.GoodsMessage>)ViewBag.Messages)
         {
-            <div class="row">
-                @if (item.Type == "Q")
-                {
+            if (item.Type == "Q")
+            {
+                <div class="row questionRow">
                     <div class="question" @("id=question" + @item.CommentNo)>
                         <div class="questionimage" @("id=questionimage" + @item.CommentNo)>
                             <h4>Q</h4>
@@ -86,38 +86,64 @@
                             <p class="content">@item.Message</p>
                         </div>
                         <p class="questiondate">@item.Time<a href="#"><span class="glyphicon glyphicon-exclamation-sign"></span></a></p>
+                        @*<button class="answerButton btn btn-warning">答覆</button>*@
                     </div>
-                }
-                else if (item.Type == "A")
+                </div>
+            }
+            else if (item.Type == "A")
+            {
+                //物品為登入者所有時顯示可編輯區塊
+                if (item.UserId == Convert.ToInt32(Session["userId"]))
                 {
-                    <div class="answer" @("id=answer" + item.CommentNo)>
-                        <div class="answerimage" @("id=answerimage" + @item.CommentNo)>
-                            <h4>A</h4>
-                            <img src="/images/accountphoto.png" />
+                    <div class="row">
+                        <div class="answer" @("id=answer" + item.CommentNo)>
+                            <div class="answerimage" @("id=answerimage" + @item.CommentNo)>
+                                <h4>A</h4>
+                                <img src="/images/accountphoto.png" />
+                            </div>
+                            <div class="answercontent">
+                                <textarea class="content" maxlength="100" placeholder="答覆此問題(最多輸入100個字)">@item.Message</textarea>
+                            </div>
+                            <button class="updateAnswerButton btn btn-success" onclick=@("PostAjaxUpdateMessage(" + item.CommentNo + ")")>更新</button>
+                            <p class="answerdate">@item.Time<a href="#"><span class="glyphicon glyphicon-exclamation-sign"></span></a></p>
                         </div>
-                        <div class="answercontent">
-                            <p class="content">@item.Message</p>
-                        </div>
-                        <p class="answerdate">@item.Time<a href="#"><span class="glyphicon glyphicon-exclamation-sign"></span></a></p>
                     </div>
                 }
+                else
+                {
+                    <div class="row">
+                        <div class="answer" @("id=answer" + item.CommentNo)>
+                            <div class="answerimage" @("id=answerimage" + @item.CommentNo)>
+                                <h4>A</h4>
+                                <img src="/images/accountphoto.png" />
+                            </div>
+                            <div class="answercontent">
+                                <p class="content">@item.Message</p>
+                            </div>
+                            <p class="answerdate">@item.Time<a href="#"><span class="glyphicon glyphicon-exclamation-sign"></span></a></p>
+                        </div>
+                    </div>
+                }
+            }
+        }
+        @if (Model.UserId != Convert.ToInt32(Session["userId"]))
+        {
+            <div class="row askquestionRow">
+                <div class="col-md-2"></div>
+                <div class="col-md-8 ">
+                    <div class="askquestion row">
+                        <div class="askquestionphotoarea">
+                            <img src="/images/accountphoto.png" class="accountphoto" />
+                        </div>
+                        <div class="askquestiontextarea">
+                            <textarea id="askQuestion" maxlength="150" placeholder="為保障會員交易安全，留言請勿填寫個人資料、外部連結或任何導私下交易之內容，否則您送出的內容可能無法正常顯示。(限制輸入150個字)"></textarea>
+                        </div>
+                        <button id="ask-btn" class="btn ask-btn btn-info" type="submit" formmethod="post">提問</button>
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
             </div>
         }
-        <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-8 ">
-                <div class="askquestion row">
-                    <div class="askquestionphotoarea">
-                        <img src="/images/accountphoto.png" class="accountphoto" />
-                    </div>
-                    <div class="askquestiontextarea">
-                        <textarea id="askQuestion" maxlength="50" placeholder="為保障會員交易安全，留言請勿填寫個人資料、外部連結或任何導私下交易之內容，否則您送出的內容可能無法正常顯示。(限制輸入50個字)"></textarea>
-                    </div>
-                    <button id="ask-btn" class="btn ask-btn btn-info" type="submit" formmethod="post">提問</button>
-                </div>
-            </div>
-            <div class="col-md-2"></div>
-        </div>
     </div>
     <!--Q&Amessage-->
     <!--跳出視窗-->
@@ -171,9 +197,9 @@
         </div>
     </div>
     <!--跳出視窗-->
-    <!--推薦商品-->
+    <!--推薦物品-->
     <div class="related-products">
-        <h2>推薦商品</h2>
+        <h2>推薦物品</h2>
         <div class="col-md-12 product-model-sec recommend" id="container">
             <div class="product-grid">
                 <a href="../Store/GoodsDetail/1">
@@ -297,15 +323,17 @@
             </div>
         </div>
     </div>
-    <!--推薦商品-->
+    <!--推薦物品-->
 </div>
 @*<button onclick="GetGoodsDetailByGoodsID(1)">index1</button>*@
 <script>
     var url = '/Account/Login?ReturnUrl='+encodeURIComponent(window.location.pathname);
     $(document).ready(function () {
-        //調整推薦商品區高度
+        //判斷是否為物品持有者
+        CheckGoodsUserId();
+        //調整推薦物品區高度
         ResizeRecommendCalcHeight();
-        //推薦商品slider
+        //推薦物品slider
         SliderRecommendGoods();
         //調整留言板
         ResizeQAMargin();
@@ -328,7 +356,7 @@
         }
 
         //是否需要理由
-        if ('@Model.IsReason' == 'Y'){
+        if ('@Model.IsReason' == 'T'){
             $('#applyforsubmit').addClass('disabled');
             $('#applyforgoodsreason').on('input', function() {
                 if (this.value === ''){
@@ -340,10 +368,25 @@
         }
     });
 
+    function CheckGoodsUserId(){
+        var questionTotalNumber = $('.container').children('.questionRow').length;
+        if($('#userId').text() == $('#goodsUserId').text()){
+            for (i = 1; i <= questionTotalNumber; i++) {
+                if($('#answer' + i).length == 0){
+                    $('#question'+ i + ' .questionimage h4').addClass('spin');
+                }
+            }
+            $('#want-goods').css('pointer-events', 'none').css('cursor', 'default').css('opacity', '0.6');
+            //註冊回覆按鈕Click事件
+            RegistAnswerButtonClickEvent();
+        }
+    }
+
     window.addEventListener("resize", ResizeQAMargin);
 
     function ResizeQAMargin() {//TODO 修改留言數量
-        for (i = 1; i <= 3; i++)
+        var questionTotalNumber = $('.container').children('.questionRow').length;
+        for (i = 1; i <= questionTotalNumber; i++)
         {
             $('#answerimage' + i).css('margin-top', ($('#answer' + i).height() - $('#answerimage' + i).height()) / 2);
             $('#questionimage' + i).css('margin-top', ($('#question' + i).height() - $('#questionimage' + i).height()) / 2);
@@ -389,12 +432,34 @@
             dataType: "json",
             success: function (result) {
                 ShowNotify(result.result, result.message);
+                AppendAskQuestion();
+                $('#askQuestion').val("");
+                ResizeQAMargin();
             },
             fail: function (error) {
                 console.log(error);
             }
         });
     });
+
+    function AppendAskQuestion(){
+        var questionNextNumber = ($('.container').children('.questionRow').length) + 1;
+        var today = new Date();
+        $('.container .askquestionRow').before(
+            '<div class="row questionRow">' +
+                '<div class="question" id="question'+ questionNextNumber +'">' +
+                    '<div class="questionimage" id="questionimage'+ questionNextNumber +'">' +
+                        '<h4>Q</h4>' +
+                        '<img src="/images/accountphoto.png" />' +
+                    '</div>' +
+                    '<div class="questioncontent">' +
+                        '<p class="content">'+ $('#askQuestion').val() +'</p>' +
+                    '</div>' +
+                    '<p class="questiondate">'+ today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate() +'<a href="#"><span class="glyphicon glyphicon-exclamation-sign"></span></a></p>' +
+                '</div>' +
+            '</div>'
+        );
+    }
 
     function SliderRecommendGoods(){
         $('.recommend').append($('.recommend .product-grid:eq(0)'));
@@ -403,5 +468,76 @@
     window.addEventListener("resize", ResizeRecommendCalcHeight);
     function ResizeRecommendCalcHeight(){
         $('.recommend').height($('.product-grid').outerHeight());
+    }
+
+    function RegistAnswerButtonClickEvent(){
+        $('.questionimage h4.spin').on("click", function (){
+            var commentNo = ($(this).parent().parent().attr('id')).substring(8);
+            $(this).parent().parent().parent().after(
+            '<div class="row">'+
+                    '<div class="answer" id="answer'+ commentNo +'">'+
+                        '<div class="answerimage" id="answerimage'+ commentNo +'">'+
+                            '<h4>A</h4>'+
+                            '<img src="/images/accountphoto.png" />'+
+                       ' </div>'+
+                        '<div class="answercontent">'+
+                            '<textarea class="content" maxlength="50" placeholder="答覆此問題(最多輸入50個字)"></textarea>'+
+                        '</div>'+
+                       '<button class="answerQuestionButton btn btn-info" onclick="PostAjaxAddMessage('+ commentNo +')">回覆</button>'+
+                       '<button class="updateAnswerButton btn btn-success" style="display:none;" onclick="PostAjaxUpdateMessage('+ commentNo +')">更新</button>'+
+                    '</div>'+
+                '</div>'
+            );
+            $('#answer' + commentNo).parent().hide().fadeIn();
+            $(this).removeClass('spin');
+            $(this).off("click");
+            ResizeQAMargin();
+        });
+    }
+
+    function PostAjaxAddMessage(commentNo) {
+        var today = new Date();
+        $.ajax({
+            type: "POST",
+            url: "/Store/AnswerGoodsMessage",
+            data: {GoodId: $('#goodId').text(),
+                CommentNo: commentNo,
+                Type: 'A',
+                UserId: $('#userId').text(),
+                Message: $('#answer'+ commentNo + ' textarea').val()},
+            dataType: "json",
+            success: function (result) {
+                ShowNotify(result.result, result.message);
+                $('#answer'+ commentNo +' .answerQuestionButton').fadeOut();
+                $('#answer'+ commentNo +' .updateAnswerButton').fadeIn();
+                $('#answer'+ commentNo).append('<p class="answerdate">'+ today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate() +'<a href="#"><span class="glyphicon glyphicon-exclamation-sign"></span></a></p>');
+                ResizeQAMargin();
+            },
+            fail: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    function PostAjaxUpdateMessage(commentNo){
+        var today = new Date();
+        $.ajax({
+            type: "POST",
+            url: "/Store/UpdateGoodsMessage",
+            data: {GoodId: $('#goodId').text(),
+                Type: 'A',
+                CommentNo: commentNo,
+                UserId: $('#userId').text(),
+                Message:  $('#answer'+ commentNo + ' textarea').val()},
+            dataType: "json",
+            success: function (result) {
+                ShowNotify(result, 'TEST');
+                $('#answer'+ commentNo + ' .answerdate').text(today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate());
+                ResizeQAMargin();
+            },
+            fail: function (error) {
+                console.log(error);
+            }
+        });
     }
 </script>

@@ -1,93 +1,81 @@
-﻿@{
+﻿@model GIFU.Models.Account
+@{
     ViewBag.Title = "ManageInfo";
 }
-
 <link href="/Content/ManageInfo.css" rel="stylesheet" type="text/css" />
-<div class="container body-content">
-    <div class="row info">
-        <div class="col-md-4 info-area">
-            <div class="row">
-                <div id="profile_pic" class="col-md-5">
-                    <img src="/images/profile_pic1.svg" alt="">
-                </div>
-                <div class="col-md-7 main-info">
-                    <p><span class="important-text">郭晉名</span></p>
-                    <p>現有商品 <span class="important-text"> 8</span> 個</p>
-                    <p>刊登次數 <span class="important-text"> 5</span> 次</p>
-                    <p>聯絡電話<br><span>0918-239-342</span></p>
-                    <p>電子郵件<br><span>qwer1234567890@gmail.com</span></p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <hr>
-                </div>
-            </div>
-            <div class="row">
-                <ul class="col-md-12 function-area">
-                    <li><a href="/Account/ManageInfo">個人資訊</a></li>
-                    <li><a href="/Account/ManageGoods">商品管理</a></li>
-                    <li><a href="/Account/ManageOrders">訂單查看</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="col-md-8 info-detail">
-            <div class="row">
-                <div class="col-md-12 page-title">
-                    <h1>個人資訊</h1>
-                    <hr>
-                </div>
-            </div>
-            <div class="row">
-                <div id="profile_pic" class="col-md-4">
-                    <img src="/images/profile_pic1.svg" alt="">
-                </div>
-                <div class="col-md-8 text-area">
-                    <p id="name">郭晉名</p>
-                    <p>性別: <span class="important-text">男生</span></p>
-                    <p>生日: <span class="important-text">1992 /02 /22</span></p>
-                    <p>電話: <span class="important-text">0923-123-434</span></p>
-                    <p>email: <span class="important-text">qwer12345678@gmail.com</span></p>
-                    <p>寄送地址: <span class="important-text">台北市大同區太原路92巷2-1號</span></p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="can-modify-info col-md-12">
-                    <div class="form-group">
-                        <label for="usr">修改電話: </label>
-                        <input type="text" class="form-control" id="usr">
-                    </div>
-                    <div class="form-group">
-                        <label for="usr">修改地址: </label>
-                        <input type="text" class="form-control" id="usr">
-                    </div>
-                    <div class="form-group">
-                        <label for="usr">修改密碼: </label>
-                        <input type="text" class="form-control" id="usr">
-                    </div>
-                    <div class="form-group">
-                        <label for="usr">確認密碼: </label>
-                        <input type="text" class="form-control" id="usr">
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="button-area">
-                        <button type="submit" class="clear-button" onclick="">清除</button>
-                        <button type="submit" class="clear-button" onclick="">提交</button>
-                    </div>
-                </div>
-            </div>
+
+<div class="col-md-8 info-detail">
+    <div class="row">
+        <div class="col-md-12 page-title">
+            <h1>個人資訊</h1>
+            <hr>
         </div>
     </div>
+    <div class="row">
+        <div id="profile_pic" class="col-md-4">
+            <img src="/images/profile_pic1.svg" alt="">
+        </div>
+        <div class="col-md-8 text-area">
+            <p id="userName">@Model.Name</p>
+            <p>
+                性別：
+                @if (Model.Sex == "M")
+                {
+                    <span class="important-text">男性</span>
+                }
+                else if (Model.Sex == "F")
+                {
+                    <span class="important-text">女性</span>
+                }
+            </p>
+            <p>生日：<span class="important-text">@Model.Birthday</span></p>
+            <p>電話：<span class="important-text" id="userTel">@Model.Phone</span></p>
+            <p>Email：<span class="important-text">@Model.Email</span></p>
+            <p>地址：<span id="userAddress" class="important-text">@Model.Address</span></p>
+        </div>
+    </div>
+    <form id="user-info-form" method="post" action="/Account/ManageInfo">
+        <div class="row">
+            <div class="can-modify-info col-md-12">
+                <input type="hidden" name="UserId" value=@Session["userId"] />
+                <div class="form-group">
+                    <label for="userModifyName">修改姓名: </label>
+                    <input type="text" class="form-control" id="userModifyName" name="Name" value=@Model.Name>
+                </div>
+                <div class="form-group">
+                    <label for="userModifyTel">修改電話: </label>
+                    <input type="text" class="form-control" maxlength="10" id="userModifyTel" name="Phone" value=@Model.Phone>
+                </div>
+                <div class="form-group">
+                    <label for="userModifyAddress">修改地址: </label>
+                    <input type="text" class="form-control" id="userModifyAddress" name="Address" value=@Model.Address>
+                </div>
+                <div class="form-group">
+                    <label for="userModifyPassword">修改密碼: </label>
+                    <input type="password" class="form-control" id="userModifyPassword">
+                </div>
+                <div class="form-group">
+                    <label for="userModifyPassword2">確認密碼: </label>
+                    <input type="password" class="form-control" id="userModifyPassword2" name="Passwd" oninput="CallFunction()">
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="button-area">
+                    <button type="submit" class="clear-button">提交</button>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
 
-    <script type="text/javascript">
-        function fuck() {
-            $('.button-area').css('background-color', 'black');
-        }
-
-        function world() {
-            $('#hello').append('<p>world</p>');
-        }
-    </script>
+<script type="text/javascript">
+    @if (TempData["reuslt"] != null && TempData["message"] != null)
+    {
+        <text>
+    $(document).ready(function() {
+        ShowNotify(@Convert.ToInt32(TempData["reuslt"]), TempData["message"]);
+    });
+    </text>
+    }
+</script>
 

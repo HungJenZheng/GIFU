@@ -156,11 +156,12 @@ select.dropdown1:focus {
 .navbar-header {
     float: left;
     display: inline-block;
-    margin-top: 1em;
+    margin-top: 12px;
 }
 
 .navbar-nav {
     margin-left: calc((90% - 478px)/2);
+    float:right;
 }
 
 .multi-column-dropdown li a.list {
@@ -189,7 +190,8 @@ select.dropdown1:focus {
 .search-box {
     float: right;
     width: 20%;
-    margin-top: 1em;
+    margin-top: 9px;
+    position:relative;
 }
 
 a.list1 {
@@ -200,21 +202,19 @@ h1.navbar-brand {
     text-transform: capitalize;
     font-family: 'Corben-Regular';
     font-size: 2.5em;
+    height:25px;
 }
 
     h1.navbar-brand a {
         text-decoration: none;
         color: #000;
+        height: 25px;
+        display: inline-block;
     }
-
-.navbar-nav > li > a {
-    padding-top: 21px;
-}
 
 .navbar-brand {
     float: left;
     font-size: 36px;
-    line-height: 22px;
     padding: 0;
 }
 
@@ -270,7 +270,7 @@ h1.navbar-brand {
 /*start search*/
 .sb-search {
     position: absolute;
-    right: 224px;
+    right: 0;
     width: 0%;
     min-width: 41px;
     margin: 0;
@@ -285,19 +285,17 @@ h1.navbar-brand {
 }
 
 .sb-search-input {
-    position: absolute;
-    top: 0px;
-    left: 1px;
     border: none;
     outline: none;
     background: #eee;
-    width: 89%;
+    width: 100%;
     height: 35px;
     margin: 0;
     z-index: 10;
     font-size: 13px;
     color: #000;
-    padding-left: 1em;
+    padding:5px 0 5px 15px;
+    float:right;
 }
 
     .sb-search-input::-webkit-input-placeholder {
@@ -347,7 +345,7 @@ h1.navbar-brand {
 }
 /* Open state */
 .sb-search.sb-search-open, .no-js .sb-search {
-    width: 24%;
+    width: 100%;
 }
 
     .sb-search.sb-search-open .sb-icon-search, .no-js .sb-search .sb-icon-search {
@@ -1829,7 +1827,7 @@ i.sele {
     font-size: 1em;
     font-family: 'Dosis-Bold';
     text-transform: uppercase;
-    border-radius: 25%;
+    border-radius: 7px;
     border: 1px solid #caccce;
     padding: 2px 4px;
 }
@@ -1991,6 +1989,10 @@ ul.place li.sort {
 
 ul.place li.by {
     float: right;
+}
+
+.single-bottom {
+    display:none;
 }
 
 .single-bottom a {
@@ -2277,7 +2279,7 @@ p.prod-desc {
 }
 
 .simpleCart_shelfItem h3 {
-    font-size: 50px;
+    font-size: 2.5em;
 }
 
 .grow {
@@ -2410,53 +2412,19 @@ address {
 /***End contact page ***/
 
 /*responsive*/
-@(max-width:1440px) {
-    .sb-search {
-        right: 135px;
-    }
-
-    .sb-search-input {
-        width: 100%;
-    }
-}
-
 @media(max-width:1366px) {
-    .sb-search {
-        right: 99px;
-    }
-
-    .sb-search-input {
-        width: 100%;
-    }
-
     .item-info {
         left: 125px;
     }
 }
 
 @media(max-width:1280px) {
-    .sb-search {
-        right: 56px;
-    }
-
     .item-info {
         left: 110px;
-    }
-
-    .sb-search-input {
-        width: 100%;
     }
 }
 
 @media(max-width:1080px) {
-    .sb-search {
-        right: 35px;
-    }
-
-    .sb-search-input {
-        width: 100%;
-    }
-
     .banner-grid h2, .product-model h2, .single-grid1 h2, .contact h2 {
         font-size: 2em;
     }
@@ -2473,10 +2441,6 @@ address {
         left: 70px;
         padding: 1em 0;
         top: 38%;
-    }
-
-    .gallery h3, .single-grid1 h3, .single-grid h3, .related-products h3 {
-        font-size: 1.5em;
     }
 
     ul.size h3 {
@@ -2511,13 +2475,14 @@ address {
     .item_quantity {
         width: 19%;
     }
-
-    .btn_form a {
-        font-size: 0.96em;
-    }
 }
 
 @media(max-width:991px) {
+    .navbar-nav .dropdown a {
+        padding-left:10px;
+        padding-right:10px;
+    }
+
     .register-top-grid .reigster-address {
         width: 100%;
     }
@@ -2532,6 +2497,7 @@ address {
 
     h1.navbar-brand {
         font-size: 2em;
+        line-height: 1;
     }
 
     .banner-grid h2, .product-model h2, .single-grid1 h2, .contact h2 {
@@ -2544,26 +2510,19 @@ address {
     }
 
     .navbar-header {
-    }
-
-    .sb-search-input {
-        width: 100%;
+        margin-top: 8px;
     }
 
     .navbar {
-        width: 90%;
+        width: 80%;
     }
 
     .search-box {
-        width: 10%;
+        width: 20%;
+        margin-top:8px;
     }
-
-    .sb-search {
-        right: 17px;
-    }
-
         .sb-search.sb-search-open, .no-js .sb-search {
-            width: 29%;
+            width: 100%;
         }
 
     .banner-section {
@@ -2647,9 +2606,13 @@ address {
         float: left;
         width: 50%;
     }
+    
+    .btn_form a {
+        font-size: 0.96em;
+    }
 
         .gallery h3, .single-grid1 h3, .single-grid h3, .Our-Products h3 {
-            font-size: 1.4em;
+            font-size: 2.0em;
         }
 
     .Our-Products {
@@ -2747,28 +2710,37 @@ address {
     }
 }
 
-@media(max-width:768px) {
+@media(max-width:767px) {
+    .navbar-nav .dropdown a {
+        padding-left:15px;
+        padding-right:15px;
+    }
     .navbar-header {
         width: 100%;
     }
 
         .navbar-header button {
-            margin-top: 0px;
+            margin:0;
         }
 
     .navbar-nav {
         margin: 0px;
         margin: 7.5px -15px;
+        float:left;
+    }
+
+    .search-box {
+        display:none;
+    }
+    .navbar {
+        width:100%;
     }
 }
 
 @media(max-width:640px) {
-    .navbar {
-        width: 80%;
-    }
-
     .navbar-header {
         width: 100%;
+        margin-top:7px;
     }
 
     .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
@@ -2798,13 +2770,11 @@ address {
     }
 
     .sb-search-input {
-        width: 100%;
         font-size: 12px;
     }
 
     .sb-search.sb-search-open, .no-js .sb-search {
-        width: 31%;
-        padding-left: 0.5em;
+        width: 100%;
     }
 
     .navbar-toggle {
@@ -2817,7 +2787,7 @@ address {
     }
 
     .top-right ul li a {
-        font-size: 0.95em;
+        font-size: 0.72em;
     }
 
     .top-right ul li {
@@ -2868,6 +2838,9 @@ address {
         width: 100%;
         margin-top: 1em;
     }
+        .footer-grid .footerularea {
+            display:none;
+        }
 
     span.item_price {
         margin: 6px 0 0px;
@@ -2886,7 +2859,7 @@ address {
     }
 
     .gallery h3, .single-grid1 h3, .single-grid h3, .Our-Products h3 {
-        font-size: 1.3em;
+        font-size: 2.0em;
     }
 
     .products-grid {
@@ -3116,10 +3089,6 @@ address {
         font-size: 0.9em;
     }
 
-    .sb-search {
-        right: 16px;
-    }
-
     .banner-grid {
         margin-top: 1em;
         padding: 0;
@@ -3277,7 +3246,7 @@ address {
     font-size: 50px;
     width: 75px;
     height: 75px;
-    line-height: 52px;
+    line-height: 58px;
     padding: 0px 9px;
 }
 
@@ -3315,6 +3284,16 @@ address {
     right: 6px;
 }
 
+.question .answerButton{
+    width:40px;
+    height:20px;
+    position:absolute;
+    left:138px;
+    bottom:2px;
+    font-size:8px;
+    padding:0;
+}
+
 .answer {
     display: inline-block;
     float: right;
@@ -3341,8 +3320,8 @@ address {
     font-size: 50px;
     width: 75px;
     height: 75px;
-    line-height: 50px;
-    padding: 0px 12px;
+    line-height: 53px;
+    padding: 0px 11px;
 }
 
 .answerimage img {
@@ -3460,18 +3439,45 @@ address {
     margin-right: 3px;
 }
 
-.goodstagpath .goodstag {
+.goodstagpath .goodstag a{
     font-size: 1.5em;
     float: left;
     display: block;
     color: #7f7f7f;
+	text-decoration: none;
+}
+
+.answer .answerQuestionButton {
+    position:absolute;
+    right:12.5px;
+    bottom:2px;
+    width:40px;
+    height:20px;
+    font-size:8px;
+    padding:0;
+    border-color:#39B3D7;
+}
+
+.answer .updateAnswerButton {
+    position:absolute;
+    left:137px;
+    bottom:2px;
+    width:40px;
+    height:20px;
+    font-size:8px;
+    padding:0;
+    border-color:#39B3D7;
+}
+
+.answer .answercontent textarea {
+    width:100%;
+    height:100%;
+    resize:none;
+    border-color:white;
+    border-radius:12.5px;
 }
 
 @media(max-width: 991px) {
-    .single-grid h3 {
-        font-size: 2.5em;
-    }
-
     .askquestion {
         width: 83.33%;
         margin: 0px calc((100% - 83.33%)/2);
@@ -3519,6 +3525,9 @@ address {
         .question .questioncontent p {
             font-size: 0.8em;
         }
+    .question .answerButton {
+        left:88px;
+    }
 
     .answer {
         border-top-left-radius: 50px;
@@ -3548,6 +3557,10 @@ address {
 
     .answer .answercontent p {
         font-size: 0.8em;
+    }
+
+    .answer .updateAnswerButton {
+        left:88px;
     }
 
     .askquestion {
@@ -3968,11 +3981,12 @@ address {
 }
 
 #accountfunction li {
-    display: block;
+    display: inline-block;
     border: none;
     color: ghostwhite;
     font-size:1em;
-    padding:1em 0.5em;
+    padding:0;
+    width:100%;
 }
 
 #accountfunction li img {
@@ -3983,8 +3997,17 @@ address {
     margin-right:5px;
 }
 
-#accountfunction li a {
+    #accountfunction li a {
+        width:100%;
+        height:100%;
+        display:inline-block;
+        float:left;
+        padding:1em 0.5em;
+    }
+
+#accountfunction li p {
     color: ghostwhite;
+    display:inline-block;
 }
 
 #accountNoticeList {
@@ -3994,6 +4017,10 @@ address {
     height: 265px;
     overflow: auto;
 }
+
+    /*#accountNoticeList::-webkit-scrollbar {
+        display:none;
+    }*/
 
 #accountNoticeNumber {
     height:17px;
@@ -4006,6 +4033,13 @@ address {
     border-radius:50%;
     background:red;
     text-align:center;
+    display:none;
+}
+
+@media (max-width:640px) {
+    #accountNoticeNumber {
+        bottom:0.5em;
+    }
 }
 
 #accountNoticeList li {
@@ -4013,18 +4047,54 @@ address {
     border: none;
     color: ghostwhite;
     font-size:1em;
-    padding:0.5em 0.5em;
+    padding:0;
     border-bottom:1px solid white;
     width: 100%;
     float:left;
+    position:relative;
+}
+
+#accountNoticeList {
+    border:1px solid black;
+}
+
+#accountNoticeList::-webkit-scrollbar
+{
+    position:absolute;
+    right:0;
+	width: 8px;
+	background-color: #F5F5F5;
+}
+
+#accountNoticeList::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	background-image: -webkit-gradient(linear,
+									   left bottom,
+									   left top,
+									   color-stop(0.44, rgb(122,153,217)),
+									   color-stop(0.72, rgb(73,125,189)),
+									   color-stop(0.86, rgb(28,58,148)));
+}
+
+.hidescrollbar::-webkit-scrollbar { 
+    display: none;
 }
 
 #accountNoticeList .readnotice {
-    background:black;
+    background: #000;
 }
 
 #accountNoticeList .notreadnotice {
-    background:#6d6d6d;
+    background:#e2e2e2;
+}
+
+#accountNoticeList li a {
+    width:100%;
+    height:100%;
+    padding:1em 1em;
+    display:inline-block;
+    float:left;
 }
 
 #accountNoticeList li img {
@@ -4040,15 +4110,21 @@ address {
     height:50px;
     padding: 6px 9.7px;
     margin:0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    font-size: 14px;
 }
-#accountNoticeList li a {
+#accountNoticeList li p {
     color: ghostwhite;
     display:block;
     float:right;
     margin-top:5px;
 }
 
-#accountNoticeList li a span {
+#accountNoticeList li p span {
     top:3px;
 }
 
@@ -4146,7 +4222,7 @@ address {
     }
 
         .innerPageSearch .form-control {
-            width: calc(80% - 75px);
+            width: calc(80% - 85px);
         }
 
         .innerPageSearch .innerSearchButton {
@@ -4154,11 +4230,11 @@ address {
         }
 
         .innerPageSearch .input-group-btn {
-            width: 75px;
+            width: 85px;
         }
 
             .innerPageSearch .input-group-btn .innerPageSearchTag {
-                width: 75px;
+                width: 85px;
             }
 }
 
@@ -4166,4 +4242,61 @@ address {
     margin:0;
 }
 
+#headersearch {
+    display:none;
+}
 
+@media (max-width:767px) {
+    #headersearch {
+        display:inline-block;
+        float:right;
+        margin-right:10px;
+        width: 50%;
+    }
+
+        #headersearch .sb-search {
+            position:relative;
+            height:35px;
+            width: 0%;
+            margin: 0;
+            float: right;
+            overflow: hidden;
+            -moz-transition: width 0.3s;
+            transition: width 0.3s;
+            background: none;
+            display:inline-block;
+        }
+
+            #headersearch .sb-search.sb-search-open {
+                width:100%;
+            
+            }
+
+            #headersearch .sb-search .sb-icon-search,.sb-search-submit {
+                width: 40px;
+                height: 35px;
+                display: block;
+                padding: 0;
+                margin: 0;
+                line-height: 85px;
+                text-align: center;
+                cursor: pointer;
+            }
+}
+
+@-webkit-keyframes myfirst /* Safari ©M Chrome */
+{
+0%   {border-top-color: #4DA6BF;}
+25%  {border-right-color: #4DA6BF;}
+50%  {border-bottom-color: #4DA6BF;}
+75% {border-left-color: #4DA6BF;}
+100% {border-color: #f2f2f2;}
+}
+
+.questionimage h4.spin {
+    -webkit-animation: myfirst 2s;
+    animation-iteration-count:infinite;
+
+    transition:border-color 0.1s;
+
+}

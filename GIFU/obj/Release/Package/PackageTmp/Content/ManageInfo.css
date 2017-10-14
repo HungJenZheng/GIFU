@@ -19,6 +19,7 @@ a {
 .info {
     background-color: black;
     border: 2px solid black;
+    margin-top: 40px;
 }
 
 .info-area {
@@ -87,6 +88,7 @@ a {
     font-size: 1.4rem;
     color: rgba(100, 100, 100, 1);
     border-left: 2px solid black;
+    min-height: 800px;
 }
 
 .page-title h1 {
@@ -105,7 +107,7 @@ a {
     /*======================================================================================*/
 
 
-.info-detail #name {
+.info-detail #userName {
     font-size: 1.9rem;
     color: black;
 }
@@ -156,3 +158,71 @@ a {
     background: #000;
     color: #fff;
 }
+
+
+/*=================================*/
+@media (max-width:992px) {
+    #profile_pic img {
+        height: 80px;
+        width: 80px;
+    }
+
+    .info-detail {
+        background-color: white;
+        float: right;
+        width: 75%;
+    }
+}
+
+@media (max-width:768px) {
+
+    #profile_pic img {
+        display: none;
+    }
+
+    .main-info p {
+        display: none;
+    }
+
+    .order-area {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .info-area {
+        background-color: black;
+        padding-top: 30px;
+        padding-bottom: 30px;
+        margin-right: 20px;
+        text-align: center
+    }
+
+
+    .function-area li {
+        font-size: 1.1rem;
+        white-space: nowrap;
+        display: inline-block;
+        margin-right: 14px;
+        margin-top: 7px;
+    }
+
+    .function-area {
+        /* font-size: 1.6rem;
+        white-space: nowrap; 
+        display:inline-block;
+        margin-right:10px;*/
+        padding-right: 0px;
+        padding-left: 0px;
+    }
+
+    .info-area hr {
+        display: none;
+    }
+
+    .info-detail {
+        background-color: white;
+        float: left;
+        width: 100%;
+    }
+}
+/*=================================*/

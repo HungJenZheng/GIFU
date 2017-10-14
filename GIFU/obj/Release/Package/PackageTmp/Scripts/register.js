@@ -1,65 +1,76 @@
-
 $(document).ready(function () {
-    calcstepheight();
+    //調整步驟圖形高度
+    ResizeStepGraphHeight();
+    //決定註冊步驟
+    DetermineRegisterStep();
+});
+
+//網頁Resize事件註冊 實作ResizeStepGraphHeight
+window.addEventListener("resize", ResizeStepGraphHeight);
+
+//調整步驟圖形高度
+function ResizeStepGraphHeight() {
+    $('.step').height($('.step').width() + 12);
+    var margin = $('.step').css('margin-top');
+    $('.steparea').height($('.step').height() + (margin.substr(0, 2)) * 2 + 12);
+}
+
+//決定註冊步驟
+function DetermineRegisterStep() {
     if ($('#temp_result').text() == "1") {
-        registernextstep(4);
-        AnimateImage();
-        CatchResultVM($('#temp_result').text(), $('#temp_message').text());
+        NextRegisterStep(4);
+        AnimateRegisterSuccessImage();
+        ShowNotify($('#temp_result').text(), $('#temp_message').text());
     }
     else if ($('#temp_result').text() == "-1") {
-        registernextstep(2);
-        CatchResultVM($('#temp_result').text(), $('#temp_message').text());
+        NextRegisterStep(2);
+        ShowNotify($('#temp_result').text(), $('#temp_message').text());
     }
     else {
-        registernextstep(1);
+        NextRegisterStep(1);
     }
-});
-var t = 5, animationwaittime = 2;
-function registernextstep(nextstep) {
-    console.log(nextstep);
+}
+
+var downTime = 5, animationWaitTime = 2;
+
+//前往下一個註冊步驟
+function NextRegisterStep(nextStep) {
     for (i = 1; i <= 4; i++) {
         $('#registerstep' + i).hide();
         $('#step' + i).css("border", "6px solid #dbdbdb");
         $('#step' + i).css("background-color", "#f9f9f9");
         $('#step' + i + ' h3').css("color", "#d3d3d3");
     }
-    $('#registerstep' + nextstep).show();
-    $('#step' + nextstep).css("border", "6px solid #34A881");
-    $('#step' + nextstep).css("background-color", "#fffede");
-    $('#step' + nextstep).css("z-index", nextstep);
-    console.log(nextstep);
-    $('#step' + nextstep + ' h3').css("color", "#34A881");
+    $('#registerstep' + nextStep).show();
+    $('#step' + nextStep).css("border", "6px solid #34A881");
+    $('#step' + nextStep).css("background-color", "#fffede");
+    $('#step' + nextStep).css("z-index", nextStep);
+    $('#step' + nextStep + ' h3').css("color", "#34A881");
     $('html').animate({ scrollTop: 0 }, 600);
 }
 
-function AnimateImage() {
-    animationwaittime -= 1;
-    if (animationwaittime == 0) {
-        $('#checkedblack').fadeOut("slow", CountingDownTime);
+//註冊成功動畫
+function AnimateRegisterSuccessImage() {
+    animationWaitTime -= 1;
+    if (animationWaitTime == 0) {
+        $('#checkedblack').fadeOut("slow", CountDownTime);
     }
-    setTimeout("AnimateImage()", 1000);
+    setTimeout("AnimateRegisterSuccessImage()", 1000);
 }
 
-function CountingDownTime() {
-    console.log(t);
-    t -= 1;
-    $('.succeed h3').text('倒數' + t + '秒返回首頁');
-
-    if (t == 0) {
-        location.href = 'http://www.google.com';
+//倒數計時 5秒後回首頁
+function CountDownTime() {
+    downTime -= 1;
+    $('.succeed h3').text('倒數' + downTime + '秒返回登入');
+    if (downTime == 0) {
+        location.href = '/Account/Login';
     }
-
-    //每秒執行一次,showTime()
-    setTimeout("CountingDownTime()", 1000);
+    //每秒執行一次,CountDownTime()
+    setTimeout("CountDownTime()", 1000);
 }
 
-function gotonext(page1class, page2class) {
-    $('.' + page1class).hide();
-    $('.' + page2class).show();
-}
-
-function CheckEmail() { //先向後台確認是否有重複的帳號
-    console.log("inputemail");
+//檢查Email格式
+function CheckEmail() {
     if (IsEmail()) {
         $('#emailcheck').css("color", "green");
         $('#emailwarningword').fadeOut();
@@ -75,6 +86,7 @@ function CheckEmail() { //先向後台確認是否有重複的帳號
     }
 }
 
+//是否為Email
 function IsEmail() {
     emailRule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
     var mail = $('#email').val();
@@ -84,7 +96,8 @@ function IsEmail() {
         return false;
 }
 
-function IsEnglishOrNumber(string) {
+//是否為英文或數字或特殊符號
+function IsEnglishOrNumberOrSymbol(string) {
     passwordRule = /^[a-zA-Z0-9!@#$%^&+=]+$/;
     console.log(string);
     if (string.search(passwordRule) != -1)
@@ -93,9 +106,20 @@ function IsEnglishOrNumber(string) {
         return false;
 }
 
+//檢查密碼
+function CheckPassword() {
+    if ($('#password').val() != "") {
+        $('#passwordcheck').css("color", "green");
+    }
+    else {
+        $('#passwordcheck').css("color", "#9D9D9D");
+    }
+}
+
+//檢查確認密碼
 function CheckConfirmPassword() {
     console.log("inputpassword");
-    if (IsEnglishOrNumber($('#confirmpassword').val()) && ($('#confirmpassword').val() == $('#password').val())) {
+    if (IsEnglishOrNumberOrSymbol($('#confirmpassword').val()) && ($('#confirmpassword').val() == $('#password').val())) {
         $('#confirmpasswordcheck').css("color", "green");
         $('#confirmpasswordwarningword').fadeOut();
     }
@@ -110,17 +134,19 @@ function CheckConfirmPassword() {
     }
 }
 
-function IsCellphoneNumber(string) {
+//是否為手機電話號碼
+function IsCellphoneNumber(cellPhoneNumber) {
     cellphoneRule = /^[\d|0-9]+$/;
-    if (string.search(cellphoneRule) != -1)
+    if (cellPhoneNumber.search(cellphoneRule) != -1)
         return true;
     else
         return false;
 }
 
+//檢查手機電話
 function CheckCellPhone() {
-    var cellphone = $('#cellphone').val();
-    if (cellphone.substring(0, 2) != '09' || cellphone.length < 10 || !IsCellphoneNumber(cellphone)) {
+    var cellPhone = $('#cellphone').val();
+    if (cellPhone.substring(0, 2) != '09' || cellPhone.length < 10 || !IsCellphoneNumber(cellPhone)) {
         $('#cellphonewarningword').text('cellphone格式錯誤');
         $('#cellphonewarningword').fadeIn();
         return false;
@@ -130,19 +156,11 @@ function CheckCellPhone() {
     return true;
 }
 
-function CheckPassword() {
-    if ($('#password').val() != "") {
-        $('#passwordcheck').css("color", "green");
-    }
-    else {
-        $('#passwordcheck').css("color", "#9D9D9D");
-    }
-}
-
-function submitregisterform(currentlystep, nextstep) {
-    //未輸入rgb(153,153,153)
-    //錯誤rgb(255,0,0)
-    //成功rgb(0,128,0)
+//送出註冊表單
+function SubmitRegisterForm() {
+    //未輸入(灰)rgb(153,153,153)
+    //錯誤(紅)rgb(255,0,0)
+    //成功(綠)rgb(0,128,0)
     event.preventDefault();
     $('.warningword').fadeOut();
     CheckCellPhone();
@@ -158,17 +176,18 @@ function submitregisterform(currentlystep, nextstep) {
     CheckUpCheckIconColorRed('email');
 
     if (CheckUpCheckIconColorGreen('confirmpassword') &&
-        CheckUpCheckIconColorGreen('password') &&
-        CheckUpCheckIconColorGreen('email') &&
-        CheckUpInputValue('address') &&
-        CheckUpInputValue('cellphone') &&
-        CheckCellPhone() &&
-        CheckUpInputValue('birthday') &&
-        CheckUpInputValue('name')) {
+    CheckUpCheckIconColorGreen('password') &&
+    CheckUpCheckIconColorGreen('email') &&
+    CheckUpInputValue('address') &&
+    CheckUpInputValue('cellphone') &&
+    CheckCellPhone() &&
+    CheckUpInputValue('birthday') &&
+    CheckUpInputValue('name')) {
         $('#register-form').submit();
-        //registernextstep(4);
     }
 }
+
+//檢查確認Icon顏色(灰)
 function CheckUpCheckIconColorGray(string) {
     if ($('#' + string + 'check').css("color") == 'rgb(153, 153, 153)') {
         $('#' + string + 'warningword').text(string + '未輸入');
@@ -179,16 +198,18 @@ function CheckUpCheckIconColorGray(string) {
     return true;
 }
 
-function CheckUpInputValue(string) {
-    if ($('#' + string).val() == "") {
-        $('#' + string + 'warningword').text(string + '未輸入');
-        $('#' + string + 'warningword').fadeIn();
-        $('#' + string).focus();
+//檢查Input的值
+function CheckUpInputValue(input) {
+    if ($('#' + input).val() == "") {
+        $('#' + input + 'warningword').text(input + '未輸入');
+        $('#' + input + 'warningword').fadeIn();
+        $('#' + input).focus();
         return false;
     }
     return true;
 }
 
+//檢查確認Icon顏色(紅)
 function CheckUpCheckIconColorRed(string) {
     if ($('#' + string + 'check').css("color") == 'rgb(255, 0, 0)') {
         if (string == 'email')
@@ -202,6 +223,7 @@ function CheckUpCheckIconColorRed(string) {
     return true;
 }
 
+//檢查確認Icon顏色(綠)
 function CheckUpCheckIconColorGreen(string) {
     if ($('#' + string + 'check').css("color") == 'rgb(0, 128, 0)') {
         return true;
@@ -209,29 +231,8 @@ function CheckUpCheckIconColorGreen(string) {
     return false;
 }
 
+//重置註冊表單
 function ResetRegisterForm() {
-    console.log("!!");
     $('.warningword').fadeOut();
     $('.checkicon').css('color', 'rgb(153, 153, 153)');
-}
-
-function CatchResultVM(result, message) {
-    var notifyType = 'info';
-    var title = '成功!';
-    if (result == "-1") {
-        notifyType = 'warning';
-        title = '警告';
-    }
-    $.notify({
-        title: '<strong>' + title + '</strong>',
-        message: message
-    }, {
-        type: notifyType,
-        delay: 100,
-        z_index: 1031,
-        animate: {
-            enter: 'animated bounceIn',
-            exit: 'animated bounceOut'
-        }
-    });
 }

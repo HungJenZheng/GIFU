@@ -14,6 +14,7 @@ a {
 .info {
     background-color: black;
     border: 2px solid black;
+    margin-top: 40px;
 }
 
 .info-area {
@@ -25,6 +26,7 @@ a {
 .info-detail {
     background-color: white;
     float: right;
+    min-height: 800px;
 }
 
 #profile_pic img {
@@ -63,19 +65,19 @@ a {
     color: rgba(245, 245, 245, 1);
 }
 
-    .function-area li:hover {
-        cursor: pointer;
-        border-bottom: 1px;
-        border-style: solid;
-        border-color: white;
-        transition: border .5s ease-in-out;
-    }
+.function-area li:hover {
+    cursor: pointer;
+    border-bottom: 1px;
+    border-style: solid;
+    border-color: white;
+    transition: border .5s ease-in-out;
+}
 
-        .function-area li:hover a {
-            color: white;
-            transition: .5s all;
-            font-size: 1.95rem;
-        }
+.function-area li:hover a {
+    color: white;
+    transition: .5s all;
+    font-size: 1.95rem;
+}
 
 .info-detail {
     padding: 30px;
@@ -97,6 +99,7 @@ a {
     border-top: 2px solid rgba(100, 100, 100, 1);
 }
 
+
 /*======================================================================================*/
 
 #add-icon {
@@ -114,42 +117,97 @@ a {
 }
 
 .goods-box {
-    width: 150px;
+    width: 28%;
     height: 144px;
-    margin: 18px;
+    margin-right: 7%;
+    margin-top: 30px;
+    min-width: 150px;
     display: inline-flex;
     flex-wrap: wrap;
     transition-duration: 0.7s;
+    position: relative;
 }
 
+.goods-box:nth-child(3n+3) {
+    margin-right: 0;
+}
+
+
 .goods-box img {
-    /*max-width: 150px;*/
     width: 100%;
     max-height: 144px;
 }
 
-.goods-box:hover {
+.give-success img {
     opacity: 0.7;
+}
+
+.goods-box:hover .modify-overlay, .goods-box:hover .check-overlay {
+    height: 26%;
+}
+
+.goods-box .modify-overlay, .goods-box .check-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: black;
+    overflow: hidden;
+    width: 50%;
+    height: 0;
+    border-right: 1px solid #4c4c4c;
+    transition: .5s ease;
+    opacity: 0.7;
+}
+
+.goods-box .check-overlay {
+    left: 50%;
+}
+
+.goods-box .modify-overlay:hover, .goods-box .check-overlay:hover {
     cursor: pointer;
 }
 
-.sold-out {
-    opacity: 0.5;
+.goods-box .text {
+    white-space: nowrap;
+    color: white;
+    font-size: 1.5rem;
+    position: absolute;
+    overflow: hidden;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    opacity: 1;
 }
 
+.goods-box .give-overlay {
+    transition: .5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%)
+}
+
+.give-overlay .text {
+    padding: 8px;
+    background-color: black;
+}
+
+.goods-box:hover .give-overlay {
+    opacity: 1;
+}
+
+.give-overlay:hover {
+    cursor: pointer;
+}
+/*====================================*/
 .goods-info {
     display: none;
 }
-
-
 /*====================================*/
-
-.manage-goods-modal p {
-    font-size: 1.3rem;
-    margin-bottom: 8px;
-    color: gray;
-}
-
 .manage-goods-modal span {
     font-size: 1.5rem;
     color: black;
@@ -172,25 +230,212 @@ a {
     margin-bottom: 25px;
 }
 
-.mask {
-    display: none;
+
+/*====================================*/
+.modal-header, .modal-footer {
+    background-color: #1c294c;
+    color: white;
+}
+
+.modal-content {
+    border: 2px solid #1c294c;
+}
+
+.modal-header .close {
+    color: white;
+}
+
+.modal-title {
+    color: rgb(140, 148, 164);
+}
+/*====================================*/
+
+.check-goods-info {
+    padding-bottom: 20px;
+    border-bottom: 2px solid #334c8e;
+}
+
+.check-goods-info table {
     width: 100%;
-    position: absolute;
-    background: #fff;
-    z-index: 10;
-    top: 0;
-    left: 0;
-    height: 100%;
-    opacity: 1;
+    font-size: 1.5rem;
 }
 
-.bomb_box {
-    display: none;
-    background: #fff;
-    position: absolute;
-    top: 320px;
-    left: 500px;
-    z-index: 20;
+.check-goods-info th {
+    width: 35%;
+    font-weight: normal;
+    color: gray;
+    padding-bottom: 7px;
 }
- 
 
+.check-goods-info td {
+    width: 65%;
+    padding-bottom: 7px;
+}
+
+
+
+.check-goods-applier-info {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #334c8e;
+}
+
+.check-goods-applier-info:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.check-goods-applier-info img {
+    width: 80px;
+    height: 80px;
+    margin-left: calc((100% - 80px)/2);
+}
+
+.check-goods-applier-name {
+    font-size: 1.3rem;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.check-goods-applier-status  {
+    margin-top: 18px;
+}
+
+.check-goods-applier-status button {
+    padding: 3px 11px;
+    float: right;
+}
+
+.check-goods-applier-reject {
+    margin-right: 15px;
+}
+
+.check-goods-applier-reason {
+    margin: 0;
+}
+/*===================*/
+
+
+@media (max-width:768px) {
+
+    .checkGoodsModalInfo #accept {
+        margin-top: 20px;
+        margin-left: calc((100% - 54px)/2);
+    }
+}
+
+/*=============================================*/
+.check-text, .modify-text {
+    font-size: 1.6rem;
+    display: block;
+    margin: 0;
+    width: 50%;
+    text-align: center;
+    border-top: 0;
+    height: 30px;
+    background-color: black;
+    color: white;
+    border-top: 0.1px solid white;
+    line-height: 30px;
+}
+
+.modify-text {
+    border-left: 0.1px solid white;
+}
+
+/*=============================================*/
+.oldGoodsModalInfo p {
+    font-size: 1.4rem;
+    margin-bottom: 2px;
+    color: gray;
+}
+
+.oldGoodsModalInfo span, .oldGoodsModalInfo pre {
+    font-size: 1.5rem;
+    color: black;
+}
+
+.oldGoodsModalInfo #success {
+    height: 40px;
+    line-height: 35px;
+    font-size: 1.8rem;
+    text-align: center;
+    border: 1px solid gray;
+    color: black;
+    border-radius: 4px;
+    text-align: center;
+    vertical-align: middle;
+    padding: 0 5px;
+    margin-top: 15px;
+}
+/*=============================================*/
+
+
+
+/*=================================*/
+@media (max-width:992px) {
+    #profile_pic img {
+        height: 80px;
+        width: 80px;
+    }
+
+    .info-detail {
+        background-color: white;
+        float: right;
+        width: 75%;
+    }
+}
+
+@media (max-width:768px) {
+
+    #profile_pic img {
+        display: none;
+    }
+
+    .main-info p {
+        display: none;
+    }
+
+    .order-area {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .info-area {
+        background-color: black;
+        padding-top: 30px;
+        padding-bottom: 30px;
+        margin-right: 20px;
+        text-align: center
+    }
+
+
+    .function-area li {
+        font-size: 1.1rem;
+        white-space: nowrap;
+        display: inline-block;
+        margin-right: 14px;
+        margin-top: 7px;
+    }
+
+    .function-area {
+        /* font-size: 1.6rem;
+        white-space: nowrap; 
+        display:inline-block;
+        margin-right:10px;*/
+        padding-right: 0px;
+        padding-left: 0px;
+    }
+
+    .info-area hr {
+        display: none;
+    }
+
+    .info-detail {
+        background-color: white;
+        float: left;
+        width: 100%;
+    }
+}
+/*=================================*/

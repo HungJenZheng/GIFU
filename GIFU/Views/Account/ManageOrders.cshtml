@@ -1,133 +1,49 @@
-﻿@model GIFU.Models.Order
-@{
+﻿@{
     ViewBag.Title = "ManageOrders";
 }
-@section css{
-    <link href="/Content/ManageOrders.css" rel="stylesheet" type="text/css" />
-}
+<link href="/Content/ManageOrders.css" rel="stylesheet" type="text/css" />
 
-<body>
-    <div class="container">
-        <div class="row info">
-            <!-- 左側欄位 -->
-            <div class="col-sm-3 col-md-4 info-area">
-                <div class="row">
-                    <div id="profile_pic" class="col-md-5">
-                        <img src="/images/profile_pic1.svg" alt="">
-                    </div>
-                    <div class="col-md-7 main-info">
-                        <p><span class="important-text">郭晉名</span></p>
-                        <p>現有物品 <span class="important-text"> 8</span> 個</p>
-                        <p>刊登次數 <span class="important-text"> 5</span> 次</p>
-                        <p>聯絡電話<br><span>0918-239-342</span></p>
-                        <p>電子郵件<br><span>qwer1234567890@gmail.com</span></p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <hr>
-                    </div>
-                </div>
-                <div class="row">
-                    <ul class="col-md-12 function-area">
-                        <li><a href="/Account/ManageInfo">個人資訊</a></li>
-                        <li><a href="/Account/ManageGoods">物品管理</a></li>
-                        <li><a href="/Account/ManageOrders">索取清單</a></li>
-                    </ul>
-                </div>
-            </div>
-            <!-- 左側欄位-end -->
-            <!-- 右側欄位 -->
-            <div class="col-md-8 info-detail">
-                <div class="row">
-                    <div class="col-md-12 page-title">
-                        <h1>索取清單</h1>
-                        <hr>
-                    </div>
-                </div>
-
-                <div class="order-area">
-                    <table class="goods-info-list">
-                        @foreach (var item in (List<GIFU.Models.OrderShow>)ViewBag.Orders)
-                        {
-                            <tr class="goods-info" @("id=goods-info-"+item.OrderId) data-toggle="modal" data-target="#applyGoodsModal" onclick="GetApplyGoodsInfo(@item.OrderId)">
-                                <td>
-                                    <img class="goods-img" @("src="+@item.PicPath) />
-                                </td>
-                                <td>
-                                    <p>物品名稱：<span class="goods-name"> @item.GoodsTitle</span></p>
-                                    <p>贈送方名字：<span class="goods-giver"> @item.GiverName</span></p>
-                                    <p>數量：<span class="goods-amount">@item.Amount</span> 個</p>
-                                    <p>新舊程度：<span class="goods-new-degree">@item.NewDegree</span> 成新</p>
-                                </td>
-                                <td>
-                                    <span style="color: #f48422;" id="goods-status" class="goods-status">@item.StatusName</span>
-                                </td>
-                                <td style="display: none;">
-                                    <span class="goods-pic-path">@item.PicPath</span>
-                                    @*<span class="goods-name">@item.GoodsTitle</span>*@
-                                    <span class="goods-tag1">@item.Tag1Name</span>
-                                    <span class="goods-tag2">@item.Tag2Name</span>
-                                    @*<span class="goods-trade-method">面交取貨</span>*@
-                                    <span class="goods-update-date">@item.UpdateDate</span>
-                                    <span class="goods-address">@item.Address</span>
-                                    <span class="goods-comment">@item.Comment</span>
-                                </td>
-                            </tr>
-                        }
-                        @*<tr class="goods-info" id="goods-info-1" data-toggle="modal" data-target="#applyGoodsModal" onclick="GetApplyGoodsInfo(1)">
-                            <td>
-                                <img class="goods-img" src="/images/profile_pic1.svg" />
-                            </td>
-                            <td>
-                                <p>贈送方名字: <span class="goods-giver">建宏</span></p>
-                                <p>數量:<span class="goods-amount">8</span> 個</p>
-                                <p>新舊程度: <span class="goods-new-degree">10</span> 成新</p>
-                            </td>
-                            <td>
-                                <span style="color: #f48422;" id="goods-status" class="goods-status">申請中</span>
-                            </td>
-                            <td style="display: none;">
-                                <span class="goods-pic-path">/images/1/1.jpg</span>
-                                <span class="goods-name">iphoneX</span>
-                                <span class="goods-tag1">3C用品</span>
-                                <span class="goods-tag2">手機</span>
-                                <span class="goods-trade-method">面交取貨</span>
-                                <span class="goods-update-date">2017/02/03</span>
-                                <span class="goods-address">台北市大安區建國南路2號5樓</span>
-                                <span class="goods-comment">獨特2:8箱體設計，打造出完美大容量比例AERO-TRACTM懸掛輪系統，使拖拉能更加平穩順暢 現代時尚潮流設計 嵌合式TSA海關密碼鎖井然有序的內部收納組織</span>
-                            </td>
-                        </tr>
-
-                        <tr class="goods-info" id="goods-info-2" data-toggle="modal" data-target="#applyGoodsModal" onclick="GetApplyGoodsInfo(2)">
-                            <td>
-                                <img class="goods-img" src="/images/profile_pic1.svg" />
-                            </td>
-                            <td>
-                                <p>贈送方名字: <span class="goods-giver">建宏</span></p>
-                                <p>數量:<span class="goods-amount">82</span> 個</p>
-                                <p>新舊程度: <span class="goods-new-degree">10</span> 成新</p>
-                            </td>
-                            <td>
-                                <span style="color: #f48422;" id="goods-status" class="goods-status">申請中2</span>
-                            </td>
-                            <td style="display: none;">
-                                <span class="goods-pic-path">/images/1/1.jpg</span>
-                                <span class="goods-name">iphoneX2</span>
-                                <span class="goods-tag1">3C用品</span>
-                                <span class="goods-tag2">手機</span>
-                                <span class="goods-update-date">2017/02/02</span>
-                                <span class="goods-address">台北市大安區建國南路2號52樓</span>
-                                <span class="goods-comment">2獨特2:8箱體設計，打造出完美大容量比例AERO-TRACTM懸掛輪系統，使拖拉能更加平穩順暢 現代時尚潮流設計 嵌合式TSA海關密碼鎖井然有序的內部收納組織</span>
-                            </td>
-                        </tr>*@
-
-                    </table>
-                </div>
-                <!-- 右側欄位-end -->
-            </div>
+<div class="col-md-8 info-detail">
+    <div class="row">
+        <div class="col-md-12 page-title">
+            <h1>索取清單</h1>
+            <hr>
         </div>
     </div>
+
+    <div class="order-area">
+        <table class="goods-info-list">
+            @foreach (var item in (List<GIFU.Models.OrderShow>)ViewBag.Orders)
+            {
+                <tr class="goods-info" @("id=goods-info-" + item.OrderId) data-toggle="modal" data-target="#applyGoodsModal" onclick="GetApplyGoodsInfo(@item.OrderId)">
+                    <td>
+                        <img class="goods-img" @("src=" + @item.PicPath) />
+                    </td>
+                    <td>
+                        <p>物品名稱：<span class="goods-name"> @item.GoodsTitle</span></p>
+                        <p>贈送方名字：<span class="goods-giver"> @item.GiverName</span></p>
+                        <p>數量：<span class="goods-amount">@item.Amount</span> 個</p>
+                        <p>新舊程度：<span class="goods-new-degree">@item.NewDegree</span> 成新</p>
+                    </td>
+                    <td>
+                        <span style="color: #f48422;" id="goods-status" class="goods-status">@item.StatusName</span>
+                    </td>
+                    <td style="display: none;">
+                        <span class="goods-pic-path">@item.PicPath</span>
+                        @*<span class="goods-name">@item.GoodsTitle</span>*@
+                        <span class="goods-tag1">@item.Tag1Name</span>
+                        <span class="goods-tag2">@item.Tag2Name</span>
+                        @*<span class="goods-trade-method">面交取貨</span>*@
+                        <span class="goods-update-date">@item.UpdateDate</span>
+                        <span class="goods-address">@item.Address</span>
+                        <span class="goods-comment">@item.Comment</span>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <!-- 右側欄位-end -->
+</div>
 
     <!--Apply Modal -->
     <div class="modal fade" id="applyGoodsModal" role="dialog">
@@ -218,5 +134,3 @@
             $(this).find("span,pre,p").val('').end();
         });
     </script>
-
-</body>

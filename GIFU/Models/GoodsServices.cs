@@ -10,7 +10,7 @@ namespace GIFU.Models
         private DataAccessTool dataAccessTool = new DataAccessTool();
 
         /// <summary>
-        /// 依照條件取得簡單商品資訊
+        /// 依照條件取得簡單物品資訊
         /// </summary>
         /// <param name="arg"></param>
         /// <returns></returns>
@@ -51,11 +51,11 @@ namespace GIFU.Models
         }
 
         /// <summary>
-        /// 根據GoodId取得商品詳細資訊
+        /// 根據GoodId取得物品詳細資訊
         /// </summary>
         /// <param name="goodsId"></param>
         /// <returns></returns>
-        public Goods GetGoodDetailById(int? goodsId)
+        public Goods GetGoodDetailByGoodsId(int? goodsId)
         {
             DataTable dataTable;
             string sql = @"SELECT GOOD_ID   AS GoodId,
@@ -84,7 +84,42 @@ namespace GIFU.Models
         }
 
         /// <summary>
-        /// 根據GoodId取得商品留言
+        /// 根據UserId取得物品詳細資訊
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public List<Goods> GetGoodsDetailByUserId(int? userId)
+        {
+            DataTable dataTable;
+            string sql = @"SELECT G.GOOD_ID   AS GoodId,
+                                  [USER_ID] AS UserId,
+                                  TITLE     AS Title,
+                                  INTRODUCTION AS Introduction,
+                                  AMOUNT AS Amount,
+                                  NEW_DEGREE AS NewDegree,
+                                  TAG1 AS Tag1,
+                                  TAG2 AS Tag2,
+                                  (SELECT NAME FROM dbo.CODE WHERE CODE_KIND = 'TAG' AND CODE_ID = TAG1) AS Tag1Name, 
+                                  (SELECT NAME FROM dbo.CODE WHERE CODE_KIND = TAG1 AND CODE_ID = TAG2) AS Tag2Name,
+                                  IS_REASON AS IsReason,
+                                  CONVERT(VARCHAR, UPDATE_DATE, 120) AS UpdateDate,
+                                  GP.PATH PicPath
+                        FROM dbo.GOOD G
+                            LEFT JOIN dbo.GOOD_PICTURE GP
+                                ON G.GOOD_ID = GP.GOOD_ID
+                        WHERE USER_ID = @UserId AND GP.IS_MAIN = 'T'
+                        ORDER BY UPDATE_DATE DESC";
+            IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
+            parameters.Add(new KeyValuePair<string, object>("@UserId", userId ?? 0));
+            dataTable = dataAccessTool.Query(Variable.GetConnectionString, sql, parameters);
+            if (dataTable.Rows.Count > 0)
+                return DataMappingTool.GetModelList<Goods>(dataTable);
+            else
+                return new List<Goods>();
+        }
+
+        /// <summary>
+        /// 根據GoodId取得物品留言
         /// </summary>
         /// <param name="goodsId"></param>
         /// <returns></returns>
@@ -110,7 +145,7 @@ namespace GIFU.Models
         }
 
         /// <summary>
-        ///新增商品訊息
+        ///新增物品訊息
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
@@ -136,7 +171,7 @@ namespace GIFU.Models
         }
 
         /// <summary>
-        ///更新商品訊息
+        ///更新物品訊息
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
@@ -155,7 +190,7 @@ namespace GIFU.Models
         }
 
         /// <summary>
-        ///更新商品訊息
+        ///更新物品訊息
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
@@ -173,7 +208,7 @@ namespace GIFU.Models
         }
 
         /// <summary>
-        /// 新增商品
+        /// 新增物品
         /// </summary>
         /// <param name="goods"></param>
         /// <returns></returns>
@@ -237,24 +272,7 @@ namespace GIFU.Models
         }
 
         /// <summary>
-        /// 更新商品數量(For訂單使用)
-        /// </summary>
-        /// <param name="goods"></param>
-        /// <returns></returns>
-        public int UpdateGoodAmount(Goods goods)
-        {
-            string sql = @"UPDATE dbo.GOOD SET AMOUNT = AMOUNT - @Amount
-                           WHERE GOOD_ID = @GoodId";
-            IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
-            parameters.Add(new KeyValuePair<string, object>("@GoodId", goods.GoodId.NullToDBNullValue()));
-            parameters.Add(new KeyValuePair<string, object>("@Amount", goods.Amount.NullToDBNullValue()));
-            int result;
-            result = dataAccessTool.ExecuteNonQuery(Variable.GetConnectionString, sql, parameters);
-            return result;
-        }
-
-        /// <summary>
-        /// 根據GoodId取得該商品的詳細圖片
+        /// 根據GoodId取得該物品的詳細圖片
         /// </summary>
         /// <param name="goodsId"></param>
         /// <returns></returns>
@@ -277,7 +295,7 @@ namespace GIFU.Models
         }
 
         /// <summary>
-        /// 新增商品照片
+        /// 新增物品照片
         /// </summary>
         /// <param name="goodsId"></param>
         /// <param name="path"></param>
@@ -315,7 +333,7 @@ namespace GIFU.Models
         }
 
         /// <summary>
-        /// 增加商品點擊數
+        /// 增加物品點擊數
         /// </summary>
         /// <param name="goodsId"></param>
         /// <returns></returns>

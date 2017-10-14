@@ -102,7 +102,7 @@
                                 <img src="/images/accountphoto.png" />
                             </div>
                             <div class="answercontent">
-                                <textarea class="content" maxlength="50" placeholder="答覆此問題(最多輸入50個字)">@item.Message</textarea>
+                                <textarea class="content" maxlength="100" placeholder="答覆此問題(最多輸入100個字)">@item.Message</textarea>
                             </div>
                             <button class="updateAnswerButton btn btn-success" onclick=@("PostAjaxUpdateMessage(" + item.CommentNo + ")")>更新</button>
                             <p class="answerdate">@item.Time<a href="#"><span class="glyphicon glyphicon-exclamation-sign"></span></a></p>
@@ -136,7 +136,7 @@
                             <img src="/images/accountphoto.png" class="accountphoto" />
                         </div>
                         <div class="askquestiontextarea">
-                            <textarea id="askQuestion" maxlength="50" placeholder="為保障會員交易安全，留言請勿填寫個人資料、外部連結或任何導私下交易之內容，否則您送出的內容可能無法正常顯示。(限制輸入50個字)"></textarea>
+                            <textarea id="askQuestion" maxlength="100" placeholder="為保障會員交易安全，留言請勿填寫個人資料、外部連結或任何導私下交易之內容，否則您送出的內容可能無法正常顯示。(限制輸入100個字)"></textarea>
                         </div>
                         <button id="ask-btn" class="btn ask-btn btn-info" type="submit" formmethod="post">提問</button>
                     </div>

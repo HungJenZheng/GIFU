@@ -1,0 +1,55 @@
+﻿@model GIFU.Models.Account
+@{
+    ViewBag.Title = "ManageInfo";
+}
+@section css{
+    @*<link href="/Content/ManageInfo.css" rel="stylesheet" type="text/css" />*@
+}
+
+<div class="container body-content">
+    <div class="row info">
+        <!-- 左側欄位 -->
+        <div class="col-sm-3 col-md-4 info-area">
+            <div class="row">
+                <div id="profile_pic" class="col-md-5">
+                    <img src="/images/profile_pic1.svg" alt="">
+                </div>
+                <div class="col-md-7 main-info">
+                    <p><span class="important-text">@Model.Name</span></p>
+                    @*<p>現有物品 <span class="important-text"> 8</span> 個</p>*@
+                    <p>刊登次數 <span class="important-text">@Model.ProvideCount</span> 次</p>
+                    <p>聯絡電話<br><span>@Model.Phone</span></p>
+                    <p>電子郵件<br><span>@Model.Email</span></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <hr>
+                </div>
+            </div>
+            <div class="row">
+                <ul class="col-md-12 function-area">
+                    <li><a href="/Account/ManageInfo">個人資訊</a></li>
+                    <li><a href="/Account/ManageGoods">物品管理</a></li>
+                    <li><a href="/Account/ManageOrders">索取清單</a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- 左側欄位-end -->
+        @if (ViewBag.tag == "ManageInfo")
+        {
+            @Html.Action("ManageInfoPartial", Model);
+        }
+        else if (ViewBag.tag == "ManageGoods")
+        {
+            @Html.Action("ManageGoodsPartial");
+        }
+        else if (ViewBag.tag == "ManageOrders")
+        {
+            @Html.Action("ManageOrdersPartial");
+        }
+    </div>
+
+</div>
+
+

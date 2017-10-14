@@ -13,7 +13,7 @@ namespace GIFU.Models
         public int SendId { get; set; }
         [DisplayName("內容")]
         public string Content { get; set; }
-        [DisplayName("商品ID")]
+        [DisplayName("物品ID")]
         public int GoodId { get; set; }
         [DisplayName("網址")]
         public string Url { get; set; }

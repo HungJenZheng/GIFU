@@ -86,10 +86,10 @@ namespace GIFU.Models
 							NAME = @Name, 
 							PHONE = @Phone, 
 							[ADDRESS] = @Address, 
-							UPDATE_DATE = GETDATE(),";
+							UPDATE_DATE = GETDATE()";
             if (account.Passwd != null)
             {
-                sql += "PASSWD = @Passwd ";
+                sql += ",PASSWD = @Passwd ";
                 parameters.Add(new KeyValuePair<string, object>("@Passwd", account.Passwd.NullToDBNullValue()));
             }
             sql += " WHERE [USER_ID] = @UserId";

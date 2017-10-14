@@ -65,7 +65,7 @@ namespace GIFU.Models
 		                        ON O.GOOD_ID = GP.GOOD_ID
 							JOIN dbo.CODE C
 								ON O.[STATUS] = C.CODE_ID
-                        WHERE (O.[USER_ID] = 2) AND
+                        WHERE (O.[USER_ID] = @UserId) AND
 	                          GP.IS_MAIN = 'T' AND
 							  C.CODE_KIND = 'OST'";
             IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();

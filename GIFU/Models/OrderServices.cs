@@ -118,9 +118,9 @@ namespace GIFU.Models
             return result;
         }
 
-        public int UpdateStatus(int orderId, string status)
+        public int UpdateStatus(int orderId, int status)
         {
-            string sql = @"UPDATE dbo.ORDER SET STATUS = @Status, UPDATE_DATE = GETDATE() WHERE ORDER_ID = @OrderId";
+            string sql = @"UPDATE dbo.[ORDER] SET STATUS = @Status, UPDATE_DATE = GETDATE() WHERE ORDER_ID = @OrderId";
             IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
             parameters.Add(new KeyValuePair<string, object>("@OrderId", orderId.NullToDBNullValue()));
             parameters.Add(new KeyValuePair<string, object>("@Status", status.NullToDBNullValue()));

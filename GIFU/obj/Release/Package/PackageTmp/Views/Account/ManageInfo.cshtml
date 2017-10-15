@@ -3,7 +3,6 @@
     ViewBag.Title = "ManageInfo";
 }
 <link href="/Content/ManageInfo.css" rel="stylesheet" type="text/css" />
-
 <div class="col-md-8 info-detail">
     <div class="row">
         <div class="col-md-12 page-title">
@@ -40,15 +39,15 @@
                 <input type="hidden" name="UserId" value=@Session["userId"] />
                 <div class="form-group">
                     <label for="userModifyName">修改姓名: </label>
-                    <input type="text" class="form-control" id="userModifyName" name="Name" value=@Model.Name>
+                    <input type="text" class="form-control" id="userModifyName" name="Name" value=@Model.Name required>
                 </div>
                 <div class="form-group">
                     <label for="userModifyTel">修改電話: </label>
-                    <input type="text" class="form-control" maxlength="10" id="userModifyTel" name="Phone" value=@Model.Phone>
+                    <input type="text" class="form-control" maxlength="10" id="userModifyTel" name="Phone" value=@Model.Phone required>
                 </div>
                 <div class="form-group">
                     <label for="userModifyAddress">修改地址: </label>
-                    <input type="text" class="form-control" id="userModifyAddress" name="Address" value=@Model.Address>
+                    <input type="text" class="form-control" id="userModifyAddress" name="Address" value=@Model.Address required>
                 </div>
                 <div class="form-group">
                     <label for="userModifyPassword">修改密碼: </label>
@@ -67,7 +66,6 @@
         </div>
     </form>
 </div>
-
 <script type="text/javascript">
     @if (TempData["reuslt"] != null && TempData["message"] != null)
     {
@@ -77,5 +75,18 @@
     });
     </text>
     }
-</script>
 
+    var password = document.getElementById("userModifyPassword");
+    var confirm_password = document.getElementById("userModifyPassword2");
+    function validatePassword() {
+        if (password.value != confirm_password.value) {
+            confirm_password.setCustomValidity("密碼輸入不一致!");
+        } else {
+            confirm_password.setCustomValidity('');
+        }
+    }
+    password.onchange = validatePassword;
+    confirm_password.onkeyup = validatePassword;
+
+
+</script>

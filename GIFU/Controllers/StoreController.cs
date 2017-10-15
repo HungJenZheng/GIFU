@@ -8,13 +8,14 @@ namespace GIFU.Controllers
 {
     public class StoreController : Controller
     {
-        private Models.GoodsServices goodServices = new Models.GoodsServices();
+        private Models.GoodsServices goodsServices = new Models.GoodsServices();
         private Models.OrderServices orderServices = new Models.OrderServices();
         private Tools.AttachmentHandler attachmentHandler = new Tools.AttachmentHandler();
 
         // GET: Store
         public ActionResult Index()
         {
+            ViewBag.Recommend = goodsServices.GetRecommendGoods();
             return View();
         }
 
@@ -28,9 +29,9 @@ namespace GIFU.Controllers
             if (id != null)
             {
                 int goodId = Convert.ToInt32(id);
-                Models.Goods goods = goodServices.GetGoodDetailByGoodsId(goodId);
-                ViewBag.Pictures = goodServices.GetGoodPicturePathById(goodId);
-                ViewBag.Messages = goodServices.GetGoodsMessagesById(goodId);
+                Models.Goods goods = goodsServices.GetGoodDetailByGoodsId(goodId);
+                ViewBag.Pictures = goodsServices.GetGoodPicturePathById(goodId);
+                ViewBag.Messages = goodsServices.GetGoodsMessagesById(goodId);
                 return View(goods);
             }
             return RedirectToAction("GoodsSearch", "Store");
@@ -39,14 +40,14 @@ namespace GIFU.Controllers
         [HttpPost]
         public JsonResult GetGoodsByConditions(Models.GoodsSearchArg arg)
         {
-            var goods = goodServices.GetGoodsByConditions(arg);
+            var goods = goodsServices.GetGoodsByConditions(arg);
             return this.Json(goods);
         }
 
         [HttpPost]
         public ActionResult GetGoodsByConditionsReturnView(Models.GoodsSearchArg arg)
         {
-            var goods = goodServices.GetGoodsByConditions(arg);
+            var goods = goodsServices.GetGoodsByConditions(arg);
             return PartialView("_GoodsBox", goods);
         }
 
@@ -56,7 +57,7 @@ namespace GIFU.Controllers
             Models.ResultVM resultVM = Variable.GetResult(-1, "請稍後嘗試");
             if (ModelState.IsValid)
             {
-                int result = goodServices.AddGoodsMessage(msg);
+                int result = goodsServices.AddGoodsMessage(msg);
                 if (result > 0)
                 {
                     resultVM.result = result;
@@ -93,7 +94,7 @@ namespace GIFU.Controllers
         {
             if (ModelState.IsValid && file != null)
             {
-                int goodId = goodServices.AddGoods(goods);
+                int goodId = goodsServices.AddGoods(goods);
                 Models.ResultVM resultVM;
                 //物品新增成功
                 if (goodId != 0)
@@ -120,7 +121,7 @@ namespace GIFU.Controllers
             int goodId = 0;
             if (ModelState.IsValid && files != null)
             {
-                goodId = goodServices.AddGoods(goods);
+                goodId = goodsServices.AddGoods(goods);
                 if (goodId == 0) return this.Json(Variable.GetResult(-1, "物品新增失敗"));
                 foreach (var file in files)
                 {
@@ -146,7 +147,7 @@ namespace GIFU.Controllers
                     }
                     string path = Path.Combine(Variable.GetSaveFilePath, goodId.ToString(), file.FileName);
                     path = path.Replace("\\", "/").Replace("~", "");
-                    goodServices.AddPicturePath(goodId, path);
+                    goodsServices.AddPicturePath(goodId, path);
                 }
             }
             else
@@ -157,8 +158,8 @@ namespace GIFU.Controllers
 
             if (error)
             {
-                goodServices.DeleteGoods(goodId);
-                goodServices.DeletePicturePathByGoodsId(goodId);
+                goodsServices.DeleteGoods(goodId);
+                goodsServices.DeletePicturePathByGoodsId(goodId);
                 return this.Json(Variable.GetResult(-1, message + "，請再嘗試一次。"));
             }
             else
@@ -177,7 +178,7 @@ namespace GIFU.Controllers
             string message = "物品資訊輸入有誤";
             if (ModelState.IsValid && goods.GoodId != null)
             {
-                result = goodServices.UpdateGoods(goods);
+                result = goodsServices.UpdateGoods(goods);
                 if (result > 0)
                     message = goods.Title + "更新成功";
                 else
@@ -189,40 +190,63 @@ namespace GIFU.Controllers
         [HttpPost]
         public JsonResult AddHitCount(int? goodId)
         {
-            int result = goodServices.AddHitCount(goodId);
+            int result = goodsServices.AddHitCount(goodId);
             return this.Json(result);
         }
 
         [HttpPost]
         public JsonResult AddGoodsMessage(Models.GoodsMessage msg) //AnswerGoodsMessage
         {
-            int result = goodServices.AddGoodsMessage(msg);
+            int result = goodsServices.AddGoodsMessage(msg);
             return this.Json(result);
         }
 
         [HttpPost]
         public JsonResult AnswerGoodsMessage(Models.GoodsMessage msg) //AnswerGoodsMessage
         {
-            int result = goodServices.AnswerGoodsMessage(msg);
+            int result = goodsServices.AnswerGoodsMessage(msg);
             return this.Json(result);
         }
 
         [HttpPost]
         public JsonResult UpdateGoodsMessage(Models.GoodsMessage msg)
         {
-            int result = goodServices.UpdateGoodsMessage(msg);
+            int result = goodsServices.UpdateGoodsMessage(msg);
             return this.Json(result);
         }
 
         [HttpPost]
-        public JsonResult GetOrderByGoodsId(Models.OrderGetArg arg)
+        public ActionResult GetOrderManageList(Models.OrderGetArg arg)
         {
-            if (arg.GoodId != null)
+            List<Models.Order> orders = orderServices.GetOrdersByCondition(arg);
+            return PartialView("_OrderManageList", orders);
+        }
+
+        [HttpPost]
+        public JsonResult UpdateOrderStatus(int orderId, int status)
+        {
+            int result = -1;
+            string message;
+            if (orderId != 0 && status != 0)
             {
-                List<Models.Order> orders = orderServices.GetOrdersByCondition(arg);
-                return Json(orders);
+                result = orderServices.UpdateStatus(orderId, status);
             }
-            return Json(new List<Models.Order>());
+            if (result > 0)
+                message = "更新成功。";
+            else
+                message = "更新失敗，請稍後嘗試";
+            return this.Json(Variable.GetResult(result, message));
+        }
+
+        [HttpPost]
+        public JsonResult GetNewestGoodsByUserId(int userId)
+        {
+            if (userId != 0)
+            {
+                Models.Goods goods = goodsServices.GetNewestGoodsByUserId(userId);
+                return this.Json(goods);
+            }
+            return this.Json(new Models.Goods());
         }
     }
 }

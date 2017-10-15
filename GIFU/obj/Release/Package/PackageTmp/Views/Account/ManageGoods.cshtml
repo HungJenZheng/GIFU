@@ -15,12 +15,13 @@
         </div>
     </div>
     <div class="goods-area">
-
         @foreach (var item in (List<GIFU.Models.Goods>)ViewBag.Goods)
         {
             <div class="goods-box" id=@("goods-box-" + item.GoodId)>
                 <!--item.GoodsId-->
-                <img class="goods-img" src=@item.PicPath />
+                @*<img class="goods-img-hide" src=@item.PicPath />*@
+                @*<div class="goods-img" style="background-image: url(@item.PicPath);"></div>*@
+                <a href="/Store/GoodsDetail/@item.GoodId" class="goods-img" style="background-image: url(@item.PicPath);"></a>
                 <div class="modify-overlay" data-toggle="modal" data-target="#modifyGoodsModal" onclick="GetModifyGoodsInfo(@item.GoodId)">
                     <div class="text">編輯</div>
                 </div>
@@ -28,6 +29,7 @@
                     <div class="text">查看</div>
                 </div>
                 <div class="goods-info">
+                    <span class="goods-img-hide">@item.PicPath</span>
                     <span class="goods-name">@item.Title</span>
                     <span class="goods-new-degree">@item.NewDegree</span>
                     <span class="goods-amount">@item.Amount</span>
@@ -43,7 +45,6 @@
         }
     </div>
 </div>
-
 <!-- Add Goods Modal -->
 <div class="modal fade" id="addGoodsModal" role="dialog">
     <div class="modal-dialog">
@@ -55,7 +56,6 @@
             </div>
             <form id="addGoodsForm">
                 <div class="modal-body manage-goods-modal">
-
                     <div class="row">
                         <div class="col-md-12 goods-modal-info">
                             <div class="form-group">
@@ -119,9 +119,9 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12 input-group">
+                        <div class="col-xs-12 input-group">
                             <label for="goods-intro" style="background-color:#eeeeee; margin: 0; font-size:1.5rem; color: black; padding: 6px 12px; line-height: 1; border: 1px solid #cccccc; border-bottom: 0; border-top-right-radius: 4px; border-top-left-radius: 4px;">介紹: </label>
-                            <textarea class="form-control" style="border-bottom-left-radius: 4px; resize: none;" id="add-goods-intro" name="Introduction" rows="6" placeholder="請您輸入物品介紹." maxlength="500"></textarea>
+                            <textarea class="form-control" style="border-bottom-left-radius: 4px; resize: none;" id="add-goods-intro" name="Introduction" rows="6" placeholder="請您輸入物品介紹." maxlength="500" onchange="isFillOut()" required></textarea>
                         </div>
                         <p class="input-number-notify" style="display: none;"></p>
                     </div>
@@ -134,7 +134,6 @@
         </div>
     </div>
 </div>
-
 <!--Modify Goods Modal -->
 <div class="modal fade" id="modifyGoodsModal" role="dialog">
     <div class="modal-dialog">
@@ -176,7 +175,6 @@
                                     <input type="number" min="1" class="form-control" id="modify-goods-amount" name="Amount" placeholder="" aria-label="Amount (to the nearest dollar)" onchange="isModify()" required>
                                     <span class="input-group-addon">個</span>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -185,7 +183,7 @@
                             <span class="input-group-addon">分類:</span>
                             <select class="form-control" id="modify-goods-tag1" name="Tag1" onchange="isModify()" required>
                                 <option selected style="display: none;"></option>
-                                <option value="3C">3C用品</option>
+                                <option value="3C">3C產品</option>
                                 <option value="GC">生活雜貨</option>
                                 <option value="CL">男女服飾</option>
                                 <option value="SN">文具書籍</option>
@@ -199,7 +197,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12 input-group">
+                        <div class="col-xs-12 input-group">
                             <span class="input-group-addon">索取者是否需填寫理由: </span>
                             <select class="form-control" id="modify-goods-is-reason" name="IsReason" onchange="isModify()">
                                 <option style="display: none" selected></option>
@@ -209,12 +207,11 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12 input-group">
+                        <div class="col-xs-12 input-group">
                             <label for="modify-goods-intro" style="background-color:#eeeeee; margin: 0; font-size:1.5rem; color: black; padding: 6px 12px; line-height: 1; border: 1px solid #cccccc; border-bottom: 0; border-top-right-radius: 4px; border-top-left-radius: 4px;">介紹: </label>
                             <textarea class="form-control" style="border-bottom-left-radius: 4px; resize: none;" id="modify-goods-intro" name="Introduction" rows="6" placeholder="請您輸入物品介紹." maxlength="500"></textarea>
                         </div>
                     </div>
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
@@ -224,7 +221,6 @@
         </div>
     </div>
 </div>
-
 <!-- Check Modal -->
 <div class="modal fade" id="checkGoodsModal" role="dialog">
     <div class="modal-dialog">
@@ -236,8 +232,8 @@
             </div>
             <div class="modal-body checkGoodsModalInfo">
                 <div class="row check-goods-info">
-                    <div class="col-md-5 col-md-offset-1">
-                        <img id="check-goods-img" src="/images/1/1.jpg" alt="" />
+                    <div class="col-md-5 col-md-offset-1" id="check-goods-img">
+                        @*<img id="check-goods-img" src="" alt="" />*@
                     </div>
                     <div class="col-md-6">
                         <table>
@@ -250,7 +246,7 @@
                                 <td id="check-goods-new-degree"></td>
                             </tr>
                             <tr>
-                                <th>贈與數量: </th>
+                                <th>剩餘數量: </th>
                                 <td id="check-goods-amount"></td>
                             </tr>
                             <tr>
@@ -266,9 +262,9 @@
                                 <td id="check-goods-is-reason"></td>
                             </tr>
                             @*<tr>
-                                <th>刊登日期: </th>
-                                <td id="check-goods-place-time"></td>
-                            </tr>*@
+                                    <th>刊登日期: </th>
+                                    <td id="check-goods-place-time"></td>
+                                </tr>*@
                             <tr>
                                 <th>修改日期: </th>
                                 <td id="check-goods-update-date"></td>
@@ -276,50 +272,9 @@
                         </table>
                     </div>
                 </div>
-
-                <div class="row check-goods-applier-info">
-                    <div class="col-xs-12 col-sm-3 col-md-3" style="height: 100%;">
-                        <img src="/images/profile_pic1.svg" alt="" />
-                        <p class="check-goods-applier-name">申請人: <span>蕭煌奇</span></p>
-
-                    </div>
-                    <div class="col-xs-12 col-sm-9 col-md-9">
-                        <pre class="check-goods-applier-reason">你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好</pre>
-                        <div class="check-goods-applier-status">
-                            <button type="button" class="btn btn-success check-goods-applier-accept">贈予</button>
-                            <button type="button" class="btn btn-danger check-goods-applier-reject">拒絕</button>
-                        </div>
-                    </div>
+                <div id="check-goods-applier-block">
+                    @*顯示索取清單*@
                 </div>
-                <div class="row check-goods-applier-info">
-                    <div class="col-xs-12 col-sm-3 col-md-3" style="height: 100%;">
-                        <img src="/images/profile_pic1.svg" alt="" />
-                        <p class="check-goods-applier-name">申請人: <span>蕭煌奇</span></p>
-
-                    </div>
-                    <div class="col-xs-12 col-sm-9 col-md-9">
-                        <pre class="check-goods-applier-reason">你好你好你好你好你好你好你好你好</pre>
-                        <div class="check-goods-applier-status">
-                            <button type="button" class="btn btn-success check-goods-applier-accept">贈予</button>
-                            <button type="button" class="btn btn-danger check-goods-applier-reject">拒絕</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="row check-goods-applier-info">
-                    <div class="col-xs-12 col-sm-3 col-md-3" style="height: 100%;">
-                        <img src="/images/profile_pic1.svg" alt="" />
-                        <p class="check-goods-applier-name">申請人: <span>蕭煌奇</span></p>
-
-                    </div>
-                    <div class="col-xs-12 col-sm-9 col-md-9">
-                        <pre class="check-goods-applier-reason">你好你好你好你好你好你好你好你好</pre>
-                        <div class="check-goods-applier-status">
-                            <button type="button" class="btn btn-success check-goods-applier-accept">贈予</button>
-                            <button type="button" class="btn btn-danger check-goods-applier-reject">拒絕</button>
-                        </div>
-                    </div>
-                </div>
-
             </div>
             <div class="modal-footer">
                 <button id="apply-modal-close" type="button" class="btn btn-info" data-dismiss="modal">關閉</button>
@@ -327,5 +282,4 @@
         </div>
     </div>
 </div>
-
 <script src="~/Scripts/manageGoods.js"></script>

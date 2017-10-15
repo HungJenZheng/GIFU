@@ -1,31 +1,31 @@
-﻿$("#add-goodsTag1").change(function () { //新增物品大標籤對應小標籤
+﻿$("#add-goodsTag1").change(function () { //新增商品大標籤對應小標籤
     if ($('#add-goodsTag1').val() == '3C') {
         $('#add-goodsTag2').prop('disabled', false);
-        $('#add-goodsTag2').html('<option value="0" style="display: none;" selected></option> <option value="1">電腦</option> <option value="2">手機</option> <option value="3">相機</option> <option value="4">3C其他</option>');
+        $('#add-goodsTag2').html('<option value="1">電腦</option> <option value="2">手機</option> <option value="3">相機</option> <option value="4">3C其他</option>');
     }
     else if ($('#add-goodsTag1').val() == 'GC') {
         $('#add-goodsTag2').prop('disabled', false);
-        $('#add-goodsTag2').html('<option value="0" style="display: none;" selected></option> <option value="1">五金工具</option> <option value="2">食品</option> <option value="3">寵物用品</option> <option value="4">生活其他</option>');
+        $('#add-goodsTag2').html('<option value="1">五金工具</option> <option value="2">食品</option> <option value="3">寵物用品</option> <option value="4">生活其他</option>');
     }
     else if ($('#add-goodsTag1').val() == 'CL') {
         $('#add-goodsTag2').prop('disabled', false);
-        $('#add-goodsTag2').html('<option value="0" style="display: none;" selected></option> <option value="1">男裝</option> <option value="2">女裝</option> <option value="3">配件</option>');
+        $('#add-goodsTag2').html('<option value="1">男裝</option> <option value="2">女裝</option> <option value="3">配件</option>');
     }
     else if ($('#add-goodsTag1').val() == 'SN') {
         $('#add-goodsTag2').prop('disabled', false);
-        $('#add-goodsTag2').html('<option value="0" style="display: none;" selected></option> <option value="1">小說</option> <option value="2">漫畫</option> <option value="3">雜誌</option> <option value="4">其他</option>');
+        $('#add-goodsTag2').html('<option value="1">小說</option> <option value="2">漫畫</option> <option value="3">雜誌</option> <option value="4">其他</option>');
     }
     else if ($('#add-goodsTag1').val() == 'GM') {
         $('#add-goodsTag2').prop('disabled', false);
-        $('#add-goodsTag2').html('<option value="0" style="display: none;" selected></option> <option value="1">遊戲機</option> <option value="2">遊戲光碟</option> <option value="3">電玩攻略</option> <option value="4">電玩其他</option>');
+        $('#add-goodsTag2').html('<option value="1">遊戲機</option> <option value="2">遊戲光碟</option> <option value="3">電玩攻略</option> <option value="4">電玩其他</option>');
     }
-    else {
-        $("#add-goodsTag2").empty();
+    else if ($('#add-goods-tag1').val() == 'OT') {
+        $('#add-goodsTag2').html('<option value="0" style="display: none;" selected></option>');
         $('#add-goodsTag2').disabled = true;
     }
 });
 
-$("#modify-goods-tag1").change(function () { //修改物品大標籤對應小標籤
+$("#modify-goods-tag1").change(function () { //修改商品大標籤對應小標籤
     if ($('#modify-goods-tag1').val() == '3C') {
         $('#modify-goods-tag2').prop('disabled', false);
         $('#modify-goods-tag2').html('</option><option value="1">電腦</option> <option value="2">手機</option> <option value="3">相機</option> <option value="4">3C其他</option>');
@@ -46,17 +46,20 @@ $("#modify-goods-tag1").change(function () { //修改物品大標籤對應小標
         $('#modify-goods-tag2').prop('disabled', false);
         $('#modify-goods-tag2').html('<option value="1">遊戲機</option> <option value="2">遊戲光碟</option> <option value="3">電玩攻略</option> <option value="4">電玩其他</option>');
     }
-    else {
-        $('#modify-goods-tag2').empty();
+    else if ($('#modify-goods-tag1').val() == 'OT') {
+        $('#modify-goods-tag2').html('<option value="0" style="display: none;" selected></option>');
         $('#modify-goods-tag2').prop('disabled', 'disabled');
     }
 });
 
-function isFillOut() { //增加物品的表單是否填寫完整
+function isFillOut() { //增加商品的表單是否填寫完整
+    if (($('#add-goodsTag1').val() == "OT"))
+        $('#add-goodsTag2').attr('disabled', 'disabled');
     if (($('#add-goods-img').val() != "") && ($('#add-goods-name').val() != "") &&
         ($('#add-goods-new-degree').val() != "") && ($('#add-goods-amount').val() != "") &&
-        ($('#add-goodsTag1').val() != "") && ($('#add-goodsTag2').val() != "" && $('#add-goodsTag2').val() != 0) &&
-        ($('#add-goods-is-reason').val() != ""))
+        ($('#add-goodsTag1').val() != "") && ($('#add-goods-is-reason').val() != "")
+        && ($('#add-goodsTag2').val() != "" || $('#add-goodsTag2').val() != 0 || ($('#add-goodsTag1').val() == 'OT')) &&
+        ($('#add-goods-intro').val() != ""))
         document.getElementById("add-goods-button").disabled = false;
     else
         document.getElementById("add-goods-button").disabled = true;
@@ -66,7 +69,36 @@ function isModify() {
     //document.getElementById("modify-goods-modify-button").disabled = false;
 }
 
+//修改訂單狀態
+function ChangeOrderStatus(orderId, status, e) {
+    $.ajax({
+        type: "POST",
+        url: "/Store/UpdateOrderStatus",
+        data: {orderId: orderId, status: status},
+        dataType: "json",
+        success: function (response) {
+            ShowNotify(response.result, response.message);
+            if (response.result > 0) {
+                if (status == 2) {
+                    alert($(this).html());
+                    $(e).parent().children('.check-goods-applier-reject').hide();
+                    $(e).addClass('disabled');
+                    $(e).text('已贈予');
+                }
+                if (status == 3) {
+                    $(e).parent().children('.check-goods-applier-accept').hide();
+                    $(e).addClass('disabled');
+                    $(e).text('已拒絕');
+                }
+            }
+        }, fail: function (error) {
+            console.log(error);
+        }
+    });
+}
+
 function GetModifyGoodsInfo(goodsId) {
+    //console.log(goodsId);
     $('#modify-goods-id').text(goodsId);
     $("#modify-goods-name").val($('#goods-box-' + goodsId + ' .goods-name').text());
     $("#modify-goods-new-degree").val($('#goods-box-' + goodsId + ' .goods-new-degree').text());
@@ -82,7 +114,10 @@ function GetModifyGoodsInfo(goodsId) {
 }
 
 function GetCheckGoodsInfo(goodsId) {
-    $("#check-goods-img").attr('src', $('#goods-box-' + goodsId + ' .goods-img').attr('src'));
+    ShowOrderManageList(goodsId);
+    var image = $('#goods-box-' + goodsId + ' .goods-img-hide').text();
+    $("#check-goods-img").css('backgroundImage', 'url('+image+')');
+    //$("#check-goods-img").attr('src', $('#goods-box-' + goodsId + ' .goods-img-hide').text());
     $("#check-goods-name").text($('#goods-box-' + goodsId + ' .goods-name').text());
     $("#check-goods-new-degree").text($('#goods-box-' + goodsId + ' .goods-new-degree').text() + '成新');
     $("#check-goods-amount").text($('#goods-box-' + goodsId + ' .goods-amount').text() + '個');
@@ -107,6 +142,7 @@ $('#modifyGoodsModal').on('hidden.bs.modal', function () {
 
 $('#checkGoodsModal').on('hidden.bs.modal', function () {
     $(this).find("textarea,input,select").val('').end();
+    $('#check-goods-applier-block').empty();
 });
 
 $('#addGoodsForm').submit(function (e) {
@@ -125,8 +161,9 @@ $('#addGoodsForm').submit(function (e) {
         processData: false,
         success: function (response) {
             ShowNotify(response.result, response.message);
-            var goodsTag2 = $('#add-goodsTag2').val();
+            ShowNewGoods();
             document.getElementById("addGoodsForm").reset();
+            $('#add-goodsTag2').attr('disabled', 'disabled');
         }, fail: function (error) {
         }
     });
@@ -144,18 +181,15 @@ $('#modifyForm').submit(function (e) {
         url: "/Store/UpdateGood",
         data: formData,
         dataType: "json",
-        cache: false,
-        contentType: false,
-        processData: false,
         success: function (response) {
             ShowNotify(response.result, response.message);
             $('#goods-box-' + goodsId + ' .goods-name').text($('#modify-goods-name').val());
             $('#goods-box-' + goodsId + ' .goods-new-degree').text($('#modify-goods-new-degree').val());
             $('#goods-box-' + goodsId + ' .goods-amount').text($('#modify-goods-amount').val());
             $('#goods-box-' + goodsId + ' .goods-tag1').text($('#modify-goods-tag1').val());
-            $('#goods-box-' + goodsId + ' .goods-tag1-name').text(GetTag1Name($('#modify-goods-tag1').val()));
+            $('#goods-box-' + goodsId + ' .goods-tag1-name').text($('#modify-goods-tag1 :selected').text());
             $('#goods-box-' + goodsId + ' .goods-tag2').text($('#modify-goods-tag2').val());
-            $('#goods-box-' + goodsId + ' .goods-tag2-name').text(GetTag2Name($('#modify-goods-tag1').val(), $('#modify-goods-tag2').val()));
+            $('#goods-box-' + goodsId + ' .goods-tag2-name').text($('#modify-goods-tag2 :selected').text());
             $('#goods-box-' + goodsId + ' .goods-is-reason').text(GetIsReason($('#modify-goods-is-reason').val()));
             $('#goods-box-' + goodsId + ' .goods-intro').text($('#modify-goods-intro').val());
             $("#modifyGoodsModal").modal('hide');
@@ -167,4 +201,60 @@ $('#modifyForm').submit(function (e) {
 function GetIsReason(goodsIsReason) {
     if (goodsIsReason == "T") return '是';
     else if (goodsIsReason == "F") return '否';
+}
+
+//取得訂單清單HTML
+function ShowOrderManageList(goodId) {
+    $.ajax({
+        url: '/Store/GetOrderManageList',
+        //contentType: 'application/html ; charset:utf-8',
+        type: 'POST',
+        dataType: 'html',
+        data: { goodId: goodId }
+    }).success(function (result) {
+        $('#check-goods-applier-block').empty().append(result);
+    }).error(function (error) {
+        console.log(error);
+    });
+}
+
+function ShowNewGoods() {
+    var userId = $('#userId').text();
+    $.ajax({
+        url: '/Store/GetNewestGoodsByUserId',
+        type: 'POST',
+        dataType: 'json',
+        data: { userId: userId }
+    }).success(function (result) {
+        $('.goods-area').prepend(CreateGoodBox(result)).hide().fadeIn();
+    }).error(function (error) {
+        console.log(error);
+    });
+}
+
+function CreateGoodBox(obj) {
+    var box = '<div class="goods-box" id="goods-box-' + obj.GoodId + '">' + 
+                //'<img class="goods-img" src="' + obj.PicPath + '"/>' +
+                //'<div class="goods-img" style="background-image: url(\'' + obj.PicPath + '\');"></div>' +
+                '<a href="/Store/GoodsDetail/'+ obj.GoodId +'" class="goods-img" style="background-image: url(\'' + obj.PicPath + '\');"></a>' +
+                '<div class="modify-overlay" data-toggle="modal" data-target="#modifyGoodsModal" onclick="GetModifyGoodsInfo('+obj.GoodId+')">' +
+                    '<div class="text">編輯</div>' +
+                '</div>' +
+                '<div class="check-overlay" data-toggle="modal" data-target="#checkGoodsModal" onclick="GetCheckGoodsInfo('+obj.GoodId+')">' +
+                    '<div class="text">查看</div>'+
+                '</div>'+
+                '<div class="goods-info">'+
+                    '<span class="goods-name">'+obj.Title+'</span>'+
+                    '<span class="goods-new-degree">'+obj.NewDegree+'</span>'+
+                    '<span class="goods-amount">'+obj.Amount+'</span>'+
+                    '<span class="goods-tag1">'+obj.Tag1+'</span>'+
+                    '<span class="goods-tag1-name">'+obj.Tag1Name+'</span>'+
+                    '<span class="goods-tag2">'+obj.Tag2+'</span>'+
+                    '<span class="goods-tag2-name">'+obj.Tag2Name+'</span>'+
+                    '<span class="goods-is-reason">'+obj.IsReason+'</span>'+
+                    '<span class="goods-update-date">'+obj.UpdateDate+'</span>'+
+                    '<span class="goods-intro">'+obj.Introduction+'</span>'+
+                '</div>'
+    '</div>'
+    return box;
 }

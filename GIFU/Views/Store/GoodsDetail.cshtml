@@ -18,15 +18,18 @@
                     <div class="slider" id="slider">
                         @foreach (var item in (List<GIFU.Models.GoodsPicture>)ViewBag.Pictures)
                         {
-                            <img @("id=sliderimage" + item.PicNo) src="@item.Path" style="z-index: @item.PicNo;">
+                            @*<img @("id=sliderimage" + item.PicNo) src="@item.Path" style="z-index: @item.PicNo;">*@
+                            <img @("id=sliderimage" + item.PicNo) style="z-index: @item.PicNo; background-image: url(@item.Path); display:none;">
                         }
                     </div>
-                    <ul class="slidernumberbutton" id="slidernumberbutton">
-                        @foreach (var item in (List<GIFU.Models.GoodsPicture>)ViewBag.Pictures)
-                        {
-                            <li onclick="SliderImageTo(@item.PicNo);"><a href=""></a></li>
-                        }
-                    </ul>
+                    <center>
+                        <ul class="slidernumberbutton" id="slidernumberbutton">
+                            @foreach (var item in (List<GIFU.Models.GoodsPicture>)ViewBag.Pictures)
+                            {
+                                <li onclick="SliderImageTo(@item.PicNo);"><a href=""></a></li>
+                            }
+                        </ul>
+                    </center>
                     <script type="text/javascript">
                         var currentImg = 1, totalImg = 0 || @Enumerable.Count(ViewBag.Pictures);
                         const interval = 10000;
@@ -34,6 +37,8 @@
                         $('.slider img').height($('.slider').width());
                         $('.slider img').width($('.slider').width());
                         function SliderImageTo (number){
+                            console.log(number);
+                            currentImg = number;
                             $('.slider img').fadeOut(500);
                             $('.slider #sliderimage' + number).fadeIn(500);
                         };
@@ -44,8 +49,8 @@
                             $('.slider img').width($('.slider').width());
                         };
                         function RotateImages(){
+                            currentImg = currentImg % totalImg + 1;
                             SliderImageTo(currentImg);
-                            currentImg = (currentImg + 1) % totalImg + 1;
                             setTimeout(RotateImages, interval);
                         }
                     </script>
@@ -136,7 +141,7 @@
                             <img src="/images/accountphoto.png" class="accountphoto" />
                         </div>
                         <div class="askquestiontextarea">
-                            <textarea id="askQuestion" maxlength="150" placeholder="為保障會員交易安全，留言請勿填寫個人資料、外部連結或任何導私下交易之內容，否則您送出的內容可能無法正常顯示。(限制輸入150個字)"></textarea>
+                            <textarea id="askQuestion" maxlength="150" placeholder="請填寫問題，提供者將給予回覆。(限制輸入150個字)"></textarea>
                         </div>
                         <button id="ask-btn" class="btn ask-btn btn-info" type="submit" formmethod="post">提問</button>
                     </div>
@@ -338,7 +343,7 @@
         //調整留言板
         ResizeQAMargin();
         //相簿輪播
-        setTimeout(RotateImages, interval);
+        setTimeout(RotateImages, 0);
         //檢查是否登入
         if (!IsUserLogin()){
             //下訂單

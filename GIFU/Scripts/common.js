@@ -25,6 +25,7 @@ function ShowNotify(result, message) {
         enter: 'animated bounceIn',
         exit: 'animated bounceOut'
         },
-        mouse_over: 'pause'
+        mouse_over: 'pause',
+        z_index: 9999
     });
 }

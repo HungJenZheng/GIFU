@@ -327,7 +327,7 @@ namespace GIFU.Models
         {
             string sql = @"DELETE FROM [GIFU].[dbo].[GOOD_PICTURE] WHERE GOOD_ID = @GoodId";
             IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
-            parameters.Add(new KeyValuePair<string, object>("@GoodsId", goodsId));
+            parameters.Add(new KeyValuePair<string, object>("@GoodId", goodsId));
             int result = dataAccessTool.ExecuteNonQuery(Variable.GetConnectionString, sql, parameters);
             return result;
         }
@@ -347,7 +347,7 @@ namespace GIFU.Models
             return result;
         }
 
-        public List<Goods> RecommendGoods()
+        public List<Goods> GetRecommendGoods()
         {
             DataTable dataTable;
             string sql = @"SELECT TOP 12 G.GOOD_ID   AS GoodId,
@@ -365,13 +365,47 @@ namespace GIFU.Models
                             LEFT JOIN dbo.GOOD_PICTURE GP
                                 ON G.GOOD_ID = GP.GOOD_ID AND GP.IS_MAIN = 'T'
                         WHERE STATUS = 'Y' AND AMOUNT > 0
-                        ORDER BY HIT_COUNT ASC";
+                        ORDER BY UPDATE_DATE DESC, HIT_COUNT ASC";
             IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
             dataTable = dataAccessTool.Query(Variable.GetConnectionString, sql, parameters);
             if (dataTable.Rows.Count > 0)
                 return DataMappingTool.GetModelList<Goods>(dataTable);
             else
                 return new List<Goods>();
+        }
+
+
+        public Goods GetNewestGoodsByUserId(int userId)
+        {
+            DataTable dataTable;
+            string sql = @"SELECT G.GOOD_ID   AS GoodId,
+                                  G.[USER_ID] AS UserId,
+                                  TITLE     AS Title,
+                                  INTRODUCTION AS Introduction,
+                                  AMOUNT AS Amount,
+                                  NEW_DEGREE AS NewDegree,
+                                  STATUS AS Status,
+                                  TAG1 AS Tag1,
+                                  TAG2 AS Tag2,
+                                  (SELECT NAME FROM dbo.CODE WHERE CODE_KIND = 'TAG' AND CODE_ID = TAG1) AS Tag1Name, 
+                                  (SELECT NAME FROM dbo.CODE WHERE CODE_KIND = TAG1 AND CODE_ID = TAG2) AS Tag2Name, 
+                                  IS_REASON AS IsReason,
+                                  HIT_COUNT AS HitCount,
+                                  CONVERT(VARCHAR, G.UPDATE_DATE, 120) AS UpdateDate,
+								  GP.[PATH] AS PicPath
+                        FROM dbo.GOOD G
+							JOIN dbo.ACCOUNT A
+								ON G.USER_ID = A.USER_ID
+							JOIN dbo.GOOD_PICTURE GP
+								ON G.GOOD_ID = GP.GOOD_ID
+                        WHERE G.USER_ID = @UserId AND GP.IS_MAIN = 'T'";
+            IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
+            parameters.Add(new KeyValuePair<string, object>("@UserId", userId.NullToDBNullValue()));
+            dataTable = dataAccessTool.Query(Variable.GetConnectionString, sql, parameters);
+            if (dataTable.Rows.Count > 0)
+                return DataMappingTool.GetModel<Goods>(dataTable.Rows[0]);
+            else
+                return new Goods();
         }
     }
 }

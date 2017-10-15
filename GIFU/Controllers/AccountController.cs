@@ -20,9 +20,20 @@ namespace GIFU.Controllers
             return View();
         }
 
+        private bool IsSessionLogin()
+        {
+            if (Session["UserId"] != null)
+                return true;
+            return false;
+        }
+
         [Authorize]
         public ActionResult ManageInfo()
         {
+            if (!IsSessionLogin())
+            {
+                return RedirectToAction("SignOut");
+            }
             Models.Account account = accountServices.GetAccountDetailById(Convert.ToInt32(Session["userId"]));
             ViewBag.tag = "ManageInfo";
             return View("_ManagePartial", account);
@@ -42,6 +53,10 @@ namespace GIFU.Controllers
         [Authorize]
         public ActionResult ManageInfo(Models.Account account)
         {
+            if (!IsSessionLogin())
+            {
+                return RedirectToAction("SignOut");
+            }
             int result = -1;
             string message = "個人資料修改失敗";
             if (account.UserId != null)
@@ -65,6 +80,10 @@ namespace GIFU.Controllers
         [Authorize]
         public ActionResult ManageOrders()
         {
+            if (!IsSessionLogin())
+            {
+                return RedirectToAction("SignOut");
+            }
             Models.Account account = accountServices.GetAccountDetailById(Convert.ToInt32(Session["userId"]));
             ViewBag.tag = "ManageOrders";
             return View("_ManagePartial", account);
@@ -84,6 +103,10 @@ namespace GIFU.Controllers
         [Authorize]
         public ActionResult ManageGoods()
         {
+            if (!IsSessionLogin())
+            {
+                return RedirectToAction("SignOut");
+            }
             Models.Account account = accountServices.GetAccountDetailById(Convert.ToInt32(Session["userId"]));
             ViewBag.tag = "ManageGoods";
             return View("_ManagePartial", account);

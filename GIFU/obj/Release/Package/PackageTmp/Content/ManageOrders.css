@@ -1,105 +1,3 @@
-a:hover {
-    text-decoration: none;
-}
-
-ul {
-    list-style-type: none;
-}
-
-a {
-    color: rgba(250, 250, 250, 1);
-}
-
-/*================================================================================================*/
-.info {
-    background-color: black;
-    border: 2px solid black;
-    margin-top: 40px;
-}
-
-.info-area {
-    background-color: black;
-    padding-top: 30px;
-    padding-bottom: 30px;
-}
-
-.info-detail {
-    background-color: white;
-    float: right;
-}
-
-#profile_pic img {
-    width: 100%;
-}
-
-.info-area hr {
-    border-top: 1px solid rgba(250, 250, 250, 1);
-    margin-top: 10px;
-    margin-bottom: 30px;
-}
-
-.main-info p {
-    margin-bottom: 10px;
-    font-size: 1.4rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: #B7B4B4;
-}
-
-.main-info span { /*phone and Email*/
-    color: rgba(245, 245, 245, 1);
-}
-
-.main-info .important-text {
-    font-size: 1.7rem;
-    color: rgba(245, 245, 245, 1);
-}
-
-.function-area li {
-    font-size: 1.8rem;
-    margin-bottom: 15px;
-    margin-left: 35px;
-    margin-right: 35px;
-    border: 0;
-    color: rgba(245, 245, 245, 1);
-}
-
-.function-area li:hover {
-    cursor: pointer;
-    border-bottom: 1px;
-    border-style: solid;
-    border-color: white;
-    transition: border .5s ease-in-out;
-}
-
-.function-area li:hover a {
-    color: white;
-    transition: .5s all;
-    font-size: 1.95rem;
-}
-
-.info-detail {
-    padding: 30px;
-    font-size: 1.4rem;
-    color: rgba(100, 100, 100, 1);
-    border-left: 2px solid black;
-    min-height: 800px;
-}
-
-.page-title h1 {
-    font-size: 2.5rem;
-    letter-spacing: 3px;
-}
-
-.page-title {
-    margin-bottom: 20px;
-}
-
-.page-title hr {
-    border-top: 2px solid rgba(100, 100, 100, 1);
-}
-
-/*======================================================================================*/
 .modal-header, .modal-footer {
     background-color: #1c294c;
     color: white;
@@ -132,6 +30,10 @@ a {
 .goods-info .goods-img {
     width: 100px;
     height: 100px;
+    background-position-x:center;
+    background-position-Y:center;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 .goods-info:hover {
@@ -185,65 +87,14 @@ a {
     width: 65%;
     padding-bottom: 4px;
 }
-/*=================================*/
-@media (max-width:992px) {
-    #profile_pic img {
-        height: 80px;
-        width: 80px;
-    }
 
-.info-detail {
-    background-color: white;
-    float: right;
-    width: 75%;
+.apply-goods-info #apply-goods-img {
+    width: 200px;
+    height: 200px;
+    background-position-x:center;
+    background-position-Y:center;
+    background-size: contain;
+    /*background-size: cover;*/
+    background-repeat: no-repeat;
+    background-clip: content-box;
 }
-}
-
-@media (max-width:768px) {
-
-    #profile_pic img {
-        display: none;
-    }
-
-    .main-info p {
-        display: none;
-    }
-    
-    .order-area {
-        padding-left: 0;
-        padding-right: 0;
-    }
-
-    .info-area {
-        background-color: black;
-        padding-top: 30px;
-        padding-bottom: 30px;
-        margin-right: 20px;
-        text-align: center
-    }
-
-
-    .function-area li {
-        font-size: 1.1rem;
-        white-space: nowrap;
-        display: inline-block;
-        margin-right: 14px;
-        margin-top: 7px;
-    }
-
-    .function-area {
-        padding-right: 0px;
-        padding-left: 0px;
-    }
-
-    .info-area hr {
-        display: none;
-    }
-
-    .info-detail {
-        background-color: white;
-        float: left;
-        width: 100%;
-    }
-}
-/*=================================*/

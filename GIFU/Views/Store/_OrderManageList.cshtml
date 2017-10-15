@@ -1,0 +1,28 @@
+﻿@model IEnumerable<GIFU.Models.Order>
+@foreach (var item in Model)
+{
+    <div class="row check-goods-applier-info">
+        <div class="col-xs-12 col-sm-3 col-md-3" style="height: 100%;">
+            <img src="/images/profile_pic1.svg" alt="" />
+            <p class="check-goods-applier-name">申請人：<span>@item.UserName</span></p>
+        </div>
+        <div class="col-xs-12 col-sm-9 col-md-9">
+            <pre class="check-goods-applier-reason">@item.Comment</pre>
+            <div class="check-goods-applier-status">
+                @if (item.Status == "1")
+                {
+                    <button type="button" class="btn btn-success check-goods-applier-accept" onclick="ChangeOrderStatus(@item.OrderId, 2, this)">贈予</button>
+                    <button type="button" class="btn btn-danger check-goods-applier-reject" onclick="ChangeOrderStatus(@item.OrderId, 3, this)">拒絕</button>
+                }
+                else if (item.Status == "2")
+                {
+                    <button type="button" class="btn btn-success check-goods-applier-accept disabled">已贈予</button>
+                }
+                else if (item.Status == "3")
+                {
+                    <button type="button" class="btn btn-danger check-goods-applier-accept disabled">已拒絕</button>
+                }
+            </div>
+        </div>
+    </div>
+}

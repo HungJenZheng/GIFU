@@ -3,7 +3,7 @@
     ViewBag.Title = "ManageInfo";
 }
 @section css{
-    @*<link href="/Content/ManageInfo.css" rel="stylesheet" type="text/css" />*@
+    <link href="~/Content/ManagePartial.css" rel="stylesheet" type="text/css" />
 }
 
 <div class="container body-content">
@@ -29,9 +29,12 @@
             </div>
             <div class="row">
                 <ul class="col-md-12 function-area">
-                    <li><a href="/Account/ManageInfo">個人資訊</a></li>
-                    <li><a href="/Account/ManageGoods">物品管理</a></li>
-                    <li><a href="/Account/ManageOrders">索取清單</a></li>
+                    <a href="/Account/ManageInfo"><li>個人資訊</li></a>
+                    <a href="/Account/ManageGoods"><li>物品管理</li></a>
+                    <a href="/Account/ManageOrders"><li>索取清單</li></a>
+                    @*<li><a href="/Account/ManageInfo">個人資訊</a></li>
+            <li><a href="/Account/ManageGoods">物品管理</a></li>
+            <li><a href="/Account/ManageOrders">索取清單</a></li>*@
                 </ul>
             </div>
         </div>

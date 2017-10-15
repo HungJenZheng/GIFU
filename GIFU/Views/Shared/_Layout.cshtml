@@ -10,6 +10,7 @@
     @RenderSection("css", required: false)
     <script src="~/Scripts/simpleCart.min.js"> </script>
     <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/jquery.mousewheel.min.js"></script>
     <script type="text/javascript" src="~/Scripts/bootstrap-3.1.1.min.js"></script>
     <script type="text/javascript" src="~/Scripts/bootstrap-notify.js"></script>
     <script type="text/javascript" src="~/Scripts/common.js"></script>
@@ -217,7 +218,7 @@
     function GetAllMessages() {
         var tbl = $('#accountNoticeList');
         //var tbl = $('#messagesTable');
-        console.log("Update");
+        //console.log("Update");
         $.ajax({
             url: '/Account/GetMessagesById',
             //contentType: 'application/html ; charset:utf-8',

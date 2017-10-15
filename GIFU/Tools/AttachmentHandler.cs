@@ -52,7 +52,7 @@ namespace GIFU.Tools
                     res = "Error:檔案大小超過上限";
                 }
                 //檔案類型
-                string extension = Path.GetExtension(file.FileName);
+                string extension = Path.GetExtension(file.FileName).ToLower();
                 if (extension != ".png" && extension != ".jpeg"
                     && extension != ".jpg" && extension != ".bmp"
                     && extension != ".gif" && extension != ".mpg"

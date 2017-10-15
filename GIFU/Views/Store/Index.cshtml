@@ -111,6 +111,8 @@
         //先鎖定滑動並滑到最上
         $('html,body').animate({ scrollTop: 0 }, 600);
         $('body').css('overflow', 'hidden');
+        //調整物品圖案高度
+        ResizeGoodsImageHeight();
         //調整推薦物品區高度
         ResizeRecommendCalcHeight();
         //推薦物品slider
@@ -213,11 +215,18 @@
 
     function SliderRecommendGoods() {
         $('.recommend').append($('.recommend .product-grid:eq(0)'));
-        setTimeout(SliderRecommendGoods, 2000);
+        setTimeout(SliderRecommendGoods, 5000);
     }
     window.addEventListener("resize", ResizeRecommendCalcHeight);
     function ResizeRecommendCalcHeight() {
         $('.recommend').height($('.product-grid').outerHeight());
     }
+    //網頁寬度改變觸發事件 ResizeGoodsImageHeight實作
+    window.addEventListener("resize", ResizeGoodsImageHeight);
 
+    //調整物品圖案高度
+    function ResizeGoodsImageHeight() {
+        var newimgheight = $('.product-img img').width() * 4 / 3;
+        $('.product-img img').height(newimgheight);
+    };
 </script>

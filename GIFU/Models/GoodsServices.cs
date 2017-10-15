@@ -365,7 +365,7 @@ namespace GIFU.Models
                             LEFT JOIN dbo.GOOD_PICTURE GP
                                 ON G.GOOD_ID = GP.GOOD_ID AND GP.IS_MAIN = 'T'
                         WHERE STATUS = 'Y' AND AMOUNT > 0
-                        ORDER BY UPDATE_DATE DESC, HIT_COUNT ASC";
+                        ORDER BY HIT_COUNT ASC, UPDATE_DATE ASC";
             IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
             dataTable = dataAccessTool.Query(Variable.GetConnectionString, sql, parameters);
             if (dataTable.Rows.Count > 0)

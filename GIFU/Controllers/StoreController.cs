@@ -32,6 +32,7 @@ namespace GIFU.Controllers
                 Models.Goods goods = goodsServices.GetGoodDetailByGoodsId(goodId);
                 ViewBag.Pictures = goodsServices.GetGoodPicturePathById(goodId);
                 ViewBag.Messages = goodsServices.GetGoodsMessagesById(goodId);
+                ViewBag.Recommend = goodsServices.GetRecommendGoods();
                 return View(goods);
             }
             return RedirectToAction("GoodsSearch", "Store");

@@ -10,7 +10,6 @@ namespace GIFU.Controllers
     {
         private Models.GoodsServices goodsServices = new Models.GoodsServices();
         private Models.OrderServices orderServices = new Models.OrderServices();
-        private Tools.AttachmentHandler attachmentHandler = new Tools.AttachmentHandler();
 
         // GET: Store
         public ActionResult Index()
@@ -93,6 +92,7 @@ namespace GIFU.Controllers
         [HttpPost]
         public JsonResult AddGoods(HttpPostedFileBase file, Models.Goods goods)
         {
+            Tools.AttachmentHandler attachmentHandler = new Tools.AttachmentHandler();
             if (ModelState.IsValid && file != null)
             {
                 int goodId = goodsServices.AddGoods(goods);
@@ -116,6 +116,7 @@ namespace GIFU.Controllers
         [HttpPost]
         public JsonResult AddGoodsWithMultiPicture(IEnumerable<HttpPostedFileBase> files, Models.Goods goods)
         {
+            Tools.AttachmentHandler attachmentHandler = new Tools.AttachmentHandler();
             Models.ResultVM resultVM;
             bool error = false;
             string message = "物品新增成功";

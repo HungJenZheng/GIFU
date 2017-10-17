@@ -3,11 +3,230 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Store Index</h2>
-<a href="/Account/Signout">登出</a>
+<div class="content" style="display:inline-block;">
+    <div class="mainImageArea">
+        <div class="thinkingcloudleftArea">
+            <div class="arrowImageArea">
+                <img src="/images/arrowleft.png" alt="箭頭上右" style="float:right;" id="arrowRightTop" />
+            </div>
+            <div class="thinkingcloudleft">
+                <img src="/images/thinkingcloudleft.png">
+            </div>
+        </div>
+        <div class="personArea">
+            <div class="thinkingcloudtop">
+                <img src="/images/thinkingcloudtop.png">
+                <div class="garbagecanImageArea">
+                    <img class="garbagecan" src="/images/garbagecanlid.png" id="garbagecanlid" />
+                    <img class="garbagecan" src="/images/garbagecan.png" id="garbagecan" />
+                    <img class="notthrowaway" src="/images/donot.png">
+                </div>
+            </div>
+            <img class="personImage" src="/images/person.png" />
+        </div>
+        <div class="thinkingcloudrightArea">
+            <div class="arrowImageArea">
+                <img src="/images/arrowright.png" alt="箭頭右下" id="arrowRightBottom" />
+            </div>
+            <div class="thinkingcloudright">
+                <img src="/images/thinkingcloudright.png">
+            </div>
+        </div>
+    </div>
+    <div class="subImageArea">
+        <img class="subImage" src="/images/indexsubImage1.png" />
+        <img class="subImage" src="/images/indexsubImage2.png" />
+        <img class="subImage" src="/images/indexsubImage3.png" />
+    </div>
+    <div class="teachingArea">
+        <div class="teachingStepWord">
+            <h3>操作步驟<strong>1</strong></h3>
+        </div>
+        <ul class="teachingStepNumber">
+            <li><a>1</a></li>
+            <li><a>2</a></li>
+            <li><a>3</a></li>
+            <li><a>4</a></li>
+            <li><a>5</a></li>
+            <li><a>6</a></li>
+            <li><a>7</a></li>
+            <li><a>8</a></li>
+        </ul>
+        <div class="teachingStepImage">
+            <div class="browserImage">
+                <img class="teachingStep" src="/images/teachingStep1.png" style="z-index:7" id="teachingStep1">
+                <img class="teachingStep" src="/images/teachingStep2.png" style="z-index:6" id="teachingStep2">
+                <img class="teachingStep" src="/images/teachingStep3.png" style="z-index:5" id="teachingStep3">
+                <img class="teachingStep" src="/images/teachingStep4.png" style="z-index:4" id="teachingStep4">
+                <img class="teachingStep" src="/images/teachingStep5.png" style="z-index:3" id="teachingStep5">
+                <img class="teachingStep" src="/images/teachingStep6.png" style="z-index:2" id="teachingStep6">
+                <img class="teachingStep" src="/images/teachingStep7.png" style="z-index:1" id="teachingStep7">
+                <img class="teachingStep" src="/images/teachingStep8.png" style="z-index:0" id="teachingStep8">
+            </div>
+        </div>
+        <div class="teachingImage">
+            <img src="/images/indexTeachingImage.png">
+        </div>
+    </div>
+    <!--推薦物品-->
+    <div class="related-products">
+        <h2>推薦物品</h2>
+        <div class="col-md-12 product-model-sec recommend" id="container">
+        @foreach (var item in (List<GIFU.Models.Goods>)ViewBag.Recommend)
+        {
+            <div class="product-grid">
+                <a href=@("/Store/GoodsDetail/" + @item.GoodId)>
+                    <div class="more-product"><span> </span></div>
+                    <div class="product-img b-link-stripe b-animate-go  thickbox">
+                        @*<img src="/images/1/1.jpg" class="img-responsive" alt="">*@
+                        <img class="img-responsive" style="background-image:url('@item.PicPath');">
+                        <div class="b-wrapper">
+                            <h4 class="b-animate b-from-left  b-delay03">
+                                <button><span class="glyphicon glyphicon-zoom-in"></span></button>
+                            </h4>
+                        </div>
+                    </div>
+                </a>
+                <div class="product-info simpleCart_shelfItem">
+                    <div class="product-info-cust prt_name">
+                        <span class="item_tag">@item.Tag2Name</span>
+                        <span class="item_price">@item.Title</span>
+                        <div class="ofr">
+                            <p class="pric1">@item.NewDegree 成新</p>
+                            <p class="disc">@item.UpdateDate</p>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+            </div>
+        }
+        </div>
+    </div>
+    <!--推薦物品-->
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //調整TeachingStepULMarginTop
+        ResizeTeachingStepULMarginTop();
+        //先鎖定滑動並滑到最上
+        $('html,body').animate({ scrollTop: 0 }, 600);
+        $('body').css('overflow', 'hidden');
+        //調整物品圖案高度
+        ResizeGoodsImageHeight();
+        //調整推薦物品區高度
+        ResizeRecommendCalcHeight();
+        //推薦物品slider
+        SliderRecommendGoods();
+    });
+    var scrollvalue = 0;
+    var scrollanimatelist = [$('.thinkingcloudleft'), $('#arrowRightTop'), $('.thinkingcloudtop'), $('.garbagecanImageArea'), $('.notthrowaway'), $('#arrowRightBottom'), $('.thinkingcloudright')];
+    $(window).mousewheel(function (e) {
 
-<img src="/images/1112/1.jpg" alt="Alternate Text" />
+        if ($('body').css('overflow') == 'hidden') {
+            var temp = parseInt(scrollvalue / 3);
+            //console.log(temp);
+            //scrollanimatelist[temp].css('visibility', 'unset');
+            if (temp <= 6) {
+                scrollanimatelist[temp].css('visibility', 'unset');
+            }
+            else if (temp == 7) {
+                var subImageAreaHeight = $('.subImageArea').offset().top + $('.subImage').height() / 2;
+                $('html,body').animate({ scrollTop: subImageAreaHeight }, 'slow');
+            }
+            else if (8 <= temp && temp <= 15) {
+                ResetTeachingStepZ_Index();
+                $('.teachingStepWord strong').text((temp - 7));
+                $('.teachingStepNumber li:eq(' + (temp - 8) + ')').addClass('nowTeachingStep');
+                $('#teachingStep' + (temp - 7)).css('z-index', '8');
+            }
+            else if (temp > 15) {
+                ResetTeachingStepZ_Index();
+                $('.teachingStepWord strong').text('1');
+                $('.teachingStepNumber li:eq(0)').addClass('nowTeachingStep');
+                $('#teachingStep1').css('z-index', '8');
+                $('.thinkingcloudleftArea').hide();
+                $('.personArea').hide();
+                $('.thinkingcloudrightArea').hide();
+                $('.mainImageArea').css('margin-left', '0');
+                $('.mainImageArea').css('margin-right', '0');
+                $('.mainImageArea').css('width', '100%');
+                $('body').css('overflow', 'auto');
+            }
+            scrollvalue++;
+        }
+    });
 
-<div style="width:200px; height: 200px; background-image: url('/images/1112/1.jpg'); background-position-x:center;"></div>
+    function ResetTeachingStepZ_Index() {
+        for (i = 1; i <= 8; i++) {
+            $('#teachingStep' + i).css('z-index', '0');
+            $('.teachingStepNumber li:eq(' + (i - 1) + ')').removeClass('nowTeachingStep');
+        }
+    }
 
-<div style="width:200px; height: 200px; background-image: url('/images/30/1.jpg'); background-position-x:center;"></div>
+    window.addEventListener("resize", ResizeTeachingStepULMarginTop);
+
+    function ResizeTeachingStepULMarginTop() {
+        $('.browserImage').height($('.teachingStep').outerHeight(true));
+        var teachingStepImageHeight = $('.teachingStepImage').height();
+        var teachingStepNumberHeight = $('.teachingStepNumber').height();
+        $('.teachingArea .teachingStepNumber').css('margin-top', (teachingStepImageHeight - teachingStepNumberHeight) / 2);
+        $('.mainImageArea').css('min-height', $('.mainImageArea').width() * 0.37);
+    };
+
+    function preventDefault(e) {
+        e = e || window.event;
+        if (e.preventDefault)
+            e.preventDefault();
+        e.returnValue = false;
+    }
+
+    function preventDefaultForScrollKeys(e) {
+        if (keys[e.keyCode]) {
+            preventDefault(e);
+            return false;
+        }
+    }
+
+    function disableScroll() {
+        if (window.addEventListener) // older FF
+            window.addEventListener('DOMMouseScroll', preventDefault, false);
+        window.onwheel = preventDefault; // modern standard
+        window.onmousewheel = document.onmousewheel = preventDefault; // older browsers, IE
+        window.ontouchmove = preventDefault; // mobile
+        document.onkeydown = preventDefaultForScrollKeys;
+    }
+
+    function enableScroll() {
+        if (window.removeEventListener)
+            window.removeEventListener('DOMMouseScroll', preventDefault, false);
+        window.onmousewheel = document.onmousewheel = null;
+        window.onwheel = null;
+        window.ontouchmove = null;
+        document.onkeydown = null;
+    }
+
+    $('.teachingStepNumber li').click(function (e) {
+        ResetTeachingStepZ_Index();
+        $(this).addClass('nowTeachingStep');
+        var number = $(this).children().text();
+        $('.teachingStepWord strong').text(number);
+        $('#teachingStep' + number).css('z-index', '8');
+    });
+
+    function SliderRecommendGoods() {
+        $('.recommend').append($('.recommend .product-grid:eq(0)'));
+        setTimeout(SliderRecommendGoods, 5000);
+    }
+    window.addEventListener("resize", ResizeRecommendCalcHeight);
+    function ResizeRecommendCalcHeight() {
+        $('.recommend').height($('.product-grid').outerHeight());
+    }
+    //網頁寬度改變觸發事件 ResizeGoodsImageHeight實作
+    window.addEventListener("resize", ResizeGoodsImageHeight);
+
+    //調整物品圖案高度
+    function ResizeGoodsImageHeight() {
+        var newimgheight = $('.product-img img').width() * 4 / 3;
+        $('.product-img img').height(newimgheight);
+    };
+</script>

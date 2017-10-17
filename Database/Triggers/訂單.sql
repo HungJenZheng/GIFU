@@ -25,7 +25,8 @@ BEGIN
 					 ELSE ''
 				   END AS CONTENT,
 				   i.GOOD_ID AS GOOD_ID,
-				   '/Store/GoodsDetail/' + CAST(i.GOOD_ID AS varchar(20)) AS URL,
+				   '/Account/ManageOrders' AS URL,
+				   --'/Store/GoodsDetail/' + CAST(i.GOOD_ID AS varchar(20)) AS URL,
 				   GETDATE() AS [TIME]
 			FROM inserted i
 				LEFT JOIN dbo.GOOD g 
@@ -38,13 +39,14 @@ BEGIN
 	ELSE IF NOT EXISTS (SELECT 1 FROM deleted) AND EXISTS (SELECT 1 FROM inserted)
 		BEGIN
 			SET NOCOUNT ON
-			--新增提醒
+			--新增提醒，通知提供者
 			INSERT INTO dbo.NOTIFICATION(RECEIVE_ID, SEND_ID, CONTENT, GOOD_ID, URL, [TIME])
 			SELECT g.[USER_ID] AS RECEIVE_ID, 
 				   i.[USER_ID] AS SEND_ID, 
 				   '<b>'+a.NAME+'</b>'+REPLACE((SELECT NAME FROM dbo.CODE WHERE CODE_KIND = 'NTI' AND CODE_ID = '1'), 'XXX', '<b>'+g.TITLE+'</b>') AS CONTENT,
 				   i.GOOD_ID AS GOOD_ID,
-				   '/Store/GoodsDetail/' + CAST(i.GOOD_ID AS varchar(20)) AS URL,
+				   '/Account/ManageGoods' AS URL,
+				   --'/Store/GoodsDetail/' + CAST(i.GOOD_ID AS varchar(20)) AS URL,
 				   GETDATE() AS [TIME]
 			FROM inserted i
 				LEFT JOIN dbo.GOOD g 

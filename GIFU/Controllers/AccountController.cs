@@ -125,6 +125,10 @@ namespace GIFU.Controllers
         /// <returns></returns>
         public ActionResult Register()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Store");
+            }
             return View(new Models.Account());
         }
 
@@ -144,6 +148,12 @@ namespace GIFU.Controllers
                     RedirectToAction("Login");
                     TempData["result"] = 1;
                     TempData["message"] = "註冊成功!!";
+                    return View(account);
+                }
+                else if (result == -1)
+                {
+                    TempData["result"] = -1;
+                    TempData["message"] = "帳號已存在。";
                     return View(account);
                 }
             }

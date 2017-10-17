@@ -217,6 +217,8 @@
     <Compile Include="Models\GoodsSearchArg.cs" />
     <Compile Include="Models\GoodsServices.cs" />
     <Compile Include="Models\LoginVM.cs" />
+    <Compile Include="Models\MailMessage.cs" />
+    <Compile Include="Models\MailServices.cs" />
     <Compile Include="Models\Notifcation.cs" />
     <Compile Include="Models\NotificationServices.cs" />
     <Compile Include="Models\OrderShow.cs" />
@@ -228,6 +230,7 @@
     <Compile Include="Tools\AttachmentHandler.cs" />
     <Compile Include="Tools\DataAccessTool.cs" />
     <Compile Include="Tools\DataMappingTool.cs" />
+    <Compile Include="Tools\EmailSender.cs" />
     <Compile Include="Variable.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -268,6 +271,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\Error\" />
     <Folder Include="Views\Notification\" />
+    <Folder Include="Views\SendMailer\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

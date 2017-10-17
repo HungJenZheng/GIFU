@@ -12,8 +12,10 @@ namespace GIFU
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             SqlDependency.Start(Variable.GetConnectionString);
-            //var messagesRepository = new Hubs.MessagesRepository();
-            //messagesRepository.GetAllMessages();
+
+            //MailSender註冊MessagesRepository.SqlNotification
+            Models.MailServices mailServices = new Models.MailServices();
+            Hubs.MessagesRepository.GetInstance().SqlNotification += mailServices.AutoSendSystemNotification;
         }
 
         protected void Application_End()

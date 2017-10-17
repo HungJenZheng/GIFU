@@ -6,6 +6,8 @@ namespace GIFU.Hubs
 {
     public class MessagesRepository
     {
+        public delegate void SqlNotificationEventHandler();
+        public event SqlNotificationEventHandler SqlNotification;
         private static MessagesRepository instance = null;
 
         public static MessagesRepository GetInstance()
@@ -46,6 +48,7 @@ namespace GIFU.Hubs
             {
                 MessagesHub.SendMessages();
                 RegisterForSqlDependency();
+                SqlNotification();
             }
         }
     }

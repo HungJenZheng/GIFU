@@ -729,6 +729,7 @@ p.qty {
 .single-grid .slider {
     display: inline-block;
     width: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
 }
 
     .single-grid .slider img {
@@ -736,13 +737,19 @@ p.qty {
         float: left;
         position: absolute;
         width: 100%;
+        background-position-x: center;
+        background-position-Y: center;
+        /*background-size: contain;*/
+        background-size: contain;
+        background-repeat: no-repeat;
     }
 
 .single-grid .slidernumberbutton {
     margin-top: 25px;
-    margin-left: calc((100% - 50px)/2);
+    /*margin-left: calc((100% - 50px)/2);*/
     list-style-type: none;
     display: inline-block;
+    cursor: pointer;
 }
 
     .single-grid .slidernumberbutton li {
@@ -1767,6 +1774,11 @@ i.sele {
 .product-img img {
     width: 100%;
     padding: 1em 1em 0;
+    background-position-x:center;
+    background-position-Y:center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-clip: content-box;
 }
 
 .product-info-cust {
@@ -4054,10 +4066,6 @@ address {
     position:relative;
 }
 
-#accountNoticeList {
-    border:1px solid black;
-}
-
 #accountNoticeList::-webkit-scrollbar
 {
     position:absolute;
@@ -4115,7 +4123,7 @@ address {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
-    font-size: 14px;
+    font-size: 1em;
 }
 #accountNoticeList li p {
     color: ghostwhite;
@@ -4136,12 +4144,12 @@ address {
 }
 
 @media (max-width:991px) {   
-    #accountfunction li {
+    #accountfunction li,#accountNoticeList li pre {
         font-size:0.95em;
     }
 }
 @media (max-width:320px) {   
-    #accountfunction li {
+    #accountfunction li,#accountNoticeList li pre {
         font-size:0.72em;
     }
 }
@@ -4298,5 +4306,279 @@ address {
     animation-iteration-count:infinite;
 
     transition:border-color 0.1s;
+}
 
+.mainImageArea {
+    margin:0 5%;
+    margin-top:40px;
+    border:1px solid black;
+    display:inline-block;
+    position:relative;
+    background:url("/images/mainImageBackground.png");
+    background-size:cover;
+}
+
+.thinkingcloudleftArea,.personArea,.thinkingcloudrightArea {
+    width:33.3%;
+    float:left;
+    display:inline-block;
+}
+
+.mainImageArea img {
+    width:100%;
+}
+
+.mainImageArea .personArea .personImage {
+    width:80%;
+    margin-top: 5px;
+    margin-left:10%;
+}
+
+.mainImageArea .personArea .thinkingcloudtop {
+    position:relative;
+    visibility:hidden;
+}
+
+.mainImageArea .personArea .garbagecanImageArea {
+    position:absolute;
+    top:29%;
+    left:36%;
+    width:30%;
+    visibility:hidden;
+}
+
+.mainImageArea .personArea .garbagecan {
+    width:100%;
+    float:left;
+}
+
+.mainImageArea .personArea #garbagecanlid {
+    margin-bottom:4px
+}
+
+.mainImageArea .personArea .notthrowaway {
+    position: absolute;
+    bottom: -12%;
+    width: 172%;
+    left: -36%;
+    visibility:hidden;
+}
+
+    .mainImageArea .personArea #garbagecanlid:hover {
+       transform:translate(14px,-20px) rotateZ(45deg); 
+    }
+
+.mainImageArea .thinkingcloudleftArea,.thinkingcloudrightArea {
+     padding-top: 20%;
+}
+
+.mainImageArea .thinkingcloudleft {
+    height:40%;
+    position:relative;
+    visibility:hidden;
+}
+
+.mainImageArea .thinkingcloudright {
+    height:40%;
+    position:relative;
+    visibility:hidden;
+}
+
+.mainImageArea .arrowImageArea {
+    width:100%;
+    display:inline-block;
+}
+
+.mainImageArea .arrowImageArea img {
+    width:50px;
+    height:50px;   
+}
+
+#arrowRightTop {
+    visibility:hidden;
+}
+#arrowRightBottom {
+    visibility:hidden;
+}
+
+.subImageArea {
+    margin-top:40px;
+}
+
+.subImageArea .subImage {
+    width: 33.3%;
+    display:inline-block;
+    float:left;
+}
+
+@media (max-width:991px) {
+
+}
+
+@media (max-width:640px) {
+    .mainImageArea .arrowImageArea img {
+        width:30px;
+        height:30px;
+    }
+    .mainImageArea .personArea .garbagecanImageArea {
+        top:27%;
+    }
+}
+
+@media (max-width:480px) {
+    .mainImageArea .personArea #garbagecanlid {
+        margin-bottom:3px;
+    }
+    .mainImageArea .personArea .garbagecanImageArea {
+        top:27%;
+    }
+}
+
+@media (max-width:320px) {
+    .mainImageArea .personArea #garbagecanlid {
+        margin-bottom:2px;
+    }
+    .mainImageArea .personArea .garbagecanImageArea {
+        top:27%;
+    }
+}
+
+.teachingArea {
+    display:inline-block;
+    float:left;
+    width:100%;
+    position:relative;
+    margin-top:40px;
+}
+
+    .teachingArea .teachingStepWord {
+        position:absolute;
+        width:38%;
+        top:0;
+        right:0;
+    }
+    .teachingArea .teachingStepWord h3 {
+        text-align:center;
+        font-size:2.5em;
+        font-family: 'Microsoft JhengHei';
+        font-weight: 700;
+    }
+    .teachingArea .teachingStepWord strong {
+        background:black;
+        color:#fff;
+        width:40px;
+        height:40px;
+        border-radius:50%;
+        display:inline-block;
+    }
+
+.teachingArea .teachingImage {
+}
+.teachingArea .teachingImage img {
+    width:38%;
+    position:absolute;
+    bottom:0;
+}
+.teachingArea .teachingStepImage {
+    display:inline-block;
+    float:left;
+    width:55%;
+    padding:0 5%;
+    background-color:#f2f2f2;
+    border-radius:5%;
+    margin-right:2%;
+}
+.teachingArea .browserImage {
+    display:inline-block;
+    float:left;
+    width:100%;
+    background:url("/images/browser.png");
+    background-size:cover;
+    background-repeat:no-repeat;
+    margin:10% 0;
+    position:relative;
+}
+.teachingArea .browserImage img {
+    display:block;
+    float:left;
+    width:calc(100% - 4px);
+    margin:6.5% 2px;
+    margin-bottom:3%;
+    position:absolute;
+}
+    .teachingArea .teachingStepNumber {
+        display:inline-block;
+        float:left;
+        width:5%;
+        margin-top:calc((100% - 205px)/2);
+    }
+    
+        .teachingArea .teachingStepNumber li {
+            list-style-type: none;
+            margin:5px 0;
+            background:#000;
+            height:20px;
+            width:20px;
+            border-radius:50%;
+            cursor: pointer;
+        }
+
+        .teachingArea .teachingStepNumber li a {
+            list-style-type: none;
+            text-decoration:none;
+            font-family:'Corben-Regular';
+            color:#fff;
+            display:block;
+            line-height:18px;
+            text-align:center;
+        }
+
+        .teachingArea .teachingStepNumber li.nowTeachingStep {
+            background:ghostwhite;
+        }
+        .teachingArea .teachingStepNumber li.nowTeachingStep a {
+            color:#000;
+        }
+
+@media (max-width:640px) {
+    .teachingArea .teachingStepNumber li {
+        height:15px;
+        width:15px;
+    }
+    .teachingArea .teachingStepNumber li a {
+        font-size:12px;
+        line-height:14px;
+    }
+    .teachingArea .teachingStepWord h3 {
+        font-size:2em;
+    }
+    .teachingArea .teachingStepWord strong {
+        width:30px;
+        height:30px;
+    }
+}
+
+@media (max-width:480px) {
+    .teachingImage {
+        display:none;
+    }
+    .teachingArea .teachingStepImage {
+        width:90%;
+        margin:0 auto;
+    }
+    .teachingArea .teachingStepNumber {
+        margin-right:2%;
+    }
+    .teachingArea .teachingStepWord {
+        width:auto;
+        position:unset;
+        margin-bottom:15px;
+    }
+        .teachingArea .teachingStepWord h3 {
+            font-size:30px;
+        }
+        .teachingArea .teachingStepWord strong {
+            width:33px;
+            height:33px;
+        }
 }

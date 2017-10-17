@@ -28,7 +28,8 @@ namespace GIFU.Models
 	                        JOIN dbo.ACCOUNT A
 		                        ON O.USER_ID = A.USER_ID
                         WHERE (O.GOOD_ID = @GoodId) OR
-                              (O.[USER_ID] = @UserId)";
+                              (O.[USER_ID] = @UserId)
+                        ORDER BY ORDER_ID DESC";
             IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
             parameters.Add(new KeyValuePair<string, object>("@GoodId", arg.GoodId.NullToDBNullValue()));
             parameters.Add(new KeyValuePair<string, object>("@UserId", arg.UserId.NullToDBNullValue()));

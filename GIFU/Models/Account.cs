@@ -20,5 +20,6 @@ namespace GIFU.Models
         public string IsValid { get; set; }
         public string UserType { get; set; }
         public string UpdateDate { get; set; }
+        public string Token { get; set; }
     }
 }

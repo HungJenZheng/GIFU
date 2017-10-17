@@ -140,26 +140,87 @@ namespace GIFU.Controllers
         [HttpPost]
         public ActionResult Register(Models.Account account)
         {
+            TempData["result"] = -1;
+            TempData["message"] = "輸入錯誤，請重新輸入一次。";
             if (ModelState.IsValid)
             {
-                int result = accountServices.AddAccount(account);
-                if (result > 0)
+                int userId = accountServices.AddAccount(account);
+                if (userId > 0)
                 {
-                    RedirectToAction("Login");
                     TempData["result"] = 1;
-                    TempData["message"] = "註冊成功!!";
-                    return View(account);
+                    TempData["message"] = "註冊成功，請到信箱收信驗證。";
+                    //產生token，寄信
+                    Models.MailServices mailServices = new Models.MailServices();
+                    string token = mailServices.CreateAToken(userId);
+                    Tools.EmailSender emailSender = new Tools.EmailSender();
+                    emailSender.SendAnEmail(new Tools.MailModel()
+                    {
+                        From = Variable.GetMailAccount,
+                        To = account.Email,
+                        Subject = Variable.GetMailSubject,
+                        Body = Variable.GetAuthenciateionTemplate.Replace("<!--USERNAME-->", account.Name)
+                                                    .Replace("<!--URL-->", Variable.GetCurrentHost + "/Account/Authentication/" + userId + "?token=" + HttpUtility.UrlEncode(token))
+                    });
+                    //ViewBag.UserId = userId;
+                    return RedirectToAction("Authentication", new { id = userId });
                 }
-                else if (result == -1)
+                else if (userId == -1)
                 {
                     TempData["result"] = -1;
                     TempData["message"] = "帳號已存在。";
-                    return View(account);
                 }
             }
-            TempData["result"] = -1;
-            TempData["message"] = "輸入錯誤，請重新輸入一次。";
             return View(account);
+        }
+
+        public ActionResult Authentication(int? id, string token)
+        {
+            int userId = 0;
+            if (id != null)
+            {
+                userId = Convert.ToInt32(id);
+                ViewBag.UserId = userId;
+            }
+            else
+                return RedirectToAction("Login");
+
+            Models.Account account = accountServices.GetAccountDetailById(userId);
+            if (account.IsValid == "T" || account.UserId == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            if (token != null)
+            {
+                Models.MailServices mailServices = new Models.MailServices();
+                if (mailServices.VerifyToken(userId, HttpUtility.UrlDecode(token)))
+                {
+                    ViewBag.Result = accountServices.SetUserIsValid(userId, "T");
+                }
+                else
+                {
+                    ViewBag.Result = -1;
+                }
+            }
+            return View();
+        }
+
+
+        public void ReSendAuthenticationMail(int? userId)
+        {
+            int id = (userId != null) ? Convert.ToInt32(userId) : 0;
+            Models.Account account = accountServices.GetAccountDetailById(id);
+            Models.MailServices mailServices = new Models.MailServices();
+            string token = mailServices.CreateAToken(id);
+            Tools.EmailSender emailSender = new Tools.EmailSender();
+            emailSender.SendAnEmail(new Tools.MailModel()
+            {
+                From = Variable.GetMailAccount,
+                To = account.Email,
+                Subject = Variable.GetMailSubject,
+                Body = Variable.GetAuthenciateionTemplate.Replace("<!--USERNAME-->", account.Name)
+                                            .Replace("<!--URL-->", Variable.GetCurrentHost + "/Account/Authentication/" + userId + "?token=" + HttpUtility.UrlEncode(token))
+            });
         }
 
         /// <summary>

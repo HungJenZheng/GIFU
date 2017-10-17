@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 namespace GIFU.Models
 {
@@ -44,7 +46,7 @@ namespace GIFU.Models
                 {
                     From = Variable.GetMailAccount,
                     To = item.Email,
-                    Subject = "GIFU物品分享平台通知",
+                    Subject = Variable.GetMailSubject,
                     Body = Variable.GetMailTemplate.Replace("<!--USERNAME-->", item.UserName)
                                                     .Replace("<!--CONTENT-->", item.Content)
                                                     .Replace("<!--URL-->", Variable.GetCurrentHost + item.Url)
@@ -52,6 +54,30 @@ namespace GIFU.Models
                 emailSender.SendAnEmail(mailModel);
             }
             SetIsSend();
+        }
+
+        public string CreateAToken(int userId)
+        {
+            byte[] time = BitConverter.GetBytes(DateTime.UtcNow.ToBinary());
+            byte[] key = Guid.NewGuid().ToByteArray();
+            string token = Convert.ToBase64String(time.Concat(key).ToArray());
+            AccountServices accountServices = new AccountServices();
+            accountServices.StoreTokenToUser(userId, token);
+            return token;
+        }
+
+        public bool VerifyToken(int userId, string token)
+        {
+            byte[] data = Convert.FromBase64String(token);
+            DateTime when = DateTime.FromBinary(BitConverter.ToInt64(data, 0));
+            if (when < DateTime.UtcNow.AddMinutes(-30))
+            {
+                return false;
+            }
+            AccountServices accountServices = new AccountServices();
+            string tokenStored = accountServices.GetTokenByUserId(userId);
+            if (token != tokenStored) return false;
+            return true;
         }
     }
 }

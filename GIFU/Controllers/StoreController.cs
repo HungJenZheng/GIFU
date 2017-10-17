@@ -174,7 +174,7 @@ namespace GIFU.Controllers
         /// <param name="goods"></param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult UpdateGood(Models.Goods goods)
+        public JsonResult UpdateGoods(Models.Goods goods)
         {
             int result = -1;
             string message = "物品資訊輸入有誤";

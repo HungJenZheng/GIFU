@@ -27,5 +27,6 @@ namespace GIFU.Models
         public string PicPath { get; set; }
         public string Tag1Name { get; set; }
         public string Tag2Name { get; set; }
+        public int RequestAmount { get; set; }
     }
 }

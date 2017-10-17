@@ -260,6 +260,7 @@
     <Content Include="Views\Account\_ManagePartial.cshtml" />
     <Content Include="Views\Account\ManageInfo.cshtml" />
     <Content Include="Views\Store\_OrderManageList.cshtml" />
+    <Content Include="Views\Account\Authentication.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

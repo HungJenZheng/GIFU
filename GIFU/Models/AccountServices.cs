@@ -1,4 +1,5 @@
 ﻿using ExtensionMethods;
+using System;
 using System.Collections.Generic;
 using System.Data;
 
@@ -58,7 +59,8 @@ namespace GIFU.Models
                 return -1;
 
             sql = @"INSERT INTO dbo.ACCOUNT(EMAIL, PASSWD, NAME, SEX, BIRTHDAY, PHONE, [ADDRESS], PHOTO_TYPE, UPDATE_DATE)
-						   VALUES(@Email, @Passwd, @Name, @Sex, @Birthday, @Phone, @Address, @PhotoType, GETDATE())";
+						   VALUES(@Email, @Passwd, @Name, @Sex, @Birthday, @Phone, @Address, @PhotoType, GETDATE())
+                           SELECT SCOPE_IDENTITY()";
             //IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
             parameters.Clear();
             parameters.Add(new KeyValuePair<string, object>("@Email", account.Email.NullToDBNullValue()));
@@ -69,8 +71,8 @@ namespace GIFU.Models
             parameters.Add(new KeyValuePair<string, object>("@Phone", account.Phone.NullToDBNullValue()));
             parameters.Add(new KeyValuePair<string, object>("@Address", account.Address.NullToDBNullValue()));
             parameters.Add(new KeyValuePair<string, object>("@PhotoType", account.PhotoType.NullToDBNullValue()));
-            int result;
-            result = dataAccessTool.ExecuteNonQuery(Variable.GetConnectionString, sql, parameters);
+            object obj = dataAccessTool.ExecuteScalar(Variable.GetConnectionString, sql, parameters);
+            int result = (obj != DBNull.Value) ? Convert.ToInt32(obj) : 0;
             return result;
         }
 
@@ -110,7 +112,7 @@ namespace GIFU.Models
 								EMAIL AS Email,
 								NAME AS Name
 						FROM dbo.ACCOUNT
-						WHERE EMAIL = @Email AND PASSWD = @Passwd";
+						WHERE EMAIL = @Email AND PASSWD = @Passwd AND IS_VALID = 'T'";
             IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
             parameters.Add(new KeyValuePair<string, object>("@Email", loginVM.Email.NullToDBNullValue()));
             parameters.Add(new KeyValuePair<string, object>("@Passwd", loginVM.Passwd.NullToDBNullValue()));
@@ -120,6 +122,55 @@ namespace GIFU.Models
             else
                 return new Account();
 
+        }
+
+        /// <summary>
+        /// 產生token並存入資料庫
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public int StoreTokenToUser(int userId, string token)
+        {
+            string sql = @"UPDATE dbo.ACCOUNT SET TOKEN = @Token WHERE USER_ID = @UserId";
+            IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
+            parameters.Add(new KeyValuePair<string, object>("@UserId", userId.NullToDBNullValue()));
+            parameters.Add(new KeyValuePair<string, object>("@Token", token.NullToDBNullValue()));
+            int result = dataAccessTool.ExecuteNonQuery(Variable.GetConnectionString, sql, parameters);
+            return result;
+        }
+
+        /// <summary>
+        /// 檢驗Token時間和資料庫裡的Token是否相同
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public string GetTokenByUserId(int userId)
+        {
+            DataTable dataTable;
+            string sql = @"SELECT [USER_ID] AS UserId,
+								TOKEN AS Token
+						FROM dbo.ACCOUNT
+						WHERE USER_ID = @UserId";
+            IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
+            parameters.Add(new KeyValuePair<string, object>("@UserId", userId.NullToDBNullValue()));
+            dataTable = dataAccessTool.Query(Variable.GetConnectionString, sql, parameters);
+            if (dataTable.Rows.Count > 0)
+            {
+                return DataMappingTool.GetModel<Account>(dataTable.Rows[0]).Token;
+            }
+            else
+                return string.Empty;
+        }
+
+        public int SetUserIsValid(int userId, string isValid)
+        {
+            string sql = @"UPDATE dbo.ACCOUNT SET IS_VALID = @IsValid WHERE USER_ID = @UserId";
+            IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
+            parameters.Add(new KeyValuePair<string, object>("@UserId", userId.NullToDBNullValue()));
+            parameters.Add(new KeyValuePair<string, object>("@IsValid", isValid.NullToDBNullValue()));
+            int result = dataAccessTool.ExecuteNonQuery(Variable.GetConnectionString, sql, parameters);
+            return result;
         }
     }
 }

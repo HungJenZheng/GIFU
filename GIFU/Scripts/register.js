@@ -3,6 +3,7 @@ $(document).ready(function () {
     ResizeStepGraphHeight();
     //決定註冊步驟
     DetermineRegisterStep();
+    CheckEmail();
 });
 
 //網頁Resize事件註冊 實作ResizeStepGraphHeight
@@ -17,12 +18,13 @@ function ResizeStepGraphHeight() {
 
 //決定註冊步驟
 function DetermineRegisterStep() {
-    if ($('#temp_result').text() == "1") {
-        NextRegisterStep(4);
-        AnimateRegisterSuccessImage();
-        ShowNotify($('#temp_result').text(), $('#temp_message').text());
-    }
-    else if ($('#temp_result').text() == "-1") {
+    //if ($('#temp_result').text() == "1") {
+    //    NextRegisterStep(4);
+    //    AnimateRegisterSuccessImage();
+    //    ShowNotify($('#temp_result').text(), $('#temp_message').text());
+    //}
+    //else if ($('#temp_result').text() == "-1") {
+    if ($('#temp_result').text() == "-1") {
         NextRegisterStep(2);
         ShowNotify($('#temp_result').text(), $('#temp_message').text());
     }
@@ -49,28 +51,13 @@ function NextRegisterStep(nextStep) {
     $('html').animate({ scrollTop: 0 }, 600);
 }
 
-//註冊成功動畫
-function AnimateRegisterSuccessImage() {
-    animationWaitTime -= 1;
-    if (animationWaitTime == 0) {
-        $('#checkedblack').fadeOut("slow", CountDownTime);
-    }
-    setTimeout("AnimateRegisterSuccessImage()", 1000);
-}
-
-//倒數計時 5秒後回首頁
-function CountDownTime() {
-    downTime -= 1;
-    $('.succeed h3').text('倒數' + downTime + '秒返回登入');
-    if (downTime == 0) {
-        location.href = '/Account/Login';
-    }
-    //每秒執行一次,CountDownTime()
-    setTimeout("CountDownTime()", 1000);
-}
-
 //檢查Email格式
 function CheckEmail() {
+    if ($('#email').val() == "") {
+        $('#emailcheck').css("color", "#9D9D9D");
+        $('#emailwarningword').fadeOut();
+        return;
+    }
     if (IsEmail()) {
         $('#emailcheck').css("color", "green");
         $('#emailwarningword').fadeOut();
@@ -79,10 +66,6 @@ function CheckEmail() {
         $('#emailcheck').css("color", "red");
         $('#emailwarningword').text('email格式錯誤');
         $('#emailwarningword').fadeIn();
-    }
-    if ($('#email').val() == "") {
-        $('#emailcheck').css("color", "#9D9D9D");
-        $('#emailwarningword').fadeOut();
     }
 }
 

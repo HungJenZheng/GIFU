@@ -34,7 +34,7 @@ namespace GIFU.Models
                         WHERE (UPPER(TITLE) LIKE @Title) AND
                               (TAG1 = @Tag1 OR @Tag1 = '') AND
                               (TAG2 = @Tag2 OR @Tag2 = '') AND 
-                              STATUS = 'Y' AND AMOUNT > 0
+                              STATUS = 'T' AND AMOUNT > 0
                         ORDER BY UPDATE_DATE DESC
                         OFFSET @Offset ROWS FETCH NEXT @NextNo ROWS ONLY";
             IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
@@ -92,23 +92,30 @@ namespace GIFU.Models
         {
             DataTable dataTable;
             string sql = @"SELECT G.GOOD_ID   AS GoodId,
-                                  [USER_ID] AS UserId,
+                                  G.[USER_ID] AS UserId,
                                   TITLE     AS Title,
                                   INTRODUCTION AS Introduction,
-                                  AMOUNT AS Amount,
+                                  G.AMOUNT AS Amount,
                                   NEW_DEGREE AS NewDegree,
                                   TAG1 AS Tag1,
                                   TAG2 AS Tag2,
                                   (SELECT NAME FROM dbo.CODE WHERE CODE_KIND = 'TAG' AND CODE_ID = TAG1) AS Tag1Name, 
                                   (SELECT NAME FROM dbo.CODE WHERE CODE_KIND = TAG1 AND CODE_ID = TAG2) AS Tag2Name,
                                   IS_REASON AS IsReason,
-                                  CONVERT(VARCHAR, UPDATE_DATE, 120) AS UpdateDate,
-                                  GP.PATH PicPath
+                                  CONVERT(VARCHAR, G.UPDATE_DATE, 120) AS UpdateDate,
+                                  G.STATUS AS Status,
+                                  GP.PATH PicPath,
+								  ISNULL(O.REQUEST_AMOUNT, 0) AS RequestAmount
                         FROM dbo.GOOD G
                             LEFT JOIN dbo.GOOD_PICTURE GP
                                 ON G.GOOD_ID = GP.GOOD_ID
-                        WHERE USER_ID = @UserId AND GP.IS_MAIN = 'T'
-                        ORDER BY UPDATE_DATE DESC";
+							LEFT JOIN (SELECT GOOD_ID, COUNT(*) AS REQUEST_AMOUNT
+									   FROM dbo.[ORDER]
+									   WHERE [STATUS] = '1'
+									   GROUP BY GOOD_ID
+							)  AS O ON G.GOOD_ID = O.GOOD_ID
+                        WHERE G.[USER_ID] = @UserId AND GP.IS_MAIN = 'T'
+                        ORDER BY G.[STATUS] DESC, O.REQUEST_AMOUNT DESC, G.UPDATE_DATE DESC";
             IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
             parameters.Add(new KeyValuePair<string, object>("@UserId", userId ?? 0));
             dataTable = dataAccessTool.Query(Variable.GetConnectionString, sql, parameters);
@@ -245,6 +252,7 @@ namespace GIFU.Models
                                 TAG1 = @Tag1, 
                                 TAG2 = @Tag2, 
                                 IS_REASON = @IsReason, 
+                                STATUS = @Status,
                                 UPDATE_DATE = GETDATE()
                            WHERE GOOD_ID = @GoodId";
             IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
@@ -256,6 +264,7 @@ namespace GIFU.Models
             parameters.Add(new KeyValuePair<string, object>("@Tag1", goods.Tag1.NullToDBNullValue()));
             parameters.Add(new KeyValuePair<string, object>("@Tag2", goods.Tag2.NullToDBNullValue()));
             parameters.Add(new KeyValuePair<string, object>("@IsReason", goods.IsReason.NullToDBNullValue()));
+            parameters.Add(new KeyValuePair<string, object>("@Status", goods.Status.NullToDBNullValue()));
             int result;
             result = dataAccessTool.ExecuteNonQuery(Variable.GetConnectionString, sql, parameters);
             return result;
@@ -364,8 +373,8 @@ namespace GIFU.Models
                         FROM dbo.GOOD G
                             LEFT JOIN dbo.GOOD_PICTURE GP
                                 ON G.GOOD_ID = GP.GOOD_ID AND GP.IS_MAIN = 'T'
-                        WHERE STATUS = 'Y' AND AMOUNT > 0
-                        ORDER BY HIT_COUNT ASC, UPDATE_DATE ASC";
+                        WHERE STATUS = 'T' AND AMOUNT > 0
+                        ORDER BY HIT_COUNT ASC, UPDATE_DATE DESC";
             IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
             dataTable = dataAccessTool.Query(Variable.GetConnectionString, sql, parameters);
             if (dataTable.Rows.Count > 0)

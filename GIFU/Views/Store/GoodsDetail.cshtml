@@ -430,7 +430,10 @@
                 Message: $('#answer'+ commentNo + ' textarea').val()},
             dataType: "json",
             success: function (result) {
-                ShowNotify(result.result, result.message);
+                if (result > 0)
+                    ShowNotify(result, "留言回復成功");
+                else
+                    ShowNotify(result, "留言回復失敗");
                 $('#answer'+ commentNo +' .answerQuestionButton').fadeOut();
                 $('#answer'+ commentNo +' .updateAnswerButton').fadeIn();
                 $('#answer'+ commentNo).append('<p class="answerdate">'+ today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate() +'<a href="#"><span class="glyphicon glyphicon-exclamation-sign"></span></a></p>');
@@ -454,7 +457,10 @@
                 Message:  $('#answer'+ commentNo + ' textarea').val()},
             dataType: "json",
             success: function (result) {
-                ShowNotify(result, 'TEST');
+                if (result > 0)
+                    ShowNotify(result, "留言更新成功");
+                else
+                    ShowNotify(result, "留言更新失敗");
                 $('#answer'+ commentNo + ' .answerdate').text(today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate());
                 ResizeQAMargin();
             },

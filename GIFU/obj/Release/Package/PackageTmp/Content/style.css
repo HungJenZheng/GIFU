@@ -3418,13 +3418,6 @@ address {
     margin: -5px 0px 12.5px 100px;
 }
 
-.askquestion .verificationcode {
-    height: 30px;
-    width: 90px;
-    float: left;
-    margin-right: 10px;
-}
-
 .askquestion input {
     height: 30px;
     width: 45px;
@@ -3590,13 +3583,6 @@ address {
         display: inline-block;
         float: left;
         margin: -5px 0px 12.5px calc((100% - 160px)/2);
-    }
-
-    .askquestion .verificationcode {
-        height: 20px;
-        width: 60px;
-        float: left;
-        margin-right: 10px;
     }
 
     .askquestion input {
@@ -3777,7 +3763,6 @@ address {
 
 .steparea {
     width: 100%;
-    margin:0 12.5%;
     display: inline-block;
     position: relative;
 }
@@ -3834,6 +3819,42 @@ address {
     margin: 0;
 }
 
+.authentication img {
+    width:50%;
+    display:block;
+    margin:25px auto;
+    border-radius:50%;
+}
+
+.authenticationError img {
+    width:256px;
+}
+
+.authentication h5 {
+    display:inline-block;
+    float: left;
+    font-size:1.2em;
+    color: #999;
+}
+
+.authentication .register-but {
+    display:inline-block;
+    float: right;
+}
+
+.authentication .register-but .resendButtonCountDown {
+    color: #999;
+    font-size: 1em;
+    padding-bottom: 0.2em;
+    display: block;
+    text-transform: uppercase;
+}
+
+.authentication .register-but input[type=button] {
+    margin:0;
+    display:block;
+}
+
 .succeed .succeedimage {
     position: relative;
     height: 256px;
@@ -3846,16 +3867,45 @@ address {
     margin: 0 calc((100% - 256px)/2);
 }
 
-.succeed h3 {
+.succeed h3,.authentication h3 {
+    font-family:'Microsoft JhengHei';
+    font-weight:600;
     display: inline-block;
     text-align: center;
     width: 100%;
+}
+
+@keyframes shake2 {
+  from, to {
+    transform: translate3d(0, 0, 0);
+  }
+
+  80%{
+      transform: translate3d(0, 0, 0);
+  }
+
+  85%,95% {
+    transform: translate3d(-10px, 0, 0);
+  }
+
+  90%{
+    transform: translate3d(10px, 0, 0);
+  }
+}
+
+.shake2 {
+  animation-name: shake2;
+  animation-duration: 3s;
+
 }
 
 @media (max-width:991px) {
     .steparea .step h3 {
         font-size: 24px;
         margin: calc((100% - 28px)/2) 0;
+    }
+    .authentication h5 {
+        font-size:1.1em;
     }
 }
 
@@ -3875,6 +3925,25 @@ address {
         margin-bottom: 12.5px;
     }
 
+    .authentication img {
+        width:75%;
+    }
+
+    .authenticationError img {
+        width:200px;
+    }
+
+    .authentication h3 {
+        font-size:1.5em;
+    }
+    .authentication h5 {
+        font-size:1em;
+    }
+
+    .authentication .register-but .resendButtonCountDown {
+        font-size:0.8em;
+    }
+
     .succeed .succeedimage {
         height: 200px;
     }
@@ -3885,9 +3954,32 @@ address {
         height: 200px;
         margin: 0 calc((100% - 200px)/2);
     }
+    .authentication .register-but input[type=button] {
+        margin:0;
+        display:block;
+        font-size:1em;
+        padding:0.6em 1em;
+    }
 }
 
 @media (max-width:480px) {
+    .authentication h3 {
+        font-size:16px;
+    }
+
+    .authentication h5 {
+        display:block;
+        float:none;
+        text-align:center;
+    }
+
+    .authentication .register-but {
+        display:block;
+        float:none;
+        width:102.40px;
+        margin:15px auto;
+    }
+
     .register-top-grid .reigster-sex label {
         margin-top: calc((60.38px - 20px)/2);
     }
@@ -3952,6 +4044,10 @@ address {
     .succeed h3 {
         font-size: 1.5em;
     }
+
+    .authenticationError img {
+        width:150px;
+    }
 }
 
 @media (max-width:320px) {
@@ -3983,6 +4079,18 @@ address {
         height: 128px;
         margin: 0 calc((100% - 128px)/2);
     }
+    .authenticationError img {
+        width:128px;
+    }
+    .authentication .register-but input[type=button] {
+        margin:0;
+        display:block;
+        font-size:0.8em;
+        padding:0.6em 0.8em;
+    }
+    .authentication .register-but {
+        width:83.19px;
+    }
 }
 
 #accountfunction {
@@ -3990,6 +4098,7 @@ address {
     right: 2px;
     background-color: black;
     z-index: 20;
+    min-width:105px;
 }
 
 #accountfunction li {
@@ -4024,7 +4133,7 @@ address {
 
 #accountNoticeList {
     position: absolute;
-    right: 2px;
+    right: -7px;
     z-index: 20;
     height: 265px;
     overflow: auto;
@@ -4051,6 +4160,9 @@ address {
 @media (max-width:640px) {
     #accountNoticeNumber {
         bottom:0.5em;
+    }
+    #accountfunction {
+        min-width:98px;
     }
 }
 
@@ -4086,7 +4198,12 @@ address {
 }
 
 .hidescrollbar::-webkit-scrollbar { 
-    display: none;
+    display: block;
+    visibility:hidden;
+}
+
+.hidescrollbar::-webkit-scrollbar-thumb {
+    visibility:hidden;
 }
 
 #accountNoticeList .readnotice {
@@ -4581,4 +4698,18 @@ address {
             width:33px;
             height:33px;
         }
+}
+
+.hyperLinkDisabled{
+    pointer-events:none;
+    cursor:default;
+    opacity:0.6;
+}
+
+.authentication .register-but .inputDisabled {
+    border:2px #e5e5e5 solid;
+    color:#e5e5e5;
+    pointer-events:none;
+    cursor:default;
+    opacity:0.6;
 }

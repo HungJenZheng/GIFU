@@ -1,4 +1,9 @@
-﻿$("#add-goodsTag1").change(function () { //新增商品大標籤對應小標籤
+﻿$(document).ready(function () {
+    //調整物品高度
+    ResizeGoodsBoxHeight();
+});
+
+$("#add-goodsTag1").change(function () { //新增商品大標籤對應小標籤
     if ($('#add-goodsTag1').val() == '3C') {
         $('#add-goodsTag2').prop('disabled', false);
         $('#add-goodsTag2').html('<option value="1">電腦</option> <option value="2">手機</option> <option value="3">相機</option> <option value="4">3C其他</option>');
@@ -90,6 +95,14 @@ function ChangeOrderStatus(orderId, status, e) {
                     $(e).addClass('disabled');
                     $(e).text('已拒絕');
                 }
+                var goodsResquestAmount = $('#request-amount-' + $(e).parent().parent().find('.check-goods-applier-goodsId').text() +' p');
+                if (goodsResquestAmount.text() <= 1) {
+                    goodsResquestAmount.parent().hide();
+                }
+                else {
+                    goodsResquestAmount.text(goodsResquestAmount.text() - 1);
+                }
+                console.log(goodsResquestAmount.text());
             }
         }, fail: function (error) {
             console.log(error);
@@ -106,10 +119,8 @@ function GetModifyGoodsInfo(goodsId) {
     $("#modify-goods-tag1").val($('#goods-box-' + goodsId + ' .goods-tag1').text());
     $("#modify-goods-tag1").change();
     $("#modify-goods-tag2").val($('#goods-box-' + goodsId + ' .goods-tag2').text());
-    var goodsIsReason = $('#goods-box-' + goodsId + ' .goods-is-reason').text();
-    if (goodsIsReason == "是") goodsIsReason = 'T';
-    else if (goodsIsReason == "否") goodsIsReason = 'F';
-    $("#modify-goods-is-reason").val(goodsIsReason);
+    $("#modify-goods-is-reason").val($('#goods-box-' + goodsId + ' .goods-is-reason').text());
+    $("#modify-goods-status").val($('#goods-box-' + goodsId + ' .goods-status').text());
     $("#modify-goods-intro").val($('#goods-box-' + goodsId + ' .goods-intro').text());
 }
 
@@ -117,15 +128,13 @@ function GetCheckGoodsInfo(goodsId) {
     ShowOrderManageList(goodsId);
     var image = $('#goods-box-' + goodsId + ' .goods-img-hide').text();
     $("#check-goods-img").css('backgroundImage', 'url('+image+')');
-    //$("#check-goods-img").attr('src', $('#goods-box-' + goodsId + ' .goods-img-hide').text());
     $("#check-goods-name").text($('#goods-box-' + goodsId + ' .goods-name').text());
     $("#check-goods-new-degree").text($('#goods-box-' + goodsId + ' .goods-new-degree').text() + '成新');
     $("#check-goods-amount").text($('#goods-box-' + goodsId + ' .goods-amount').text() + '個');
     $("#check-goods-tag1-name").text($('#goods-box-' + goodsId + ' .goods-tag1-name').text());
     $("#check-goods-tag2-name").text($('#goods-box-' + goodsId + ' .goods-tag2-name').text());
-    $("#check-goods-is-reason").text(GetIsReason($('#goods-box-' + goodsId + ' .goods-is-reason').text()));
+    $("#check-goods-is-reason").text($('#goods-box-' + goodsId + ' .goods-is-reason').text());
     $("#check-goods-intro").text($('#goods-box-' + goodsId + ' .goods-intro').text());
-    //$("#check-goods-place-time").text($('#goods-box-' + goodsId + ' .goods-place-time').text());
     $("#check-goods-update-date").text($('#goods-box-' + goodsId + ' .goods-update-date').text());
 }
 
@@ -174,13 +183,17 @@ $('#modifyForm').submit(function (e) {
     var formData = new FormData(this);
     formData.append('GoodId', $('#modify-goods-id').text());
     formData.append('UserId', $('#userId').text());
+    console.log(formData);
     var goodsId = $('#modify-goods-id').text();
     //document.getElementById("#modifyForm").reset();
     $.ajax({
         type: "POST",
-        url: "/Store/UpdateGood",
+        url: "/Store/UpdateGoods",
         data: formData,
         dataType: "json",
+        contentType: false,
+        cache: false,
+        processData: false,
         success: function (response) {
             ShowNotify(response.result, response.message);
             $('#goods-box-' + goodsId + ' .goods-name').text($('#modify-goods-name').val());
@@ -190,18 +203,21 @@ $('#modifyForm').submit(function (e) {
             $('#goods-box-' + goodsId + ' .goods-tag1-name').text($('#modify-goods-tag1 :selected').text());
             $('#goods-box-' + goodsId + ' .goods-tag2').text($('#modify-goods-tag2').val());
             $('#goods-box-' + goodsId + ' .goods-tag2-name').text($('#modify-goods-tag2 :selected').text());
-            $('#goods-box-' + goodsId + ' .goods-is-reason').text(GetIsReason($('#modify-goods-is-reason').val()));
+            $('#goods-box-' + goodsId + ' .goods-is-reason').text($('#modify-goods-is-reason').val());
+            $('#goods-box-' + goodsId + ' .goods-status').text($('#modify-goods-status').val());
             $('#goods-box-' + goodsId + ' .goods-intro').text($('#modify-goods-intro').val());
             $("#modifyGoodsModal").modal('hide');
+            if ($('#modify-goods-status').val() == 'F') {
+                $('#goods-box-' + goodsId).addClass('discontinued');
+                $('.goods-area').append('')
+            }
+            if ($('#modify-goods-status').val() == 'T') {
+                $('#goods-box-' + goodsId).removeClass('discontinued');
+            }
         }, fail: function (error) {
         }
     });
 });
-
-function GetIsReason(goodsIsReason) {
-    if (goodsIsReason == "T") return '是';
-    else if (goodsIsReason == "F") return '否';
-}
 
 //取得訂單清單HTML
 function ShowOrderManageList(goodId) {
@@ -257,4 +273,9 @@ function CreateGoodBox(obj) {
                 '</div>'
     '</div>'
     return box;
+}
+
+window.addEventListener('resize', ResizeGoodsBoxHeight);
+function ResizeGoodsBoxHeight(){
+    $('.goods-box').height($('.goods-box').width());
 }

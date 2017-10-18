@@ -17,11 +17,17 @@
     <div class="goods-area">
         @foreach (var item in (List<GIFU.Models.Goods>)ViewBag.Goods)
         {
-            <div class="goods-box" id=@("goods-box-" + item.GoodId)>
+            <div class="goods-box discontinued-@item.Status" id=@("goods-box-" + item.GoodId)>
                 <!--item.GoodsId-->
                 @*<img class="goods-img-hide" src=@item.PicPath />*@
                 @*<div class="goods-img" style="background-image: url(@item.PicPath);"></div>*@
                 <a href="/Store/GoodsDetail/@item.GoodId" class="goods-img" style="background-image: url(@item.PicPath);"></a>
+                @if (item.RequestAmount > 0)
+                {
+                    <div class="request-amount animated infinite jello" id=@("request-amount-" + item.GoodId)>
+                        <p>@item.RequestAmount</p>
+                    </div>
+                }
                 <div class="modify-overlay" data-toggle="modal" data-target="#modifyGoodsModal" onclick="GetModifyGoodsInfo(@item.GoodId)">
                     <div class="text">編輯</div>
                 </div>
@@ -40,6 +46,7 @@
                     <span class="goods-is-reason">@item.IsReason</span>
                     <span class="goods-update-date">@item.UpdateDate</span>
                     <span class="goods-intro">@item.Introduction</span>
+                    <span class="goods-status">@item.Status</span>
                 </div>
             </div>
         }
@@ -85,7 +92,7 @@
                             </div>
                             <div class="input-group">
                                 <span class="input-group-addon">數量: </span>
-                                <input type="number" min="1" class="form-control" id="add-goods-amount" name="Amount" placeholder="" aria-label="Amount (to the nearest dollar)" onchange="isFillOut()" required>
+                                <input type="number" min="0" class="form-control" id="add-goods-amount" name="Amount" placeholder="" aria-label="Amount (to the nearest dollar)" onchange="isFillOut()" required>
                                 <span class="input-group-addon">個</span>
                             </div>
                         </div>
@@ -203,6 +210,16 @@
                                 <option style="display: none" selected></option>
                                 <option value="F">否</option>
                                 <option value="T">是</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 input-group">
+                            <span class="input-group-addon">刊登狀態</span>
+                            <select class="form-control" id="modify-goods-status" name="Status" onchange="isModify()">
+                                <option style="display:none;" selected></option>
+                                <option value="F">下架</option>
+                                <option value="T">上架</option>
                             </select>
                         </div>
                     </div>

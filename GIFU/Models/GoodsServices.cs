@@ -115,7 +115,7 @@ namespace GIFU.Models
 									   GROUP BY GOOD_ID
 							)  AS O ON G.GOOD_ID = O.GOOD_ID
                         WHERE G.[USER_ID] = @UserId AND GP.IS_MAIN = 'T'
-                        ORDER BY G.[STATUS] DESC, O.REQUEST_AMOUNT DESC, G.UPDATE_DATE DESC";
+                        ORDER BY G.[STATUS] DESC, O.REQUEST_AMOUNT DESC, G.UPDATE_DATE, G.GOOD_ID DESC";
             IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
             parameters.Add(new KeyValuePair<string, object>("@UserId", userId ?? 0));
             dataTable = dataAccessTool.Query(Variable.GetConnectionString, sql, parameters);

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model GIFU.Models.Goods
+@{
     ViewBag.Title = "GoodsDetail";
 }
 <p id="goodId" style="display:none">@Model.GoodId</p>
@@ -67,7 +68,14 @@
                         @Model.Introduction
                     </p>
                     <div class="btn_form">
-                        <a href="#" class="add-cart item_add" id="want-goods" data-toggle="modal" data-target="#applyforgoods">申請索取</a>
+                        @if (Model.Amount > 0 && Model.Status == "T" && Model.UserId != Convert.ToInt32(Session["userId"]))
+                        {
+                            <a href="#" class="add-cart item_add" id="want-goods" data-toggle="modal" data-target="#applyforgoods">申請索取</a>
+                        }
+                        else
+                        {
+                            <a href="#" class="add-cart item_add hyperLinkDisabled" id="want-goods" data-toggle="modal" data-target="#applyforgoods">申請索取</a>
+                        }
                         <p class="goodspost-time" id="goodsupdate-date">@Model.UpdateDate<a href="#"><span class="glyphicon glyphicon-exclamation-sign"></span></a></p>
                     </div>
                 </div>
@@ -131,7 +139,7 @@
                 }
             }
         }
-        @if (Model.UserId != Convert.ToInt32(Session["userId"]))
+        @if (Model.UserId != Convert.ToInt32(Session["userId"]) && Model.Status == "T")
         {
             <div class="row askquestionRow">
                 <div class="col-md-2"></div>

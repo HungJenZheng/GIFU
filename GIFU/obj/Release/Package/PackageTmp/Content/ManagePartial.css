@@ -19,6 +19,7 @@ a {
 .info {
     background-color: black;
     border: 2px solid black;
+    margin:0;
     margin-top: 40px;
 }
 
@@ -90,7 +91,6 @@ a {
     padding: 30px;
     font-size: 1.4rem;
     color: rgba(100, 100, 100, 1);
-    border-left: 2px solid black;
     min-height: 800px;
 }
 

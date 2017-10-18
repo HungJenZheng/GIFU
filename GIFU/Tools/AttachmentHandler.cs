@@ -47,7 +47,7 @@ namespace GIFU.Tools
             if (file != null)
             {
                 //檔案Size(最多1MB)
-                if (file.ContentLength > 1024 * 1024 * 2)
+                if (file.ContentLength > 1024 * 1024 * 80)
                 {
                     res = "Error:檔案大小超過上限";
                 }

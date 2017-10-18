@@ -160,8 +160,8 @@ namespace GIFU.Controllers
 
             if (error)
             {
-                goodsServices.DeleteGoods(goodId);
                 goodsServices.DeletePicturePathByGoodsId(goodId);
+                goodsServices.DeleteGoods(goodId);
                 return this.Json(Variable.GetResult(-1, message + "，請再嘗試一次。"));
             }
             else

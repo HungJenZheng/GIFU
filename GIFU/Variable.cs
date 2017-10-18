@@ -110,8 +110,8 @@ namespace GIFU
         {
             get
             {
-                return "http://localhost:4647";
-                //return "http://localhost:8080";
+                //return "http://localhost:4647";
+                return "http://localhost:8080";
             }
         }
     }

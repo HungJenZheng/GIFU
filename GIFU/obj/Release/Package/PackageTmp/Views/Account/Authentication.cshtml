@@ -1,0 +1,193 @@
+﻿<div class="content">
+    <!-- registration -->
+    <div class="main-1">
+        <div class="container">
+            <div class="steparea">
+                <div class="step consentstep" id="step1">
+                    <h3>同意書</h3>
+                </div>
+                <div class="step personalinfostep" id="step2">
+                    <h3>資料</h3>
+                </div>
+                <div class="step verificationstep" id="step3">
+                    <h3>驗證</h3>
+                </div>
+                <div class="step succeedstep" id="step4">
+                    <h3>成功</h3>
+                </div>
+            </div>
+            <div id="AuthenticationStep1" class="authentication" style="display:none;">
+                <h3>請至Email收信，執行帳號啟用步驟</h3>
+                <img src="/images/authentication-email.gif">
+                <form id="authenticationForm">
+                    <h5>30分鐘後將失效，請盡快完成驗證程序<br>等待五分鐘後未收到請點選重寄驗證信</h5>
+                    <div class="register-but">
+                        <span class="resendButtonCountDown">倒數300秒</span>
+                        <input type="button" value="重寄驗證信" class="inputDisabled" id="resendButton" />
+                    </div>
+                </form>
+            </div>
+            <div id="AuthenticationStep2" class="authenticationError authentication" style="display:none;">
+                <h3>驗證失敗<span class="glyphicon glyphicon-exclamation-sign"></span></h3>
+                <img src="/images/authenticationError.png" class="animated shake2 infinite">
+                <form id="authenticationErrorForm">
+                    <div class="register-but">
+                        <input type="button" value="重寄驗證信" id="errorResendButton" />
+                    </div>
+                </form>
+            </div>
+            <div id="AuthenticationStep3" class="succeed">
+                <div class="succeedimage">
+                    <img src="/images/checkedblack.png" id="checkedblack" style="z-index:1;" />
+                    <img src="/images/checkedgreen.png" id="checkedgreen" style="z-index:0;" />
+                </div>
+                <h3>倒數5秒返回登入</h3>
+            </div>
+        </div>
+    </div>
+    <!-- registration -->
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        //調整步驟圖形高度
+        ResizeStepGraphHeight();
+
+        @if (ViewBag.Result == null)
+        {
+            <text>
+            //跳轉步驟function
+            NextAuthenticationStep(1);
+            NextRegisterStep(3);
+            //倒數計時啟動重寄按鈕
+            ResendButtonEnableCountDownTime();
+            </text>
+        }
+        else if (ViewBag.Result > 0)
+        {
+            <text>
+            //跳轉步驟function
+            NextAuthenticationStep(3);
+            NextRegisterStep(4);
+            AnimateRegisterSuccessImage();
+            </text>
+        }
+        else
+        {
+            <text>
+            //跳轉步驟function
+            NextAuthenticationStep(2);
+            NextRegisterStep(3);
+            </text>
+        }
+    });
+
+    //網頁Resize事件註冊 實作ResizeStepGraphHeight
+    window.addEventListener("resize", ResizeStepGraphHeight);
+
+    //調整步驟圖形高度
+    function ResizeStepGraphHeight() {
+        $('.step').height($('.step').width() + 12);
+        var margin = $('.step').css('margin-top');
+        $('.steparea').height($('.step').height() + (margin.substr(0, 2)) * 2 + 12);
+    }
+
+    var downTime = 5, animationWaitTime = 2;
+    //註冊成功動畫
+    function AnimateRegisterSuccessImage() {
+        animationWaitTime -= 1;
+        if (animationWaitTime == 0) {
+            $('#checkedblack').fadeOut("slow", CountDownTime);
+        }
+        setTimeout("AnimateRegisterSuccessImage()", 1000);
+    }
+
+    //倒數計時 5秒後回首頁
+    function CountDownTime() {
+        downTime -= 1;
+        $('.succeed h3').text('倒數' + downTime + '秒返回登入');
+        if (downTime == 0) {
+            location.href = '/Account/Login';
+        }
+        //每秒執行一次,CountDownTime()
+        setTimeout("CountDownTime()", 1000);
+    }
+
+    function AnimateRegisterSuccessImage() {
+        animationWaitTime -= 1;
+        if (animationWaitTime == 0) {
+            $('#checkedblack').fadeOut("slow", CountDownTime);
+        }
+        setTimeout("AnimateRegisterSuccessImage()", 1000);
+    }
+
+    function NextAuthenticationStep(nextStep) {
+        for (i = 1; i <= 4; i++) {
+            $('#AuthenticationStep' + i).hide();
+            $('#step' + i).css("border", "6px solid #dbdbdb");
+            $('#step' + i).css("background-color", "#f9f9f9");
+            $('#step' + i + ' h3').css("color", "#d3d3d3");
+        }
+        $('#AuthenticationStep' + nextStep).show();
+    }
+
+    function NextRegisterStep(nextStep) {
+        $('#step' + nextStep).css("border", "6px solid #34A881");
+        $('#step' + nextStep).css("background-color", "#fffede");
+        $('#step' + nextStep).css("z-index", nextStep);
+        $('#step' + nextStep + ' h3').css("color", "#34A881");
+        $('html').animate({ scrollTop: 0 }, 600);
+    }
+
+    var resendButtonWaitingTime = 300;
+    function ResendButtonEnableCountDownTime() {
+        if (resendButtonWaitingTime == 0) {
+            $('#resendButton').removeClass('inputDisabled');
+            $('.resendButtonCountDown').css('visibility','hidden');
+            resendButtonWaitingTime = 300;
+            return;
+        }
+        resendButtonWaitingTime--;
+        $('.resendButtonCountDown').text('倒數'+resendButtonWaitingTime +'秒');
+        setTimeout("ResendButtonEnableCountDownTime()", 1000);
+    }
+
+    $('#resendButton').click(function (e) {
+        e.preventDefault();
+        $('#resendButton').addClass('inputDisabled');
+        $('.resendButtonCountDown').css('visibility', 'unset');
+        ResendButtonEnableCountDownTime();
+        $.ajax({
+            type: "POST",
+            url: "/Account/ReSendAuthenticationMail",
+            data: { UserId: @ViewBag.UserId},
+            dataType: "json",
+            success: function (result) {
+            },
+            fail: function (error) {
+                console.log(error);
+            }
+        });
+    });
+
+    $('#errorResendButton').click(function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: "/Account/ReSendAuthenticationMail",
+            data: { UserId: @ViewBag.UserId},
+            dataType: "json",
+            success: function (result) {
+                //跳轉步驟function
+                NextAuthenticationStep(1);
+                NextRegisterStep(3);
+                //倒數計時啟動重寄按鈕
+                ResendButtonEnableCountDownTime();
+            },
+            fail: function (error) {
+                console.log(error);
+            }
+        });
+    });
+</script>

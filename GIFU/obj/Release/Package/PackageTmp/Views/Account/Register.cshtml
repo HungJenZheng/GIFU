@@ -1,4 +1,4 @@
-﻿
+﻿@model GIFU.Models.Account
 @{
     ViewBag.Title = "Register";
 }
@@ -12,6 +12,9 @@
                 </div>
                 <div class="step personalinfostep" id="step2">
                     <h3>資料</h3>
+                </div>
+                <div class="step verificationstep" id="step3">
+                    <h3>驗證</h3>
                 </div>
                 <div class="step succeedstep" id="step4">
                     <h3>成功</h3>
@@ -75,7 +78,7 @@
                         </div>
                         <div class="wow fadeInLeft LeftArea" data-wow-delay="0.4s">
                             <span>Name<label>*</label></span>
-                            <input type="text" maxlength="5" id="name" name="Name">
+                            <input type="text" maxlength="5" id="name" name="Name" value=@Model.Name>
                             <p class="warningword" style="display:none;" id="namewarningword">Email格式錯誤</p>
                         </div>
                         <div class="wow fadeInRight RightArea" data-wow-delay="0.4s">
@@ -87,17 +90,17 @@
                         </div>
                         <div class="wow fadeInLeft LeftArea" data-wow-delay="0.4s">
                             <span>Birthday<label>*</label></span>
-                            <input type="date" id="birthday" name="Birthday" />
+                            <input type="date" id="birthday" name="Birthday" value=@Model.Birthday>
                             <p class="warningword" style="display:none;" id="birthdaywarningword">Email格式錯誤</p>
                         </div>
                         <div class="wow fadeInLeft RightArea" data-wow-delay="0.4s">
                             <span>CellPhone<label>*</label></span>
-                            <input type="text" maxlength="10" id="cellphone" name="Phone" oninput="CheckCellPhone()">
+                            <input type="text" maxlength="10" id="cellphone" name="Phone" oninput="CheckCellPhone()" value=@Model.Phone>
                             <p class="warningword" style="display:none;" id="cellphonewarningword">Email格式錯誤</p>
                         </div>
                         <div class="wow fadeInLeft FullArea reigster-address" data-wow-delay="0.4s">
                             <span>Address<label>*</label></span>
-                            <input type="text" id="address" name="Address">
+                            <input type="text" id="address" name="Address" value=@Model.Address>
                             <p class="warningword" style="display:none;" id="addresswarningword">Email格式錯誤</p>
                         </div>
                         <div class="clearfix"> </div>
@@ -109,13 +112,6 @@
                         <div class="clearfix"> </div>
                     </div>
                 </form>
-            </div>
-            <div class="succeed" style="display:none;" id="registerstep4">
-                <div class="succeedimage">
-                    <img src="../images/checkedblack.png" id="checkedblack" style="z-index:1;" />
-                    <img src="../images/checkedgreen.png" id="checkedgreen" style="z-index:0;" />
-                </div>
-                <h3>倒數5秒返回首頁</h3>
             </div>
         </div>
     </div>

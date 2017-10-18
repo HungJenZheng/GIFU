@@ -139,7 +139,7 @@
                 }
             }
         }
-        @if (Model.UserId != Convert.ToInt32(Session["userId"]))
+        @if (Model.UserId != Convert.ToInt32(Session["userId"]) && Model.Status == "T")
         {
             <div class="row askquestionRow">
                 <div class="col-md-2"></div>

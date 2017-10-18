@@ -198,7 +198,7 @@
         <text>
     $(document).ready(function () {
         //調整使用者功能區域寬度
-        ResizeAccountFunctionUlWidth()
+        ResizeAccountFunctionUlWidth();
 
         // Declare a proxy to reference the hub.
         var notifications = $.connection.messagesHub;
@@ -266,10 +266,11 @@
         $(this).parent().parent().removeClass('sb-search-open');
     });
 
-    window.addEventListener("resize",ResizeAccountFunctionUlWidth());
+    window.addEventListener("resize",ResizeAccountFunctionUlWidth);
 
     function ResizeAccountFunctionUlWidth(){
         $('#accountfunction').width($('#accountimginfo').outerWidth());
+        $('#accountNoticeList').width($('.headerFunctionList').outerWidth() + 7);
     }
 
     function SlideDownFunction() {

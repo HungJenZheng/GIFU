@@ -4133,7 +4133,7 @@ address {
 
 #accountNoticeList {
     position: absolute;
-    right: 2px;
+    right: -7px;
     z-index: 20;
     height: 265px;
     overflow: auto;
@@ -4198,7 +4198,12 @@ address {
 }
 
 .hidescrollbar::-webkit-scrollbar { 
-    display: none;
+    display: block;
+    visibility:hidden;
+}
+
+.hidescrollbar::-webkit-scrollbar-thumb {
+    visibility:hidden;
 }
 
 #accountNoticeList .readnotice {

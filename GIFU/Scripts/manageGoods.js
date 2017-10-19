@@ -25,8 +25,8 @@ $("#add-goodsTag1").change(function () { //新增物品大標籤對應小標籤
         $('#add-goodsTag2').html('<option value="1">遊戲機</option> <option value="2">遊戲光碟</option> <option value="3">電玩攻略</option> <option value="4">電玩其他</option>');
     }
     else if ($('#add-goods-tag1').val() == 'OT') {
-        $('#add-goodsTag2').html('<option value="0" style="display: none;" selected></option>');
-        $('#add-goodsTag2').disabled = true;
+        $('#add-goodsTag2').html('<option value="0" selected></option>');
+        //$('#add-goodsTag2').disabled = true;
     }
 });
 
@@ -52,8 +52,8 @@ $("#modify-goods-tag1").change(function () { //修改物品大標籤對應小標
         $('#modify-goods-tag2').html('<option value="1">遊戲機</option> <option value="2">遊戲光碟</option> <option value="3">電玩攻略</option> <option value="4">電玩其他</option>');
     }
     else if ($('#modify-goods-tag1').val() == 'OT') {
-        $('#modify-goods-tag2').html('<option value="0" style="display: none;" selected></option>');
-        $('#modify-goods-tag2').prop('disabled', 'disabled');
+        $('#modify-goods-tag2').html('<option value="0"selected>其他</option>');
+        //$('#modify-goods-tag2').prop('disabled', 'disabled');
     }
 });
 
@@ -85,7 +85,7 @@ function ChangeOrderStatus(orderId, status, e) {
             ShowNotify(response.result, response.message);
             if (response.result > 0) {
                 if (status == 2) {
-                    alert($(this).html());
+                    //alert($(this).html());
                     $(e).parent().children('.check-goods-applier-reject').hide();
                     $(e).addClass('disabled');
                     $(e).text('已贈予');
@@ -208,11 +208,11 @@ $('#modifyForm').submit(function (e) {
             $('#goods-box-' + goodsId + ' .goods-intro').text($('#modify-goods-intro').val());
             $("#modifyGoodsModal").modal('hide');
             if ($('#modify-goods-status').val() == 'F') {
-                $('#goods-box-' + goodsId).addClass('discontinued');
+                $('#goods-box-' + goodsId).addClass('discontinued-F');
                 $('.goods-area').append('')
             }
             if ($('#modify-goods-status').val() == 'T') {
-                $('#goods-box-' + goodsId).removeClass('discontinued');
+                $('#goods-box-' + goodsId).removeClass('discontinued-F');
             }
         }, fail: function (error) {
         }

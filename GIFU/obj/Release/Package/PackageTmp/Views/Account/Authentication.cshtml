@@ -1,4 +1,8 @@
-﻿<div class="content">
+﻿
+@{
+    ViewBag.Title = "驗證";
+}
+<div class="content">
     <!-- registration -->
     <div class="main-1">
         <div class="container">
@@ -23,7 +27,7 @@
                     <h5>30分鐘後將失效，請盡快完成驗證程序<br>等待五分鐘後未收到請點選重寄驗證信</h5>
                     <div class="register-but">
                         <span class="resendButtonCountDown">倒數300秒</span>
-                        <input type="button" value="重寄驗證信" class="inputDisabled" id="resendButton" />
+                        <input type="button" value="重寄驗證信" class="" id="resendButton" />
                     </div>
                 </form>
             </div>
@@ -61,7 +65,7 @@
             NextAuthenticationStep(1);
             NextRegisterStep(3);
             //倒數計時啟動重寄按鈕
-            ResendButtonEnableCountDownTime();
+            //ResendButtonEnableCountDownTime();
             </text>
         }
         else if (ViewBag.Result > 0)

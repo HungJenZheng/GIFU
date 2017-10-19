@@ -37,7 +37,7 @@ namespace GIFU.Models
             return result;
         }
 
-        public void AutoSendSystemNotification()
+        public async void AutoSendSystemNotificationAsync()
         {
             List<MailMessage> mailMessages = GetUnSendMessage();
             foreach (var item in mailMessages)
@@ -51,7 +51,7 @@ namespace GIFU.Models
                                                     .Replace("<!--CONTENT-->", item.Content)
                                                     .Replace("<!--URL-->", Variable.GetCurrentHost + item.Url)
                 };
-                emailSender.SendAnEmail(mailModel);
+                await emailSender.SendAnEmailAsync(mailModel);
             }
             SetIsSend();
         }

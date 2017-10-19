@@ -15,7 +15,7 @@ namespace GIFU
 
             //MailSender註冊MessagesRepository.SqlNotification
             Models.MailServices mailServices = new Models.MailServices();
-            Hubs.MessagesRepository.GetInstance().SqlNotification += mailServices.AutoSendSystemNotification;
+            Hubs.MessagesRepository.GetInstance().SqlNotification += mailServices.AutoSendSystemNotificationAsync;
         }
 
         protected void Application_End()

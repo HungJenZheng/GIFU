@@ -1,6 +1,6 @@
 ﻿@model GIFU.Models.Goods
 @{
-    ViewBag.Title = "GoodsDetail";
+    ViewBag.Title = Model.Title;
 }
 <p id="goodId" style="display:none">@Model.GoodId</p>
 <div class="content">
@@ -10,7 +10,7 @@
                 <div class="row">
                     <div class="col-xs-12 goodstagpath">
                         <h4 class="goodstag"><a href=@("/Store/GoodsSearch?tag1="+Model.Tag1)>@Model.Tag1Name</a></h4>
-                        <span style="font-size: 1.5em;">>></span>
+                        <span>>></span>
                         @*<span class="glyphicon glyphicon-chevron-right"></span>*@
                         <h4 class="goodstag"><a href=@("/Store/GoodsSearch?tag1="+Model.Tag1+"?tag2="+@Model.Tag2)>@Model.Tag2Name</a></h4>
                     </div>
@@ -58,7 +58,15 @@
                 </div>
                 <div class="col-md-6 single-grid simpleCart_shelfItem">
                     <span id="goodsUserId" style="display:none;">@Model.UserId</span>
-                    <h3 class="goodsname" id="goodstitle">@Model.Title</h3>
+                    @if (Model.Status == "T")
+                    {
+                        <h3 class="goodsname" id="goodstitle">@Model.Title</h3>
+                    }
+                    else if (Model.Status == "F")
+                    {
+                        <h3 class="goodsname" id="goodstitle">@Model.Title (已下架)</h3>
+                    }
+
                     <div class="galry">
                         <p class="goodsnumber" id="goodsamount">數量 : <span>@Model.Amount</span></p>
                         <p class="goodsnew-degree" id="goodsnew-degree">新舊程度: <span>@Model.NewDegree</span>成新</p>
@@ -317,6 +325,7 @@
     }
     //送出訂單
     $('#applyforsubmit').click(function (e) {
+        $('#applyforsubmit').addClass('disabled');
         e.preventDefault();
         $.ajax({
             type: "POST",
@@ -329,6 +338,10 @@
             dataType: "json",
             success: function (result) {
                 ShowNotify(result.result, result.message);
+                $('#goodsamount span').text($('#goodsamount span').text() - $('#applyforgoodsnumber').val());  
+                if($('#goodsamount span').text() <= 0){
+                    $('#want-goods').css('pointer-events', 'none').css('cursor', 'default').css('opacity', '0.6');
+                }
             },
             fail: function (error) {
                 console.log(error);
@@ -341,6 +354,8 @@
     //當Modal關閉時清空內容
     $('#applyforgoods').on('hidden.bs.modal', function () {
         $(this).find("input,textarea,select").val('').end();
+        $('#applyforsubmit').removeClass('disabled');
+
     });
 
     $('#ask-btn').click(function (e) {
@@ -430,7 +445,10 @@
                 Message: $('#answer'+ commentNo + ' textarea').val()},
             dataType: "json",
             success: function (result) {
-                ShowNotify(result.result, result.message);
+                if (result > 0)
+                    ShowNotify(result, "留言回復成功");
+                else
+                    ShowNotify(result, "留言回復失敗");
                 $('#answer'+ commentNo +' .answerQuestionButton').fadeOut();
                 $('#answer'+ commentNo +' .updateAnswerButton').fadeIn();
                 $('#answer'+ commentNo).append('<p class="answerdate">'+ today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate() +'<a href="#"><span class="glyphicon glyphicon-exclamation-sign"></span></a></p>');
@@ -454,7 +472,10 @@
                 Message:  $('#answer'+ commentNo + ' textarea').val()},
             dataType: "json",
             success: function (result) {
-                ShowNotify(result, 'TEST');
+                if (result > 0)
+                    ShowNotify(result, "留言更新成功");
+                else
+                    ShowNotify(result, "留言更新失敗");
                 $('#answer'+ commentNo + ' .answerdate').text(today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate());
                 ResizeQAMargin();
             },

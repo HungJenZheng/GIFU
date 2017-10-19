@@ -330,6 +330,12 @@
     }
 }
 
+@media only screen and (max-device-width:480px) {
+     .goods-box .modify-overlay, .goods-box .check-overlay {
+        height:26%;
+    }   
+}
+
 @media (max-width: 320px) {
     .goods-box {
         width:97%

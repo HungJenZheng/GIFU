@@ -1,6 +1,6 @@
-﻿
+﻿@model GIFU.Models.LoginVM
 @{
-    ViewBag.Title = "Login";
+    ViewBag.Title = "登入";
 }
 
 <div class="content">
@@ -19,7 +19,7 @@
                         <form name="login" method="post">
                             <div>
                                 <span>Email Address<label>*</label></span>
-                                <input type="email" name="email">
+                                <input type="email" name="email" value="@Model.Email">
                             </div>
                             <div>
                                 <span>Password<label>*</label></span>
@@ -38,5 +38,11 @@
 <script>
     $(document).ready(function () {
         document.login.href = ('/Account/Login?ReturnUrl=' + encodeURIComponent(window.location.pathname));
+        @if (TempData["Error"] != null)
+        {
+            <text>
+            ShowNotify(-1, '@TempData["Error"]');
+            </text>
+        }
     });
 </script>

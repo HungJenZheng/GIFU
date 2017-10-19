@@ -1,7 +1,5 @@
 ﻿@model GIFU.Models.Account
-@{
-    ViewBag.Title = "ManageInfo";
-}
+
 <link href="/Content/ManageInfo.css" rel="stylesheet" type="text/css" />
 <div class="col-md-8 info-detail">
     <div class="row">
@@ -43,7 +41,7 @@
                 </div>
                 <div class="form-group">
                     <label for="userModifyTel">修改電話: </label>
-                    <input type="text" class="form-control" maxlength="10" id="userModifyTel" name="Phone" value=@Model.Phone required>
+                    <input type="tel" class="form-control" minlength="10" maxlength="10" id="userModifyTel" name="Phone" value=@Model.Phone required>
                 </div>
                 <div class="form-group">
                     <label for="userModifyAddress">修改地址: </label>

@@ -110,9 +110,10 @@ namespace GIFU.Models
             DataTable dataTable;
             string sql = @"SELECT [USER_ID] AS UserId,
 								EMAIL AS Email,
-								NAME AS Name
+								NAME AS Name,
+                                IS_VALID AS IsValid
 						FROM dbo.ACCOUNT
-						WHERE EMAIL = @Email AND PASSWD = @Passwd AND IS_VALID = 'T'";
+						WHERE EMAIL = @Email AND PASSWD = @Passwd";
             IList<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>();
             parameters.Add(new KeyValuePair<string, object>("@Email", loginVM.Email.NullToDBNullValue()));
             parameters.Add(new KeyValuePair<string, object>("@Passwd", loginVM.Passwd.NullToDBNullValue()));

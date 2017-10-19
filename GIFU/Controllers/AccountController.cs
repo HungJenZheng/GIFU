@@ -13,13 +13,6 @@ namespace GIFU.Controllers
         private Models.OrderServices orderServices = new Models.OrderServices();
         private Models.GoodsServices goodsServices = new Models.GoodsServices();
 
-        // GET: Account
-        [Authorize]
-        public ActionResult Index(string ReturnUrl)
-        {
-            return View();
-        }
-
         private bool IsSessionLogin()
         {
             if (Session["UserId"] != null)
@@ -193,7 +186,7 @@ namespace GIFU.Controllers
             if (token != null)
             {
                 Models.MailServices mailServices = new Models.MailServices();
-                if (mailServices.VerifyToken(userId, HttpUtility.UrlDecode(token)))
+                if (mailServices.VerifyToken(userId, token))
                 {
                     ViewBag.Result = accountServices.SetUserIsValid(userId, "T");
                 }
@@ -258,7 +251,10 @@ namespace GIFU.Controllers
                 TempData["Error"] = "您輸入的帳號不存在或者密碼錯誤!";
                 return View(loginVM);
             }
-
+            if (account.IsValid == "F")
+            {
+                return RedirectToAction("Authentication", new { id = account.UserId });
+            }
             Session.RemoveAll();
             FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1,
                 account.Email,  //User.Identity.Name
